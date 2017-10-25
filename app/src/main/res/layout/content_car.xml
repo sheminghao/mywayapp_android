@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_bluetooth"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.mywaytec.myway.ui.main.MainActivity"
+    tools:showIn="@layout/fragment_car">
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="88px"
+        android:background="@color/transparency" >
+
+        <ImageView
+            android:id="@+id/img_search"
+            android:layout_width="45px"
+            android:layout_height="45px"
+            android:layout_marginLeft="20px"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_search" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:text="MY WAY"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/tv_right"
+            android:layout_width="wrap_content"
+            android:layout_height="45px"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20px"
+            android:paddingLeft="40px"
+            android:gravity="center"
+            android:src="@mipmap/icon_gengduo"/>
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25px">
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_speed"
+            android:layout_width="500px"
+            android:layout_height="500px"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical"
+            android:background="@mipmap/icon_sudu"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.0"
+                android:textColor="#c9caca"
+                android:textStyle="bold"
+                android:textSize="90px"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="km/h"
+                android:textColor="#c9caca"
+                android:textSize="50px"
+                android:layout_marginTop="-20px"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/velocity"
+                android:textColor="#9fadad"
+                android:textSize="36px"/>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_zonglicheng"
+            android:layout_width="250px"
+            android:layout_height="250px"
+            android:orientation="vertical"
+            android:background="@mipmap/icon_zonglicheng"
+            android:gravity="center"
+            android:layout_below="@id/layout_speed"
+            android:layout_marginTop="-95px"
+            android:layout_marginLeft="50px">
+
+            <TextView
+                android:id="@+id/tv_zonglicheng"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.0"
+                android:textColor="#c9caca"
+                android:textStyle="bold"
+                android:textSize="40px"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="km"
+                android:textColor="#c9caca"
+                android:textSize="30px"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/total_mileage"
+                android:textColor="#9fadad"
+                android:textSize="20px"/>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="200px"
+            android:layout_height="200px"
+            android:orientation="vertical"
+            android:background="@mipmap/icon_bencilicheng"
+            android:gravity="center"
+            android:layout_below="@id/layout_zonglicheng"
+            android:layout_toRightOf="@id/layout_zonglicheng"
+            android:layout_marginTop="-30px"
+            android:layout_marginLeft="-105px">
+
+            <TextView
+                android:id="@+id/tv_licheng"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.0"
+                android:textColor="#c9caca"
+                android:textStyle="bold"
+                android:textSize="40px"
+                android:layout_marginTop="-20px"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="km"
+                android:textColor="#c9caca"
+                android:textSize="30px"
+                android:layout_marginTop="-5px"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/this_mileage"
+                android:textColor="#9fadad"
+                android:textSize="20px"
+                android:layout_marginTop="-5px"/>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="300px"
+            android:layout_height="300px"
+            android:orientation="vertical"
+            android:background="@mipmap/icon_dianliang"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:layout_below="@id/layout_speed"
+            android:layout_marginTop="-26px"
+            android:layout_marginRight="50px">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_dianliang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="#c9caca"
+                    android:textStyle="bold"
+                    android:textSize="60px" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="%"
+                    android:textColor="#c9caca"
+                    android:textSize="36px" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/battery"
+                android:textColor="#9fadad"
+                android:textSize="30px" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="660px"
+        android:layout_height="124px"
+        android:layout_gravity="center_horizontal"
+        android:background="@mipmap/icon_anniukuang"
+        android:layout_marginBottom="55px"
+        android:gravity="center_vertical" >
+
+        <Button
+            android:id="@+id/btn_close_car"
+            android:layout_width="124px"
+            android:layout_height="84px"
+            android:background="@drawable/btn_close_car_press"
+            android:layout_marginLeft="65px"
+            android:layout_marginTop="16px" />
+
+        <Button
+            android:id="@+id/connection"
+            android:layout_width="160px"
+            android:layout_height="90px"
+            android:text="@string/connected"
+            android:textSize="34px"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:background="@drawable/btn_conn_press"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0px" />
+
+        <Button
+            android:id="@+id/btn_lock_car"
+            android:layout_width="124px"
+            android:layout_height="84px"
+            android:background="@drawable/btn_lock_car_press"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="65px"
+            android:layout_marginTop="16px"/>
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+</com.zhy.autolayout.AutoLinearLayout>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mywaytec.myway.view.SwipeMenuView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:paddingBottom="1dp">
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:id="@+id/swipe_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/bg_my_track"
+            android:orientation="vertical"
+            android:padding="20px">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_trackname"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="36px" />
+
+                <TextView
+                    android:id="@+id/tv_publish_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="28px" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20px"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="36px"
+                    android:layout_height="36px"
+                    android:src="@mipmap/jiluguiji_icon_gongli" />
+
+                <TextView
+                    android:id="@+id/tv_licheng"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10px"
+                    android:text=""
+                    android:textColor="#cccccc"
+                    android:textSize="28px" />
+
+                <ImageView
+                    android:layout_width="36px"
+                    android:layout_height="36px"
+                    android:layout_marginLeft="48px"
+                    android:src="@mipmap/jiluguiji_icon_shichang" />
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10px"
+                    android:text=""
+                    android:textColor="#cccccc"
+                    android:textSize="28px" />
+
+            </LinearLayout>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6px"
+            android:background="@color/transparency" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:text="删除"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="6px"/>
+
+</com.mywaytec.myway.view.SwipeMenuView>

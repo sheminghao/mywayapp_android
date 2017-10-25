@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mywaytec.myway.view.SwipeMenuView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:layout_marginBottom="4px">
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120px"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:paddingLeft="24px"
+        android:paddingRight="24px"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#313131"
+            android:textSize="30px" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <Button
+        android:id="@+id/btn_change"
+        android:layout_width="70dp"
+        android:layout_height="match_parent"
+        android:background="#e5e5e5"
+        android:text="修改名称"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/btn_delete"
+        android:layout_width="70dp"
+        android:layout_height="match_parent"
+        android:background="#e10000"
+        android:text="删除"
+        android:textColor="@color/white" />
+
+</com.mywaytec.myway.view.SwipeMenuView>

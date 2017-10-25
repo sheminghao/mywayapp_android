@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_bluetooth"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.mywaytec.myway.ui.bluetooth.BluetoothActivity"
+    tools:showIn="@layout/activity_bluetooth">
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#4c000000"
+            android:gravity="center_vertical"
+            android:padding="20px"
+            android:text="@string/my_vehicle"
+            android:textColor="#9fa0a0"
+            android:textSize="24px" />
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/layout_mycar_have"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/mycar_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                </android.support.v7.widget.RecyclerView>
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:id="@+id/layout_more_car_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="20px" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="20px"
+                        android:text="@string/look_for_all_vehicle"
+                        android:textColor="#c9caca"
+                        android:textSize="32px" />
+
+                    <ImageView
+                        android:layout_width="36px"
+                        android:layout_height="36px"
+                        android:layout_marginLeft="20px"
+                        android:src="@mipmap/icon_gengduo" />
+
+                </com.zhy.autolayout.AutoLinearLayout>
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/layout_mycar_no"
+                android:layout_width="match_parent"
+                android:layout_height="126px"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/not_connected_to_your_car"
+                    android:textColor="@color/white"
+                    android:textSize="28px"/>
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#4c000000"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="20px">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/searched_vehicle"
+                android:textColor="#9fa0a0"
+                android:textSize="24px" />
+
+            <com.zhy.autolayout.AutoFrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/img_search"
+                    android:layout_width="45px"
+                    android:layout_height="45px"
+                    android:src="@mipmap/icon_search_ble"
+                    android:visibility="gone" />
+
+                <com.github.ybq.android.spinkit.SpinKitView
+                    android:id="@+id/empty_loading"
+                    style="@style/SpinKitView.Circle"
+                    android:layout_width="45px"
+                    android:layout_height="45px"
+                    android:layout_gravity="center"
+                    app:SpinKit_Color="@color/white" />
+
+            </com.zhy.autolayout.AutoFrameLayout>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.github.jdsjlzx.recyclerview.LRecyclerView
+            android:id="@+id/lrecyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+        </com.github.jdsjlzx.recyclerview.LRecyclerView>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+</com.zhy.autolayout.AutoLinearLayout>

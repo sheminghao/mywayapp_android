@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_setting"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.mywaytec.myway.ui.setting.SettingActivity"
+    tools:showIn="@layout/activity_setting"
+    android:orientation="vertical"
+    android:background="#f9f9f9">
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="28px"
+        android:background="@color/white">
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_unit_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingRight="28px"
+            android:paddingTop="32px"
+            android:paddingBottom="32px"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/unit_size"
+                android:textColor="#333333"
+                android:textSize="32px"/>
+
+            <TextView
+                android:id="@+id/tv_unit_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/metric"
+                android:textColor="#999999"
+                android:textSize="28px" />
+
+            <ImageView
+                android:layout_width="32px"
+                android:layout_height="32px"
+                android:src="@mipmap/icon_right"/>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#dcdcdc"/>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_switch_language"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingRight="28px"
+            android:paddingTop="32px"
+            android:paddingBottom="32px"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/switch_language"
+                android:textColor="#333333"
+                android:textSize="32px"/>
+
+            <TextView
+                android:id="@+id/tv_language"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#999999"
+                android:textSize="28px" />
+
+            <ImageView
+                android:layout_width="32px"
+                android:layout_height="32px"
+                android:src="@mipmap/icon_right"/>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#dcdcdc"/>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_feedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingRight="28px"
+            android:paddingTop="32px"
+            android:paddingBottom="32px"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/feedback"
+                android:textColor="#333333"
+                android:textSize="32px"/>
+
+            <ImageView
+                android:layout_width="32px"
+                android:layout_height="32px"
+                android:src="@mipmap/icon_right"/>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#dcdcdc"/>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_zhuyishixiang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingRight="28px"
+            android:paddingTop="32px"
+            android:paddingBottom="32px"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/attention_matters"
+                android:textColor="#333333"
+                android:textSize="32px"/>
+
+            <ImageView
+                android:layout_width="32px"
+                android:layout_height="32px"
+                android:src="@mipmap/icon_right"/>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#dcdcdc"/>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingRight="28px"
+            android:paddingTop="32px"
+            android:paddingBottom="32px"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/about_us"
+                android:textColor="#333333"
+                android:textSize="32px"/>
+
+            <ImageView
+                android:layout_width="32px"
+                android:layout_height="32px"
+                android:src="@mipmap/icon_right"/>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#dcdcdc"/>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_clear_cache"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingRight="28px"
+            android:paddingTop="32px"
+            android:paddingBottom="32px"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/clear_cache"
+                android:textColor="#333333"
+                android:textSize="32px"/>
+
+            <TextView
+                android:id="@+id/tv_clear_cache"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0M"
+                android:textColor="#999999"
+                android:textSize="28px" />
+
+            <ImageView
+                android:layout_width="32px"
+                android:layout_height="32px"
+                android:src="@mipmap/icon_right"/>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <TextView
+        android:id="@+id/tv_login_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="20px"
+        android:text="@string/login_out"
+        android:textColor="#ff1c1c"
+        android:textSize="36px"
+        android:background="@color/white"
+        android:layout_marginTop="20px"/>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <TextView
+        android:id="@+id/tv_mqtt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="测试MQTT"
+        android:textSize="36px"
+        android:gravity="center"
+        android:padding="20px"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_store"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="商城"
+        android:padding="20px"
+        android:visibility="gone"/>
+
+    <TextView
+            android:id="@+id/tv_gps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GPS/GPRS"
+            android:padding="20px"
+        android:visibility="gone"/>
+    </com.zhy.autolayout.AutoLinearLayout>
+
+</com.zhy.autolayout.AutoLinearLayout>

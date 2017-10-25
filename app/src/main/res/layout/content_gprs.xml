@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_gprs"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.mywaytec.myway.ui.gprs.GPRSActivity"
+    tools:showIn="@layout/activity_gprs"
+    android:orientation="vertical"
+    android:background="#f1f1f1">
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:id="@+id/layout_dianzi_weilan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="30px"
+        android:gravity="center_vertical"
+        android:background="@color/white">
+
+        <ImageView
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:src="@mipmap/icon_dianziweilan"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/electro_fence"
+            android:textColor="@color/black"
+            android:textSize="36px"
+            android:layout_marginLeft="20px" />
+
+        <ImageView
+            android:layout_width="22px"
+            android:layout_height="36px"
+            android:src="@mipmap/icon_right"/>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:id="@+id/layout_cheliang_dingwei"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="30px"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:layout_marginTop="6px">
+
+        <ImageView
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:src="@mipmap/icon_cheliangdingwei"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/vehicle_position"
+            android:textColor="@color/black"
+            android:textSize="36px"
+            android:layout_marginLeft="20px" />
+
+        <ImageView
+            android:layout_width="22px"
+            android:layout_height="36px"
+            android:src="@mipmap/icon_right"/>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:id="@+id/layout_cheliang_guiji"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="30px"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:layout_marginTop="6px">
+
+        <ImageView
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:src="@mipmap/icon_cheliangguiji"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/vehicle_track"
+            android:textColor="@color/black"
+            android:textSize="36px"
+            android:layout_marginLeft="20px" />
+
+        <ImageView
+            android:layout_width="22px"
+            android:layout_height="36px"
+            android:src="@mipmap/icon_right"/>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:id="@+id/layout_yuancheng_jiesuo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="30px"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:layout_marginTop="20px" >
+
+        <ImageView
+            android:id="@+id/img_yuancheng_jiesuo"
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:src="@mipmap/icon_yuanchenjiesuo" />
+
+        <TextView
+            android:id="@+id/tv_yuancheng_jiesuo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/remote_unlock"
+            android:textColor="#DADADA"
+            android:textSize="36px"
+            android:layout_marginLeft="20px" />
+
+        <ImageView
+            android:layout_width="22px"
+            android:layout_height="36px"
+            android:src="@mipmap/icon_right"
+            android:visibility="gone"/>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+</com.zhy.autolayout.AutoLinearLayout>

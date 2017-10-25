@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/img_yinying"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@mipmap/bg_yinying" />
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="300px"
+        android:layout_alignParentBottom="true"
+        android:background="@mipmap/bg_cheshenjiaozhun">
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_is_continue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="50px"
+            android:paddingRight="50px">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/please_get_off_the_vehicle_and_keep_the_vehicle_still_and_horizontal"
+                android:textColor="@color/white"
+                android:textSize="32px" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20px"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_cancel"
+                    android:layout_width="255px"
+                    android:layout_height="115px"
+                    android:background="@mipmap/jieshujiluguiji_btn_quxiao"
+                    android:gravity="center"
+                    android:text="@string/dialog_cancel"
+                    android:textColor="@color/white"
+                    android:textSize="32px" />
+
+                <TextView
+                    android:id="@+id/tv_confirm"
+                    android:layout_width="255px"
+                    android:layout_height="115px"
+                    android:layout_marginLeft="40px"
+                    android:background="@mipmap/jieshujiluguiji_btn_queding"
+                    android:gravity="center"
+                    android:text="@string/continue_"
+                    android:textColor="#333333"
+                    android:textSize="32px" />
+
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_tishi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:visibility="gone"
+            android:paddingLeft="50px"
+            android:paddingRight="50px">
+
+            <ImageView
+                android:layout_width="90px"
+                android:layout_height="90px"
+                android:src="@mipmap/cheshenxiaozhun_icon_tishi" />
+
+            <TextView
+                android:id="@+id/tv_tishi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10px"
+                android:text="@string/body_cant_be_calibrated_because_the_vehicle_is_not_still_or_horizontal"
+                android:textColor="@color/white"
+                android:textSize="32px"/>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_start_adjust"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:paddingLeft="50px"
+            android:paddingRight="50px">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/please_keep_the_vehicle_still_and_horizontal"
+                android:textColor="@color/white"
+                android:textSize="32px" />
+
+            <TextView
+                android:id="@+id/tv_start_adjust"
+                android:layout_width="255px"
+                android:layout_height="115px"
+                android:layout_marginTop="30px"
+                android:background="@mipmap/jieshujiluguiji_btn_quxiao"
+                android:gravity="center"
+                android:text="@string/start_calibration"
+                android:textColor="@color/white"
+                android:textSize="32px" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:visibility="gone" >
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="600px"
+                android:layout_height="30px"
+                android:layout_centerInParent="true"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:max="100"
+                android:progress="0"
+                android:visibility="gone"
+                android:progressDrawable="@drawable/progress_bar_adjust"/>
+
+            <TextView
+                android:id="@+id/tv_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%"
+                android:textColor="@color/white"
+                android:textSize="32px"
+                android:layout_marginLeft="20px"
+                android:visibility="gone"/>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_adjust_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:visibility="gone" >
+
+            <ImageView
+                android:layout_width="90px"
+                android:layout_height="90px"
+                android:src="@mipmap/cheshenxiaozhun_icon_wancheng" />
+
+            <TextView
+                android:id="@+id/tv_wancheng"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10px"
+                android:text="@string/calibration_finished_please_restart_vehicle"
+                android:textColor="@color/white"
+                android:textSize="32px"/>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+</com.zhy.autolayout.AutoRelativeLayout>

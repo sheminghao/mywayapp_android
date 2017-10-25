@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingLeft="20px"
+    android:paddingRight="20px"
+    android:background="@mipmap/img_bg_xiugaimingchen">
+
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="修改名称"-->
+        <!--android:textSize="14sp"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:gravity="center"/>-->
+
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="您将更改爱车的名称为："-->
+        <!--android:textSize="14sp"-->
+        <!--android:gravity="center"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:layout_marginTop="15px"/>-->
+
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="540px"
+        android:layout_height="wrap_content"
+        android:hint="请输入爱车名称"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:padding="10px"
+        android:layout_marginTop="10px"
+        android:background="@color/transparency" />
+
+    <View
+        android:layout_width="540px"
+        android:layout_height="1dp"
+        android:background="@color/white"/>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="40px"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="280px"
+            android:layout_height="120px"
+            android:text="取消"
+            android:textColor="@color/white"
+            android:textSize="34px"
+            android:gravity="center"
+            android:background="@mipmap/xiugaimingchen_btn_quxiao"/>
+
+        <TextView
+            android:id="@+id/tv_confirm"
+            android:layout_width="280px"
+            android:layout_height="120px"
+            android:text="确定"
+            android:textColor="@color/black"
+            android:textSize="34px"
+            android:gravity="center"
+            android:background="@mipmap/xiugaimingchen_btn_queding"/>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+</com.zhy.autolayout.AutoLinearLayout>

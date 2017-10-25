@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_edit_fence"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.mywaytec.myway.ui.gprs.editFence.EditFenceActivity"
+    tools:showIn="@layout/activity_edit_fence"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#232323"
+        android:textSize="30px"
+        android:paddingTop="14px"
+        android:paddingBottom="14px"
+        android:layout_marginLeft="52px"
+        android:layout_marginRight="52px"
+        android:layout_marginTop="40px"
+        android:background="@color/transparency" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#DCDCDC"
+        android:layout_marginLeft="52px"
+        android:layout_marginRight="52px" />
+    
+    <TextView
+        android:id="@+id/tv_detele"
+        android:layout_width="160px"
+        android:layout_height="56px"
+        android:text="@string/delete_fence"
+        android:textColor="#232323"
+        android:textSize="30px"
+        android:layout_marginTop="53px"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:background="@mipmap/dianziweilan_chexiao_weixuanzhong"/>
+
+</com.zhy.autolayout.AutoLinearLayout>

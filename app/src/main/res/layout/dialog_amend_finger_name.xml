@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="80px"
+        android:text="修改指纹名称"
+        android:textColor="#fefefe"
+        android:textSize="34px"
+        android:background="#0774dd"
+        android:gravity="center" />
+
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="#010101"
+        android:textSize="36px"
+        android:background="@color/transparency"
+        android:paddingLeft="24px"
+        android:paddingRight="24px"
+        android:paddingBottom="15px"
+        android:paddingTop="60px"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#d2d2d2" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70px"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="41px"
+        android:layout_marginBottom="27px"
+        android:layout_marginLeft="103px"
+        android:layout_marginRight="103px"
+        android:background="@drawable/corner_change_finger_name">
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消"
+            android:textColor="#010101"
+            android:textSize="32px"
+            android:paddingRight="65px" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="#d2d2d2" />
+
+        <TextView
+            android:id="@+id/tv_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="确定"
+            android:textColor="#010101"
+            android:textSize="32px"
+            android:paddingLeft="65px" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+</com.zhy.autolayout.AutoLinearLayout>

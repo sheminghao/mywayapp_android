@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_fault_detect"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.mywaytec.myway.ui.faultDetect.FaultDetectActivity"
+    tools:showIn="@layout/activity_fault_detect">
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#32000000"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="48px">
+
+        <LinearLayout
+            android:id="@+id/layout_detection"
+            android:layout_width="200px"
+            android:layout_height="235px"
+            android:background="@mipmap/guzhangjiance_img_yuanquan"
+            android:gravity="center"
+            android:paddingLeft="60px">
+
+            <TextView
+                android:id="@+id/tv_jiance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/diagnose"
+                android:textColor="@color/white"
+                android:textSize="50px"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50px"
+            android:text="@string/fault_diagnose_help_to_find_the_question_with_your_vehicle_and_fix_in_time"
+            android:textColor="#9fa0a0"
+            android:textSize="30px" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="20px">
+
+                <ImageView
+                    android:layout_width="36px"
+                    android:layout_height="36px"
+                    android:src="@mipmap/guzhangjiance_icon_dianjihuoerguzhang" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20px"
+                    android:layout_weight="1"
+                    android:text="@string/fault_of_hall"
+                    android:textColor="@color/white"
+                    android:textSize="36px" />
+
+                <com.zhy.autolayout.AutoFrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/img_right_1"
+                        android:layout_width="40px"
+                        android:layout_height="40px"
+                        android:src="@mipmap/guzhangjiance_right"
+                        android:visibility="gone" />
+
+                    <com.github.ybq.android.spinkit.SpinKitView
+                        android:id="@+id/empty_loading_1"
+                        style="@style/SpinKitView.Circle"
+                        android:layout_width="40px"
+                        android:layout_height="40px"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        app:SpinKit_Color="@color/white" />
+
+                </com.zhy.autolayout.AutoFrameLayout>
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#32000000"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="20px">
+
+                <ImageView
+                    android:layout_width="36px"
+                    android:layout_height="36px"
+                    android:src="@mipmap/guzhangjiance_icon_a_xiangdianliuzijianguzhang" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20px"
+                    android:layout_weight="1"
+                    android:text="@string/fault_of_a_phase_current"
+                    android:textColor="@color/white"
+                    android:textSize="36px" />
+
+                <com.zhy.autolayout.AutoFrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/img_right_2"
+                        android:layout_width="40px"
+                        android:layout_height="40px"
+                        android:src="@mipmap/guzhangjiance_right"
+                        android:visibility="gone" />
+
+                    <com.github.ybq.android.spinkit.SpinKitView
+                        android:id="@+id/empty_loading_2"
+                        style="@style/SpinKitView.Circle"
+                        android:layout_width="40px"
+                        android:layout_height="40px"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        app:SpinKit_Color="@color/white" />
+
+                </com.zhy.autolayout.AutoFrameLayout>
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="20px">
+
+                <ImageView
+                    android:layout_width="36px"
+                    android:layout_height="36px"
+                    android:src="@mipmap/guzhangjiance_icon_b_xiangdianliuzijianguzhang" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20px"
+                    android:layout_weight="1"
+                    android:text="@string/fault_of_b_phase_current"
+                    android:textColor="@color/white"
+                    android:textSize="36px" />
+
+                <com.zhy.autolayout.AutoFrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/img_right_3"
+                        android:layout_width="40px"
+                        android:layout_height="40px"
+                        android:src="@mipmap/guzhangjiance_right"
+                        android:visibility="gone" />
+
+                    <com.github.ybq.android.spinkit.SpinKitView
+                        android:id="@+id/empty_loading_3"
+                        style="@style/SpinKitView.Circle"
+                        android:layout_width="40px"
+                        android:layout_height="40px"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        app:SpinKit_Color="@color/white" />
+
+                </com.zhy.autolayout.AutoFrameLayout>
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#32000000"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="20px">
+
+                <ImageView
+                    android:layout_width="36px"
+                    android:layout_height="36px"
+                    android:src="@mipmap/guzhangjiance_icon_c_xiangdianliuzijianguzhang" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20px"
+                    android:layout_weight="1"
+                    android:text="@string/fault_of_c_phase_current"
+                    android:textColor="@color/white"
+                    android:textSize="36px" />
+
+                <com.zhy.autolayout.AutoFrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/img_right_4"
+                        android:layout_width="40px"
+                        android:layout_height="40px"
+                        android:src="@mipmap/guzhangjiance_right"
+                        android:visibility="gone" />
+
+                    <com.github.ybq.android.spinkit.SpinKitView
+                        android:id="@+id/empty_loading_4"
+                        style="@style/SpinKitView.Circle"
+                        android:layout_width="40px"
+                        android:layout_height="40px"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        app:SpinKit_Color="@color/white" />
+
+                </com.zhy.autolayout.AutoFrameLayout>
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="20px">
+
+                <ImageView
+                    android:layout_width="36px"
+                    android:layout_height="36px"
+                    android:src="@mipmap/guzhangjiance_icon_zongxiandianliuzijianguzhang" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20px"
+                    android:layout_weight="1"
+                    android:text="@string/fault_of_bus_current"
+                    android:textColor="@color/white"
+                    android:textSize="36px" />
+
+                <com.zhy.autolayout.AutoFrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/img_right_5"
+                        android:layout_width="40px"
+                        android:layout_height="40px"
+                        android:src="@mipmap/guzhangjiance_right"
+                        android:visibility="gone" />
+
+                    <com.github.ybq.android.spinkit.SpinKitView
+                        android:id="@+id/empty_loading_5"
+                        style="@style/SpinKitView.Circle"
+                        android:layout_width="40px"
+                        android:layout_height="40px"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        app:SpinKit_Color="@color/white" />
+
+                </com.zhy.autolayout.AutoFrameLayout>
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/layout_sc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#32000000"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="20px">
+
+                    <ImageView
+                        android:layout_width="36px"
+                        android:layout_height="36px"
+                        android:src="@mipmap/guzhangjiance_icon_youmenguzhang" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20px"
+                        android:layout_weight="1"
+                        android:text="@string/fault_of_throttle"
+                        android:textColor="@color/white"
+                        android:textSize="36px" />
+
+                    <com.zhy.autolayout.AutoFrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/img_right_6"
+                            android:layout_width="40px"
+                            android:layout_height="40px"
+                            android:src="@mipmap/guzhangjiance_right"
+                            android:visibility="gone" />
+
+                        <com.github.ybq.android.spinkit.SpinKitView
+                            android:id="@+id/empty_loading_6"
+                            style="@style/SpinKitView.Circle"
+                            android:layout_width="40px"
+                            android:layout_height="40px"
+                            android:layout_gravity="center"
+                            android:visibility="gone"
+                            app:SpinKit_Color="@color/white" />
+
+                    </com.zhy.autolayout.AutoFrameLayout>
+
+                </com.zhy.autolayout.AutoLinearLayout>
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="20px">
+
+                    <ImageView
+                        android:layout_width="36px"
+                        android:layout_height="36px"
+                        android:src="@mipmap/guzhangjiance_icon_zhukongbantongxinguzhang" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20px"
+                        android:layout_weight="1"
+                        android:text="@string/fault_of_communication"
+                        android:textColor="@color/white"
+                        android:textSize="36px" />
+
+                    <com.zhy.autolayout.AutoFrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/img_right_7"
+                            android:layout_width="40px"
+                            android:layout_height="40px"
+                            android:src="@mipmap/guzhangjiance_right"
+                            android:visibility="gone" />
+
+                        <com.github.ybq.android.spinkit.SpinKitView
+                            android:id="@+id/empty_loading_7"
+                            style="@style/SpinKitView.Circle"
+                            android:layout_width="40px"
+                            android:layout_height="40px"
+                            android:layout_gravity="center"
+                            android:visibility="gone"
+                            app:SpinKit_Color="@color/white" />
+
+                    </com.zhy.autolayout.AutoFrameLayout>
+
+                </com.zhy.autolayout.AutoLinearLayout>
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:id="@+id/layout_finger_mark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:background="#32000000"
+                    android:orientation="horizontal"
+                    android:padding="20px">
+
+                    <ImageView
+                        android:layout_width="36px"
+                        android:layout_height="36px"
+                        android:src="@mipmap/guzhangjiance_icon_zhiwenmokuaitongxinguzhang" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20px"
+                        android:layout_weight="1"
+                        android:text="指纹模块通信故障"
+                        android:textColor="@color/white"
+                        android:textSize="36px" />
+
+                    <com.zhy.autolayout.AutoFrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/img_right_8"
+                            android:layout_width="40px"
+                            android:layout_height="40px"
+                            android:src="@mipmap/guzhangjiance_right"
+                            android:visibility="gone" />
+
+                        <com.github.ybq.android.spinkit.SpinKitView
+                            android:id="@+id/empty_loading_8"
+                            style="@style/SpinKitView.Circle"
+                            android:layout_width="40px"
+                            android:layout_height="40px"
+                            android:layout_gravity="center"
+                            android:visibility="gone"
+                            app:SpinKit_Color="@color/white" />
+
+                    </com.zhy.autolayout.AutoFrameLayout>
+
+                </com.zhy.autolayout.AutoLinearLayout>
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:id="@+id/layout_gps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="20px">
+
+                    <ImageView
+                        android:layout_width="36px"
+                        android:layout_height="36px"
+                        android:src="@mipmap/guzhangjiance_gps_tongxinguzhang" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20px"
+                        android:layout_weight="1"
+                        android:text="GPS通信故障"
+                        android:textColor="@color/white"
+                        android:textSize="36px" />
+
+                    <com.zhy.autolayout.AutoFrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/img_right_9"
+                            android:layout_width="40px"
+                            android:layout_height="40px"
+                            android:src="@mipmap/guzhangjiance_right"
+                            android:visibility="gone" />
+
+                        <com.github.ybq.android.spinkit.SpinKitView
+                            android:id="@+id/empty_loading_9"
+                            style="@style/SpinKitView.Circle"
+                            android:layout_width="40px"
+                            android:layout_height="40px"
+                            android:layout_gravity="center"
+                            android:visibility="gone"
+                            app:SpinKit_Color="@color/white" />
+
+                    </com.zhy.autolayout.AutoFrameLayout>
+
+                </com.zhy.autolayout.AutoLinearLayout>
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:id="@+id/layout_gprs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#32000000"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="20px">
+
+                    <ImageView
+                        android:layout_width="36px"
+                        android:layout_height="36px"
+                        android:src="@mipmap/guzhangjiance_gpstongxinguzhang" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20px"
+                        android:layout_weight="1"
+                        android:text="GPRS通信故障"
+                        android:textColor="@color/white"
+                        android:textSize="36px" />
+
+                    <com.zhy.autolayout.AutoFrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/img_right_10"
+                            android:layout_width="40px"
+                            android:layout_height="40px"
+                            android:src="@mipmap/guzhangjiance_right"
+                            android:visibility="gone" />
+
+                        <com.github.ybq.android.spinkit.SpinKitView
+                            android:id="@+id/empty_loading_10"
+                            style="@style/SpinKitView.Circle"
+                            android:layout_width="40px"
+                            android:layout_height="40px"
+                            android:layout_gravity="center"
+                            android:visibility="gone"
+                            app:SpinKit_Color="@color/white" />
+
+                    </com.zhy.autolayout.AutoFrameLayout>
+
+                </com.zhy.autolayout.AutoLinearLayout>
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/layout_ra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:background="#32000000"
+                    android:orientation="horizontal"
+                    android:padding="20px">
+
+                    <ImageView
+                        android:layout_width="36px"
+                        android:layout_height="36px"
+                        android:src="@mipmap/guzhangjiance_icon_mpu6050" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20px"
+                        android:layout_weight="1"
+                        android:text="MPU6050故障"
+                        android:textColor="@color/white"
+                        android:textSize="36px" />
+
+                    <com.zhy.autolayout.AutoFrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/img_right_11"
+                            android:layout_width="40px"
+                            android:layout_height="40px"
+                            android:src="@mipmap/guzhangjiance_right"
+                            android:visibility="gone" />
+
+                        <com.github.ybq.android.spinkit.SpinKitView
+                            android:id="@+id/empty_loading_11"
+                            style="@style/SpinKitView.Circle"
+                            android:layout_width="40px"
+                            android:layout_height="40px"
+                            android:layout_gravity="center"
+                            android:visibility="gone"
+                            app:SpinKit_Color="@color/white" />
+
+                    </com.zhy.autolayout.AutoFrameLayout>
+
+                </com.zhy.autolayout.AutoLinearLayout>
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="20px">
+
+                    <ImageView
+                        android:layout_width="36px"
+                        android:layout_height="36px"
+                        android:src="@mipmap/guzhangjiance_icon_mosfet_guzhang" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20px"
+                        android:layout_weight="1"
+                        android:text="@string/fault_of_MOSFET"
+                        android:textColor="@color/white"
+                        android:textSize="36px" />
+
+                    <com.zhy.autolayout.AutoFrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/img_right_12"
+                            android:layout_width="40px"
+                            android:layout_height="40px"
+                            android:src="@mipmap/guzhangjiance_right"
+                            android:visibility="gone" />
+
+                        <com.github.ybq.android.spinkit.SpinKitView
+                            android:id="@+id/empty_loading_12"
+                            style="@style/SpinKitView.Circle"
+                            android:layout_width="40px"
+                            android:layout_height="40px"
+                            android:layout_gravity="center"
+                            android:visibility="gone"
+                            app:SpinKit_Color="@color/white" />
+
+                    </com.zhy.autolayout.AutoFrameLayout>
+
+                </com.zhy.autolayout.AutoLinearLayout>
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </ScrollView>
+
+</com.zhy.autolayout.AutoLinearLayout>

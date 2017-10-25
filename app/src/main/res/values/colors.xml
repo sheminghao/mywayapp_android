@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#1e1f4b</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#ffffff</color>
+    <color name="white1">#f1f1f1</color>
+    <color name="whitesmoke">#f0f0f0</color>
+    <color name="black">#000000</color>
+    <color name="themdColor">#FFA200</color>
+    <color name="ic_default_bg_color">#33000000</color>
+    <color name="app_bg">#F4F4F4</color>
+    <color name="transparency">#00ffffff</color>
+    <color name="loading_yellow">#F6B965</color>
+    <color name="loading_pink">#F04D61</color>
+    <color name="green">#43c117</color>
+    <color name="binding_car_enable">#FAB600</color>
+    <color name="binding_car_unenable">#B5B5B5</color>
+    <color name="partTranslucent">#39000000</color>
+    <color name="trackColor">#ff6c00</color>
+
+</resources>

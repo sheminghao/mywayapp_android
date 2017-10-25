@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_way_detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.mywaytec.myway.view.MyScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.mywaytec.myway.ui.wayDetail.WayDetailActivity"
+        tools:showIn="@layout/activity_way_detail">
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_way_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/img_top"
+                android:layout_width="match_parent"
+                android:layout_height="480px"
+                android:scaleType="centerCrop" />
+
+            <com.zhy.autolayout.AutoRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-86px"
+                android:paddingLeft="24px"
+                android:paddingRight="24px">
+
+                <com.mywaytec.myway.view.CircleImageView
+                    android:id="@+id/img_head_portrait"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:layout_marginTop="19px"
+                    android:scaleType="centerCrop" />
+
+                <ImageView
+                    android:id="@+id/img_like"
+                    android:layout_width="140px"
+                    android:layout_height="140px"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/luxianxiangqing_dianzang" />
+
+            </com.zhy.autolayout.AutoRelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_route_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50px"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="48px"
+                android:textStyle="bold" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15px"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/way_total_mileage"
+                    android:textColor="#666666"
+                    android:textSize="28px" />
+
+                <TextView
+                    android:id="@+id/tv_zonglicheng"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="#333333"
+                    android:textSize="36px"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5px"
+                    android:text="km"
+                    android:textColor="#333333"
+                    android:textSize="20px" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30px"
+                    android:text="@string/battery_range_required"
+                    android:textColor="#666666"
+                    android:textSize="28px" />
+
+                <TextView
+                    android:id="@+id/tv_xunhang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="16"
+                    android:textColor="#333333"
+                    android:textSize="36px"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5px"
+                    android:text="km"
+                    android:textColor="#333333"
+                    android:textSize="20px" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15px"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/scenery"
+                    android:textColor="#666666"
+                    android:textSize="24px" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:max="5"
+                    android:minHeight="14dp"
+                    android:numStars="5"
+                    android:progressDrawable="@drawable/way_detail_ratingbar" />
+
+                <TextView
+                    android:id="@+id/tv_scenery_star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5px"
+                    android:text="0"
+                    android:textColor="#333333"
+                    android:textSize="24px" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30px"
+                    android:text="@string/track_result_mileage"
+                    android:textColor="#666666"
+                    android:textSize="24px" />
+
+                <TextView
+                    android:id="@+id/tv_degree_of_difficulty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="#666666"
+                    android:textSize="24px" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView
+                android:id="@+id/tv_intro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="46px"
+                android:paddingLeft="24px"
+                android:paddingRight="24px"
+                android:text=""
+                android:textColor="#666666"
+                android:textSize="28px" />
+
+            <com.baidu.mapapi.map.MapView
+                android:id="@+id/mapview"
+                android:layout_width="match_parent"
+                android:layout_height="533px"
+                android:layout_marginBottom="24px"
+                android:layout_marginTop="34px"
+                android:background="@color/transparency" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="24px"
+                android:paddingRight="24px">
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/track_result_start"
+                        android:textColor="#343434"
+                        android:textSize="30px" />
+
+                    <TextView
+                        android:id="@+id/tv_origin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="#343434"
+                        android:textSize="30px" />
+
+                </com.zhy.autolayout.AutoLinearLayout>
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10px"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="36px"
+                        android:layout_height="36px"
+                        android:layout_marginRight="5px"
+                        android:src="@mipmap/luxianxiangqing_gongjiao" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/bus_station_nearby"
+                        android:textColor="#999999"
+                        android:textSize="24px" />
+
+                    <TextView
+                        android:id="@+id/tv_originBus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="#333333"
+                        android:textSize="24px" />
+
+                </com.zhy.autolayout.AutoLinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginBottom="12px"
+                    android:layout_marginTop="12px"
+                    android:background="#dedede" />
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/track_result_end"
+                        android:textColor="#343434"
+                        android:textSize="30px" />
+
+                    <TextView
+                        android:id="@+id/tv_destination"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="#343434"
+                        android:textSize="30px" />
+
+                </com.zhy.autolayout.AutoLinearLayout>
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10px"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10px">
+
+                    <ImageView
+                        android:layout_width="36px"
+                        android:layout_height="36px"
+                        android:layout_marginRight="5px"
+                        android:src="@mipmap/luxianxiangqing_gongjiao" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/bus_station_nearby"
+                        android:textColor="#999999"
+                        android:textSize="24px" />
+
+                    <TextView
+                        android:id="@+id/tv_destination_bus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="#333333"
+                        android:textSize="24px" />
+
+                </com.zhy.autolayout.AutoLinearLayout>
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20px"
+                android:background="#f4f4f4" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="20px">
+
+                <View
+                    android:layout_width="40px"
+                    android:layout_height="1px"
+                    android:background="#dddddd" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20px"
+                    android:layout_marginRight="20px"
+                    android:text="@string/scenery_photo" />
+
+                <View
+                    android:layout_width="40px"
+                    android:layout_height="1px"
+                    android:background="#dddddd" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <!--<com.zhy.autolayout.AutoLinearLayout-->
+                <!--android:id="@+id/layout_more_img"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@color/white"-->
+                <!--android:orientation="vertical"-->
+                <!--android:paddingLeft="24px"-->
+                <!--android:paddingRight="24px">-->
+
+            <!--</com.zhy.autolayout.AutoLinearLayout>-->
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="24px"
+                android:paddingRight="24px">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20px"
+                android:background="@color/white"
+                android:paddingLeft="24px"
+                android:paddingRight="24px"/>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </com.mywaytec.myway.view.MyScrollView>
+
+    <ImageView
+        android:id="@+id/img_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24px"
+        android:layout_marginTop="28dp"
+        android:src="@mipmap/luxianxiangqing_fanhui" />
+
+</com.zhy.autolayout.AutoRelativeLayout>

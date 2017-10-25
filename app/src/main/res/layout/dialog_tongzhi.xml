@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@color/transparency">
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="538px"
+        android:layout_height="643px"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="@mipmap/cheliangdingwei_tongzhi_tanchu"
+        android:paddingBottom="72px">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="电子围栏报警"
+            android:textColor="#333333"
+            android:textSize="34px"
+            android:layout_marginTop="123px"/>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="67px"
+            android:layout_marginBottom="20px" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="车名"
+                android:textColor="#666666"
+                android:textSize="30px"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="围栏"
+                android:textColor="#666666"
+                android:textSize="30px"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="时间"
+                android:textColor="#666666"
+                android:textSize="30px"/>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+    
+    <ImageView
+        android:id="@+id/img_close"
+        android:layout_width="48px"
+        android:layout_height="53px"
+        android:src="@mipmap/cheliangdingwei_tongzhi_guanbi"
+        android:layout_marginTop="175px"/>
+
+</com.zhy.autolayout.AutoLinearLayout>

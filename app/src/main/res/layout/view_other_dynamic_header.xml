@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="540px"
+        android:background="@mipmap/touxiang_gerendongtai_bj"
+        android:layout_marginBottom="46px">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="45px"
+            android:layout_height="45px"
+            android:src="@mipmap/icon_finish"
+            android:layout_marginTop="65px"
+            android:layout_marginLeft="28px" />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="59px"
+            android:gravity="center_horizontal">
+
+            <com.mywaytec.myway.view.CircleImageView
+                android:id="@+id/img_head_portrait"
+                android:layout_width="168px"
+                android:layout_height="168px"
+                app:circle_border_width="8px"
+                app:circle_border_color="#3febeaea"
+                android:src="@mipmap/icon_default"/>
+
+            <TextView
+                android:id="@+id/tv_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="36px"
+                android:layout_marginTop="37px" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="16px" >
+
+                <ImageView
+                    android:id="@+id/img_level"
+                    android:layout_width="94px"
+                    android:layout_height="53px"
+                    android:src="@mipmap/chujicheshou_00" />
+
+                <TextView
+                    android:id="@+id/tv_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="30px"/>
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+</com.zhy.autolayout.AutoRelativeLayout>

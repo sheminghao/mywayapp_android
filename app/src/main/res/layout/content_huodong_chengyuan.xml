@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_huodong_chengyuan"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.mywaytec.myway.ui.huodongChengyuan.HuodongChengyuanActivity"
+    tools:showIn="@layout/activity_huodong_chengyuan"
+    android:orientation="vertical"
+    android:background="#f1f1f1">
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:id="@+id/layout_duizhang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="29px"
+        android:paddingRight="29px"
+        android:paddingTop="20px"
+        android:paddingBottom="20px"
+        android:gravity="center_vertical"
+        android:layout_marginTop="2px"
+        android:layout_marginBottom="20px"
+        android:background="@color/colorPrimaryDark">
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="88px"
+            android:layout_height="88px">
+
+            <com.mywaytec.myway.view.CircleImageView
+                android:id="@+id/img_head_portrait"
+                android:layout_width="88px"
+                android:layout_height="88px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/captain"
+                android:textSize="14px"
+                android:textColor="#ffffff"
+                android:background="#FBAB0A"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="10px"/>
+
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:textSize="28px"
+            android:textColor="#ffffff"
+            android:layout_marginLeft="20px"/>
+
+        <ImageView
+            android:id="@+id/img_gender"
+            android:layout_width="27px"
+            android:layout_height="27px" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never" >
+
+    </android.support.v7.widget.RecyclerView>
+
+</com.zhy.autolayout.AutoLinearLayout>

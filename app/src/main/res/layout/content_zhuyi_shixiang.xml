@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_zhuyi_shixiang"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.mywaytec.myway.activity.ZhuyiShixiangActivity"
+    tools:showIn="@layout/activity_zhuyi_shixiang"
+    android:orientation="vertical"
+    android:padding="20px">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="32px"
+        android:textColor="@color/black"
+        android:text="1、为了您的驾驶安全，在使用曼威产品之前请仔细阅读随车购买配套的《用户手册》，确保能够按照正确的指导使用曼威产品。" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10px"
+        android:textSize="32px"
+        android:textColor="@color/black"
+        android:text="2、知晓曼威产品的《用互手册》所列出的所有安全警告和注意事项，有助于您更好的使用曼威产品。" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10px"
+        android:textSize="32px"
+        android:textColor="@color/black"
+        android:text="3、当您不按照《用户手册》所规定的安全警示来使用曼威产品，将有可能给您带来伤害。" />
+
+</com.zhy.autolayout.AutoLinearLayout>

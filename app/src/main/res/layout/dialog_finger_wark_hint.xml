@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="80px"
+        android:text="提示"
+        android:textColor="#fefefe"
+        android:textSize="34px"
+        android:background="#ffc700"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/tv_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="#000000"
+        android:textSize="28px"
+        android:background="@color/transparency"
+        android:paddingLeft="30px"
+        android:paddingRight="30px"
+        android:layout_marginTop="51px"
+        android:layout_marginBottom="100px"/>
+
+</com.zhy.autolayout.AutoLinearLayout>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_firmware_update"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.mywaytec.myway.ui.firmwareUpdate.FirmwareUpdateActivity"
+    tools:showIn="@layout/activity_firmware_update"
+    android:orientation="vertical">
+    
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="88px">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:src="@mipmap/icon_back" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:text="@string/firmware_update"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="36px"
+        android:background="#32000000" />
+
+    <TextView
+        android:id="@+id/tv_firmware_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/white"
+        android:paddingTop="10px"
+        android:paddingBottom="10px"
+        android:paddingLeft="20px"
+        android:paddingRight="20px"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="36px"
+        android:background="#32000000" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20px">
+
+        <TextView
+            android:id="@+id/tv_already_new"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/the_current_firmware_version_is_already_latest"
+            android:textColor="@color/white"
+            android:textSize="36px"
+            android:visibility="gone"/>
+
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="请按提手将车辆放倒进行固件更新"-->
+            <!--android:textColor="#F9CF3B"-->
+            <!--android:textSize="32px" />-->
+
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#C9CACA"
+            android:textSize="32px" />
+
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="2.修复限速破解问题"-->
+            <!--android:textColor="#C9CACA"-->
+            <!--android:textSize="26px" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="3.减小小车骑行间隙感"-->
+            <!--android:textColor="#C9CACA"-->
+            <!--android:textSize="26px" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="4.提高V5F性能"-->
+            <!--android:textColor="#C9CACA"-->
+            <!--android:textSize="26px" />-->
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <!--<com.zhy.autolayout.AutoLinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="80px"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:background="#32000000"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:paddingLeft="20px"-->
+        <!--android:paddingRight="20px">-->
+
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="了解更多"-->
+            <!--android:textSize="36px"-->
+            <!--android:textColor="@color/white" />-->
+
+        <!--<ImageView-->
+            <!--android:layout_width="45px"-->
+            <!--android:layout_height="45px"-->
+            <!--android:src="@mipmap/icon_right"/>-->
+
+    <!--</com.zhy.autolayout.AutoLinearLayout>-->
+
+    <TextView
+        android:id="@+id/tv_upload"
+        android:layout_width="616px"
+        android:layout_height="152px"
+        android:text="@string/update"
+        android:textSize="36px"
+        android:textColor="@color/white"
+        android:layout_marginTop="80px"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/gujianshengji_btn_shengji"/>
+
+
+</com.zhy.autolayout.AutoLinearLayout>

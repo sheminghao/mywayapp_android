@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_select_venue"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.mywaytec.myway.ui.selectVenue.SelectVenueActivity"
+    tools:showIn="@layout/activity_select_venue"
+    android:orientation="vertical">
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:paddingLeft="10px"
+        android:paddingRight="10px"
+        android:paddingTop="20px"
+        android:paddingBottom="20px" >
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/corner_map_search"
+            android:paddingTop="10px"
+            android:paddingBottom="10px"
+            android:paddingLeft="20px"
+            android:paddingRight="20px">
+
+            <ImageView
+                android:layout_width="23px"
+                android:layout_height="23px"
+                android:src="@mipmap/huodongyueban_faqihuodong_jihedidian_sousuo"/>
+
+            <AutoCompleteTextView
+                android:id="@+id/tv_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/corner_map_search"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:hint="搜索地点"
+                android:textSize="30px"
+                android:paddingLeft="10px"/>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="540px">
+
+        <com.baidu.mapapi.map.MapView
+            android:id="@id/mapview"
+            android:layout_width="match_parent"
+            android:layout_height="540px" />
+
+        <ImageView
+            android:layout_width="42px"
+            android:layout_height="57px"
+            android:src="@mipmap/huodongyueban_faqihuodong_jihedidian"
+            android:layout_centerInParent="true"/>
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+
+    <com.github.jdsjlzx.recyclerview.LRecyclerView
+        android:id="@+id/lrecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.github.jdsjlzx.recyclerview.LRecyclerView>
+
+</com.zhy.autolayout.AutoLinearLayout>

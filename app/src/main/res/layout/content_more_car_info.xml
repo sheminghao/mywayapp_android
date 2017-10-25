@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_more_car_info"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:overScrollMode="never"
+    android:scrollbars="none"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.mywaytec.myway.ui.moreCarInfo.MoreCarInfoActivity"
+    tools:showIn="@layout/activity_more_car_info">
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="280px"
+            android:background="@mipmap/img_fengexian"
+            android:orientation="vertical">
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:id="@+id/layout_fault_detect"
+                    android:layout_width="370px"
+                    android:layout_height="140px"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="68px"
+                        android:layout_height="68px"
+                        android:src="@mipmap/gengduoshezhi_icon_guzhangjiance" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10px"
+                        android:text="@string/vehicle_diagnose"
+                        android:textColor="@color/white"
+                        android:textSize="36px" />
+
+                </com.zhy.autolayout.AutoLinearLayout>
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:id="@+id/layout_moshiqiehuan"
+                    android:layout_width="370px"
+                    android:layout_height="140px"
+                    android:layout_marginLeft="10px"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="68px"
+                        android:layout_height="68px"
+                        android:src="@mipmap/gengduoshezhi_icon_moshiqiehuan" />
+
+                    <com.zhy.autolayout.AutoLinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10px"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/mode_switch"
+                            android:textColor="@color/white"
+                            android:textSize="36px" />
+
+                        <TextView
+                            android:id="@+id/tv_mode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/econ"
+                            android:textColor="#FFD43A" />
+
+                    </com.zhy.autolayout.AutoLinearLayout>
+
+                </com.zhy.autolayout.AutoLinearLayout>
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="370px"
+                    android:layout_height="140px">
+
+                    <com.zhy.autolayout.AutoLinearLayout
+                        android:id="@+id/layout_cheshenjiaozhun"
+                        android:layout_width="370px"
+                        android:layout_height="140px"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:layout_centerInParent="true">
+
+                        <ImageView
+                            android:layout_width="68px"
+                            android:layout_height="68px"
+                            android:src="@mipmap/gengduoshezhi_icon_cheshenxiaozhun" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10px"
+                            android:text="@string/body_calibration"
+                            android:textColor="@color/white"
+                            android:textSize="36px" />
+
+                    </com.zhy.autolayout.AutoLinearLayout>
+
+                    <com.zhy.autolayout.AutoLinearLayout
+                        android:id="@+id/layout_youmenjiaozhun"
+                        android:layout_width="370px"
+                        android:layout_height="140px"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:layout_centerInParent="true">
+
+                        <ImageView
+                            android:layout_width="68px"
+                            android:layout_height="68px"
+                            android:src="@mipmap/gengduoshezhi_icon_youmenjiaozhun" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10px"
+                            android:text="油门校准"
+                            android:textColor="@color/white"
+                            android:textSize="36px" />
+
+                    </com.zhy.autolayout.AutoLinearLayout>
+
+
+                </RelativeLayout>
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:id="@+id/layout_finger_mark"
+                    android:layout_width="370px"
+                    android:layout_height="140px"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="68px"
+                        android:layout_height="68px"
+                        android:src="@mipmap/zhiwenluzhi" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10px"
+                        android:text="指纹录制"
+                        android:textColor="@color/white"
+                        android:textSize="36px" />
+
+                </com.zhy.autolayout.AutoLinearLayout>
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="88px"
+            android:background="#32000000"
+            android:gravity="center_vertical"
+            android:paddingLeft="20px"
+            android:text="@string/max_speed"
+            android:textColor="#9fa0a0"
+            android:textSize="24px" />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="40px"
+            android:paddingTop="40px">
+
+            <com.mywaytec.myway.view.SpeedSeekBar
+                android:id="@+id/speedSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="68px"
+            android:background="#32000000"
+            android:gravity="center_vertical"
+            android:paddingLeft="20px"
+            android:text="@string/light_switch"
+            android:textColor="#9fa0a0"
+            android:textSize="24px" />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_ra_set"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="120px"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="80px"
+                android:paddingRight="20px">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/head_light"
+                    android:textColor="@color/white"
+                    android:textSize="36px" />
+
+                <CheckBox
+                    android:id="@+id/cb_qianteng"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/check_box_more_setting" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="80px"
+                android:background="#21a3a2a2" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="136px"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="80px"
+            android:paddingRight="20px">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/tail_light"
+                android:textColor="@color/white"
+                android:textSize="36px" />
+
+            <CheckBox
+                android:id="@+id/cb_houdeng"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/check_box_more_setting" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_sc_set"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="80px"
+                android:background="#21a3a2a2" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="136px"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="80px"
+                android:paddingRight="20px">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/glide_start_switch"
+                    android:textColor="@color/white"
+                    android:textSize="36px" />
+
+                <CheckBox
+                    android:id="@+id/cb_huaxing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/check_box_more_setting" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="80px"
+                android:background="#21a3a2a2" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="136px"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="80px"
+                android:paddingRight="20px">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="定速巡航"
+                    android:textColor="@color/white"
+                    android:textSize="36px" />
+
+                <CheckBox
+                    android:id="@+id/cb_dingsuxunhang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/check_box_more_setting" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_dengdaimoshi"
+            android:layout_width="match_parent"
+            android:layout_height="100px"
+            android:background="#32000000"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="20px"
+            android:paddingRight="20px">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="灯带模式"
+                android:textColor="@color/white"
+                android:textSize="36px" />
+
+            <TextView
+                android:id="@+id/tv_dengdai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#9fa0a0"
+                android:textSize="28px" />
+
+            <ImageView
+                android:layout_width="30px"
+                android:layout_height="30px"
+                android:src="@mipmap/icon_gengduo" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_change_ble_password"
+            android:layout_width="match_parent"
+            android:layout_height="100px"
+            android:background="#32000000"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginTop="28px"
+            android:paddingLeft="20px"
+            android:paddingRight="20px">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/modify_bluetooth_password"
+                android:textColor="@color/white"
+                android:textSize="36px" />
+
+            <ImageView
+                android:layout_width="30px"
+                android:layout_height="30px"
+                android:src="@mipmap/icon_gengduo" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_firmware_update"
+            android:layout_width="match_parent"
+            android:layout_height="120px"
+            android:layout_marginTop="28px"
+            android:background="#32000000"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="20px"
+            android:paddingRight="20px">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/firmware_update"
+                android:textColor="@color/white"
+                android:textSize="36px" />
+
+            <TextView
+                android:id="@+id/tv_firmware_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#9fa0a0"
+                android:textSize="28px" />
+
+            <ImageView
+                android:layout_width="30px"
+                android:layout_height="30px"
+                android:src="@mipmap/icon_gengduo" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+</ScrollView>

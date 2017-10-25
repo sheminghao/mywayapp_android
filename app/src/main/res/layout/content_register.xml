@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_register"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.mywaytec.myway.ui.register.RegisterActivity"
+    tools:showIn="@layout/activity_register">
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="88px"
+        android:gravity="center_vertical" >
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="45px"
+            android:layout_height="45px"
+            android:src="@mipmap/icon_back"
+            android:layout_marginLeft="20px"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="title"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="586px"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="90px">
+
+        <EditText
+            android:id="@+id/et_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparency"
+            android:hint="@string/phone_or_email"
+            android:paddingBottom="20px"
+            android:paddingTop="20px"
+            android:textColor="#BCBCBF"
+            android:textColorHint="#BCBCBF"
+            android:textSize="34px" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@mipmap/icon_login_line" />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36px"
+            android:orientation="horizontal" >
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/et_auto_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparency"
+                    android:hint="@string/auth_code"
+                    android:singleLine="true"
+                    android:paddingBottom="20px"
+                    android:paddingTop="20px"
+                    android:textColor="#BCBCBF"
+                    android:textColorHint="#BCBCBF"
+                    android:textSize="34px" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@mipmap/icon_login_line" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+
+            <TextView
+                android:id="@+id/tv_get_auth_code"
+                android:layout_width="0dp"
+                android:layout_height="120px"
+                android:layout_weight="1"
+                android:layout_marginLeft="20px"
+                android:background="@mipmap/login_btn_huoqumima"
+                android:gravity="center"
+                android:text="@string/get_auth_code"
+                android:textColor="@color/white"
+                android:textSize="34px" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <EditText
+            android:id="@+id/et_password_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparency"
+            android:hint="@string/set_password"
+            android:inputType="textPassword"
+            android:maxLength="20"
+            android:paddingBottom="20px"
+            android:paddingTop="20px"
+            android:textColor="#BCBCBF"
+            android:textColorHint="#BCBCBF"
+            android:textSize="34px" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@mipmap/icon_login_line" />
+
+        <EditText
+            android:id="@+id/et_password_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparency"
+            android:hint="@string/reconfirm_password"
+            android:inputType="textPassword"
+            android:maxLength="20"
+            android:layout_marginTop="26px"
+            android:paddingBottom="20px"
+            android:paddingTop="20px"
+            android:textColor="#BCBCBF"
+            android:textColorHint="#BCBCBF"
+            android:textSize="34px" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@mipmap/icon_login_line" />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40px"
+            android:layout_gravity="right"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!--<CheckBox-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:checked="true"-->
+                <!--android:button="@drawable/check_box_register" />-->
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="right">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/完成注册表示您已阅读和同意"
+                    android:textColor="#ffffff"
+                    android:textSize="28px"
+                    android:layout_marginLeft="10px"/>
+
+                <TextView
+                    android:id="@+id/tv_agreement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/myway_agreements"
+                    android:textColor="#f9cf3b"
+                    android:textSize="28px"
+                    android:layout_marginLeft="10px"/>
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <TextView
+        android:id="@+id/tv_register"
+        android:layout_width="618px"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100px"
+        android:background="@mipmap/login_btn_denglu"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="@string/register"
+        android:textColor="@color/black"
+        android:textSize="34px" />
+
+</com.zhy.autolayout.AutoLinearLayout>

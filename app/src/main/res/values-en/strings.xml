@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MYWAY</string>
+    <string name="select">%1$s/%2$s</string>
+    <string name="no_data">No data</string>
+    <string name="label_data">Data:</string>
+    <string name="label_device_address">Device address:</string>
+    <string name="label_state">State:</string>
+    <string name="unknown_device">Unknown device</string>
+    <string name="unknown_characteristic">Unknown characteristic</string>
+    <string name="unknown_service">Unknown service</string>
+    <string name="listview_header_hint_normal">pull to refresh</string>
+    <string name="listview_header_hint_release">listview header hint release</string>
+    <string name="refreshing">refreshing</string>
+    <string name="refresh_done">refresh done</string>
+    <string name="list_footer_loading">loading</string>
+    <string name="list_footer_end">end</string>
+    <string name="footer_network_error">network error</string>
+
+
+
+    <!-- 引导页面 -->
+    <string name="start_to_experience">Start your Experience</string>
+    <string name="skip">Skip</string>
+
+    <!-- 登录页面 -->
+    <string name="account">Account</string>
+    <string name="password">Password</string>
+    <string name="forget_password">Forgot Password</string>
+    <string name="login">Login</string>
+    <string name="register">Sign up</string>
+    <string name="oauth_login">Third-party Login</string>
+
+    <!-- 忘记密码界面 -->
+    <string name="phone_or_email">Phone</string>
+    <string name="auth_code">Verification Code</string>
+    <string name="get_auth_code">Get Verification Code</string>
+    <string name="new_password">New Password(8-20 characters)</string>
+    <string name="reconfirm_password">Confirm Password</string>
+    <string name="confirm">Confirm</string>
+
+    <!-- 注册界面 -->
+    <string name="set_password">New Password(8-20 characters)</string>
+    <string name="myway_agreements">《Myway Terms and Privacy》</string>
+
+    <!-- 动态界面 -->
+    <string name="dynamic">Share</string>
+    <string name="way">Track</string>
+    <string name="transpond">Transpond</string>
+    <string name="just_now">just now</string>
+    <string name="minute_ago"> minute(s) ago</string>
+    <string name="hour_ago"> hour(s) ago</string>
+    <string name="day_ago"> day(s) ago</string>
+    <string name="year_ago"> year(s) ago</string>
+    <string name="block">Shield</string>
+    <string name="report">Report</string>
+    <string name="delete">Delete</string>
+
+    <!-- 侧边菜单栏 -->
+    <string name="i_release">Mine</string>
+    <string name="car_ranking">Ranking</string>
+    <string name="band_car">Binding</string>
+    <string name="message_center">Message</string>
+    <string name="comment_and_like">Comment and Like</string>
+    <string name="switch_language">Language</string>
+    <string name="unit_size">Units</string>
+    <string name="attention_matters">Terms</string>
+    <string name="feedback">Feedback</string>
+    <string name="about_us">About</string>
+    <string name="sign_in">Signup</string>
+    <string name="store">Mall</string>
+    <string name="aotu">Phone System</string>
+    <string name="my_setting">My setting</string>
+    <string name="nearby">Nearby</string>
+    <string name="activity">Activity</string>
+    <string name="black_list">Black List</string>
+    <string name="clear_cache">Clear cache</string>
+    <string name="about_mw">About MW</string>
+
+    <!-- 我的资料界面 -->
+    <string name="my_profile">My Profile</string>
+    <string name="amend">Edit</string>
+    <string name="complete">Save</string>
+    <string name="gold">Gold Coins:</string>
+    <string name="integral">Points:</string>
+    <string name="head_portrait">Icon</string>
+    <string name="nickname">Nick name</string>
+    <string name="name">Full Name</string>
+    <string name="signature">Personality Signature</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="birthday">Birthday</string>
+    <string name="profession">Job</string>
+    <string name="address">Address</string>
+    <string name="phone_number">Phone</string>
+    <string name="e_mail">E-Mail</string>
+    <string name="change_password">Modify Password</string>
+    <string name="login_out">Log Out</string>
+    <string name="dialog_confirm">Confirm</string>
+    <string name="dialog_cancel">Cancel</string>
+
+    <!-- 动态详情界面 -->
+    <string name="detail">Detail</string>
+    <string name="comment">Comment</string>
+    <string name="praise">Like</string>
+    <string name="let_me_have_my_say">Say Something…</string>
+    <string name="publish">Send</string>
+
+    <!-- 更新动态界面 -->
+    <string name="update_dynamic">Update my Share</string>
+    <string name="the_idea_of_this_moment">My Words …</string>
+    <string name="location">Location</string>
+    <string name="my_location">My Location</string>
+    <string name="the_number_of_words_has_reached_the_upper_limit">The number of words has reached the upper limit</string>
+
+    <!-- 车辆排名界面 -->
+    <string name="ranking">Ranking</string>
+    <string name="day">Day</string>
+    <string name="week">Week</string>
+    <string name="total">Total</string>
+    <string name="you_win_mw_players">You win {0}% MW players</string>
+    <string name="no">No.{0}</string>
+    <string name="you_can_be_ranked_and_get_scores_only_after_vehicle_verification">You can be ranked and get scores only after vehicle verification</string>
+
+    <!-- 绑定车辆界面 -->
+    <string name="vehicle_binding">Vehicle Binding</string>
+    <string name="input_vehicle_sn_number_or_click_inquiry_button">Input Vehicle SN Number or Click Inquiry Button</string>
+    <string name="inquiry">Inquiry</string>
+    <string name="please_firstly_connect_your_vehicle">Please Firstly Connect your Vehicle</string>
+    <string name="binded_vehicle">Binded Vehicle</string>
+    <string name="binding_vehicle">Binding Vehicle</string>
+
+    <!-- 消息中心界面 -->
+    <string name="comments_on_your_sharing">comments on your sharing</string>
+    <string name="praise_your_sharing">Praise your sharing</string>
+
+    <!-- 尺寸单位界面 -->
+    <string name="metric">Metric</string>
+
+    <!-- 意见反馈界面 -->
+    <string name="submit">Submit</string>
+    <string name="my_feedback">My Feedback…</string>
+
+    <!-- 关于我们界面 -->
+    <string name="about">About</string>
+    <string name="about_myway">About Myway</string>
+    <string name="introduction">Introduction</string>
+    <string name="terms_and_privacy">Terms and Privacy</string>
+    <string name="check_update">Check Update</string>
+    <string name="shenzhen_myway">Shenzhen Myway Tec. Co., Ltd.</string>
+
+    <!-- 车辆界面 -->
+    <string name="velocity">Velocity</string>
+    <string name="total_mileage">Total Mileage</string>
+    <string name="battery">Battery</string>
+    <string name="this_mileage">This Mileage</string>
+    <string name="connected">Connected</string>
+    <string name="connecting">Connecting</string>
+    <string name="disconnect">Disconnect</string>
+
+    <!-- 车辆管理界面 -->
+    <string name="vehicle_management">Vehicle Management</string>
+    <string name="my_vehicle">My Vehicle</string>
+    <string name="searched_vehicle">Searched Vehicle</string>
+    <string name="look_for_all_vehicle">Look for All Vehicle</string>
+    <string name="all_vehicle">All Vehicle</string>
+    <string name="not_connected_to_your_car">not connected to your car</string>
+
+    <!-- 更多设置界面 -->
+    <string name="more_setting">More Setting</string>
+    <string name="record_track">Record Track</string>
+    <string name="vehicle_diagnose">Vehicle Diagnose</string>
+    <string name="mode_switch">Mode Switch</string>
+    <string name="econ">Econ</string>
+    <string name="sport">Sport</string>
+    <string name="body_calibration">Body Calibration</string>
+    <string name="max_speed">Max Speed</string>
+    <string name="light_switch">Light Switch</string>
+    <string name="head_light">Head Light</string>
+    <string name="tail_light">Tail Light</string>
+    <string name="atmosphere_light">Atmosphere Light</string>
+    <string name="glide_start_mode">Glide Start Mode</string>
+    <string name="glide_start_switch">Glide Start Switch</string>
+    <string name="modify_bluetooth_password">Modify Bluetooth Password</string>
+    <string name="firmware_update">Firmware Update</string>
+    <string name="current_firmware_version">Current Firmware Version</string>
+    <string name="go_to_setting">Go to setting</string>
+    <string name="please_open_gps">Please Open GPS</string>
+    <string name="accelerator_calibration">Accelerator calibration</string>
+    <string name="fingerprint_register">Fingerprint register</string>
+    <string name="cruise_mode">Cruise Mode</string>
+    <string name="mood_light_mode">Mood Light Mode</string>
+    <string name="close">Close</string>
+    <string name="flowing">Flowing</string>
+    <string name="breathing">Breathing</string>
+    <string name="neon">Neon</string>
+    <string name="lighting">Lighting</string>
+    <string name="warning">Warning</string>
+    <string name="ble_old_password">Old password</string>
+    <string name="ble_new_password">New password</string>
+    <string name="ble_confirm_password">Confirm password</string>
+
+
+    <!-- 油门校准 -->
+    <string name="please_press_accelerator_to_the_end_and_hold_on">Please press accelerator to the end and hold on. And then start first calibration.</string>
+    <string name="start_first_calibration">Start first calibration.</string>
+    <string name="release_accelerator">Release accelerator, and then start second calibration.</string>
+    <string name="start_second_calibration">Start second calibration.</string>
+
+
+    <!-- 指纹录制界面 -->
+    <string name="hint">hint</string>
+    <string name="fingerprint_identification">Fingerprint Identification</string>
+    <string name="add_fingerprint">Add Fingerprint</string>
+    <string name="clear_all_of_registered_fingerprint">Clear all of registered fingerprint</string>
+    <string name="the_fingerprint_database_is_full">The fingerprint database is full. Please register your fingerprint after deleting some fingerprint.</string>
+    <string name="first_finger_identify">First Finger Identify</string>
+    <string name="please_use_your_finger_to_press_on_the_fingerprint_recognition_sensor">Please use your finger to press on the fingerprint recognition sensor, and then remove your finger.</string>
+    <string name="first_finger_identify_unsuccessfully">First Finger Identify unsuccessfully!</string>
+    <string name="fingerprint_identify_unsuccessfully">Fingerprint identify unsuccessfully! Please Re-register again.</string>
+    <string name="the_fingerprint_has_been_registered">The fingerprint has been registered! Please use another finger to register.</string>
+    <string name="register_unsuccessfully">Register unsuccessfully!</string>
+    <string name="please_exit_first">Please exit first, and then retry again!</string>
+    <string name="first_finger_identify_successfully">First Finger Identify successfully!</string>
+    <string name="please_remove_your_finger_from_fingerprint_recognition_sensor">Please remove your finger from fingerprint recognition sensor. And prepare for the next step.</string>
+    <string name="second_finger_identify">Second Finger Identify</string>
+    <string name="please_use_the_same_finger_to_press_fingerprint_recognition_sensor">Please use the same finger to press fingerprint recognition sensor, and then remove your finger.</string>
+    <string name="second_finger_identify_unsuccessfully">Second Finger Identify unsuccessfully!</string>
+    <string name="please_reregister_again">Fingerprint identify unsuccessfully! Please Re-register again.</string>
+    <string name="the_fingerprint_does_not_match_for_the_two_times">The fingerprint does not match for the two times. Please register again  use the same finger to</string>
+    <string name="register_successfully">Register successfully!</string>
+    <string name="you_can_use_your_fingerprint_to_lockunlock_vehicle_now">You can use your fingerprint to lock/unlock vehicle now.</string>
+    <string name="fingerprint_cannot_be_registered">Fingerprint cannot be registered, because the Vehicle is not still.</string>
+    <string name="fingerprint_management">Fingerprint Management</string>
+    <string name="please_get_off_the_vehicle">Please get off the vehicle, and keep the vehicle still. And then start finger register.</string>
+    <string name="dialog_continue">Continue</string>
+
+
+    <!-- 故障检测界面 -->
+    <string name="fault_diagnose">Fault Diagnose</string>
+    <string name="diagnose">Diagnose</string>
+    <string name="finish">Finish</string>
+    <string name="fault_diagnose_help_to_find_the_question_with_your_vehicle_and_fix_in_time">Fault diagnose help to find the question with your vehicle and fix in time</string>
+    <string name="fault_of_hall">Fault of Hall</string>
+    <string name="fault_of_a_phase_current">Fault of A Phase Current</string>
+    <string name="fault_of_b_phase_current">Fault of B Phase Current</string>
+    <string name="fault_of_c_phase_current">Fault of C Phase Current</string>
+    <string name="fault_of_bus_current">Fault of Bus Current</string>
+    <string name="fault_of_throttle">Fault of Throttle</string>
+    <string name="fault_of_MOSFET">Fault of MOSFET</string>
+    <string name="fault_of_communication">Fault of Communication</string>
+
+    <!-- 车身校准界面 -->
+    <string name="please_get_off_the_vehicle_and_keep_the_vehicle_still_and_horizontal">Please get off the vehicle, and keep the vehicle still and horizontal.</string>
+    <string name="continue_">Continue</string>
+    <string name="body_cant_be_calibrated_because_the_vehicle_is_not_still_or_horizontal">Body can’t be calibrated, because the Vehicle is not still or horizontal.</string>
+    <string name="please_keep_the_vehicle_still_and_horizontal">Please keep the vehicle still and horizontal</string>
+    <string name="start_calibration">Start Calibration</string>
+    <string name="calibration_finished_please_restart_vehicle">Calibration Finished！Please Restart Vehicle.</string>
+
+    <!-- 固件升级界面 -->
+    <string name="the_current_firmware_version_is_already_latest">The Current Firmware version is already latest</string>
+    <string name="start_to_check">Start to Check</string>
+    <string name="checking">Checking…</string>
+    <string name="start_update">Start Update</string>
+    <string name="update">Update</string>
+    <string name="updating">Updating...</string>
+    <string name="update_finish">Update Finish</string>
+    <string name="firmware_cant_update_because_the_vehicle_is_not_still">Firmware can’t update, because the vehicle is not still.</string>
+    <string name="confirm_to_update_firmware">Confirm to Update Firmware</string>
+    <string name="update_successfully_please_restart_vehicle">Update successfully! Please restart vehicle.</string>
+    <string name="update_unsuccessfully_please_restart_vehicle_to_update_firmware_again">Update unsuccessfully! Please restart vehicle to update firmware again!</string>
+
+    <!-- 记录轨迹界面 -->
+    <string name="GPS_signals">GPS Signals:</string>
+    <string name="strong">Strong</string>
+    <string name="weak">Weak</string>
+    <string name="no_signal">No signal</string>
+    <string name="speed">Speed</string>
+    <string name="time">Time</string>
+    <string name="mileage">Mileage</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
+    <string name="confirm_to_end">Confirm to End</string>
+    <string name="record_no_track_please_record_track_again">Record no Track! Please Record track again.</string>
+    <string name="my_tracks">My Tracks</string>
+    <string name="please_firstly_end_the_track_record">Please firstly end the track record!</string>
+
+    <!-- 完善路线信息界面 -->
+    <string name="track_profile">Track Profile</string>
+    <string name="track_name">Track Name:</string>
+    <string name="scenery">Scenery:</string>
+    <string name="track_result_mileage">Mileage:</string>
+    <string name="level">Level:</string>
+    <string name="battery_rang_required">Battery Rang Required:</string>
+    <string name="track_description">Track Description</string>
+    <string name="track_result_start">Start:</string>
+    <string name="start_bus_station">Start Bus Station:</string>
+    <string name="track_result_end">End:</string>
+    <string name="end_bus_station">End Bus Station:</string>
+    <string name="uload_photos">Upload Photos</string>
+    <string name="save">save</string>
+
+    <!-- 路线界面 -->
+    <string name="way_mileage">Mileage</string>
+    <string name="way_total_mileage">Total Mileage:</string>
+    <string name="battery_range_required">Battery Range Required:</string>
+    <string name="bus_station_nearby">Bus Station Nearby:</string>
+    <string name="scenery_photo">Scenery Photo</string>
+
+    <!-- 活动约伴界面 -->
+    <string name="nearby_activity">Nearby</string>
+    <string name="mine_activity">Mine</string>
+    <string name="activity_detail">Activity Detail</string>
+    <string name="join_and_get_scores">Join and Get +0 Scores</string>
+    <string name="partner">partner</string>
+    <string name="telephone_activity">Telephone</string>
+    <string name="join_now">Join Now</string>
+    <string name="sign_in_activity">Sign in</string>
+    <string name="signed_up_already_activity">Signed up already</string>
+    <string name="quit">Quit</string>
+    <string name="activity_member">Activity Member</string>
+    <string name="activity_and">Activity and</string>
+    <string name="captain">Captain</string>
+
+    <!-- 发布活动界面 -->
+    <string name="activity_name">Activity Name</string>
+    <string name="gathering_location">Gathering Location</string>
+    <string name="start_time">Start Time</string>
+    <string name="end_time">End Time</string>
+    <string name="number_of_partner">Number of Partner</string>
+    <string name="telephone">Telephone</string>
+    <string name="activity_description_255">Activity Description(Max.255 words)</string>
+    <string name="activity_description">Activity Description</string>
+    <string name="activity_publish">Publish</string>
+    <string name="publish_activity">Publish Activity</string>
+    <string name="select_gathering_location">Select Gathering Location</string>
+
+
+    <!-- GPRS模块 -->
+    <string name="remote_control">Remote Control</string>
+    <string name="electro_fence">Electro Fence</string>
+    <string name="vehicle_position">Vehicle Position</string>
+    <string name="vehicle_track">Vehicle Track</string>
+    <string name="remote_unlock">Remote Unlock</string>
+    <string name="remote_lock">Remote Lock</string>
+    <string name="add_fence">Add Fence</string>
+    <string name="delete_fence">Delete fence</string>
+    <string name="fence_name">Fence Name:</string>
+    <string name="fence_type">Fence Type:</string>
+    <string name="circle">Circle</string>
+    <string name="custom">Custom</string>
+    <string name="center">Center:</string>
+    <string name="select_location_by_clicking_in_the_map">Select location by clicking in the map.</string>
+    <string name="see_in_the_map">See in the map</string>
+    <string name="radius">Radius</string>
+    <string name="please_select_the_point_in_the_map_in_succession">Please select the point in the map in succession</string>
+    <string name="clear_all_point">Clear All Point</string>
+    <string name="cancel_prev_point">Cancel Prev. Point</string>
+    <string name="fence_warning">Fence Warning</string>
+    <string name="vehicle">Vehicle</string>
+    <string name="fence">Fence</string>
+    <string name="fence_time">Time</string>
+    <string name="find">Find</string>
+    <string name="please_select_a_central_point">Please select a central point</string>
+    <string name="please_select_3_or_more_points">Please select 3 or more points</string>
+    <string name="time_is_not_right">Time is not right</string>
+
+
+    <!-- 金币与积分介绍页面 -->
+    <string name="scores_level">Level:</string>
+    <string name="scores_level_1">Level</string>
+    <string name="ranking_detail">Ranking Detail</string>
+    <string name="mw_coins">MW Coins:</string>
+    <string name="scores">Scores</string>
+    <string name="getting_scores_and_mw_coins">Getting Scores And MW Coins</string>
+    <string name="method">Method</string>
+    <string name="coins">MW coins</string>
+    <string name="scores_for_promotion">Scores for promotion</string>
+    <string name="total_scores">Total Scores</string>
+
+
+    <!-- 增值攻略数据 -->
+    <string-array name="access_data">
+        <item>Monthly Ranking-Top 10--5--5</item>
+        <item>Monthly Ranking-Top 3--5--7</item>
+        <item>Monthly Ranking-Top 2--5--8</item>
+        <item>Monthly Ranking-Top 1--5--10</item>
+        <item>Total Mileage-Top 10--10--8</item>
+        <item>Total Mileage-Top 3--10--10</item>
+        <item>Total Mileage-Top 2--10--12</item>
+        <item>Total Mileage-Top 1--10--15</item>
+        <item>Monthly Mileage Reward (Per Kilometer)--1--1</item>
+        <item>Feedback--1--0</item>
+        <item>Profile compeletion--5--5</item>
+        <item>Daily Sharing--5--5</item>
+        <item>Daily comment--2--2</item>
+        <item>Daily liking--1--1</item>
+        <item>Record route first time--10--10</item>
+        <item>Exchange goods first time--5--5</item>
+        <item>首次组织活动--10--10</item>
+        <item>每日1km--5--5</item>
+        <item>Daily group chatting--1--1</item>
+        <item>Being commented 1 times--1--0</item>
+        <item>Comment 1 times--1--0</item>
+        <item>被点赞一次--1--0</item>
+        <item>Successive sign-in more than 20 days--5--5</item>
+        <item>Successive sign-in within 20 days--4--4</item>
+        <item>Successive sign-in within 10 days--3--2</item>
+        <item>Successive sign-in within 5 days--2--1</item>
+        <item>Successive sign-in within 1 day--1--1</item>
+        <item>Share Actions--1--0</item>
+        <item>Share videos--1--0</item>
+        <item>Share photos--1--0</item>
+        <item>Share words--1--0</item>
+
+    </string-array>
+
+    <!-- 等级详情数据 -->
+    <string-array name="level_data">
+        <item>0--Primary Rider--0--0</item>
+        <item>1--General Rider--80--80</item>
+        <item>2--Expert Rider--160--240</item>
+        <item>3--E-Racer--240--480</item>
+        <item>4--D-Racer--320--800</item>
+        <item>5--C-Racer--400--1200</item>
+        <item>6--B-Racer--480--1680</item>
+        <item>7--A-Racer--560--2240</item>
+        <item>8--F1-Racer--640--2880</item>
+        <item>9--King of Racer--720--3600</item>
+        <item>10--King of Flyer--800--4400</item>
+        <item>11--King of Super--880--5280</item>
+        <item>12--king of Faster--960--6240</item>
+        <item>13--King of Lighter--1040--7280</item>
+        <item>14--King of Kings--1120--8400</item>
+        <item>15--Newbie Manito--1200--9600</item>
+        <item>16--Wind Manito--1280--10880</item>
+        <item>17--Fire Manito--1360--12240</item>
+        <item>18--Light Manito--1440--13680</item>
+        <item>19--Thunder Manito--1520--15200</item>
+        <item>20--MW Manito--2800--18000</item>
+    </string-array>
+
+    <!-- 车手等级 -->
+    <string name="初级车手">Primary Rider</string>
+    <string name="普通车手">General Rider</string>
+    <string name="资深车手">Expert Rider</string>
+    <string name="赛车手E级">E-Racer</string>
+    <string name="赛车手D级">D-Racer</string>
+    <string name="赛车手C级">C-Racer</string>
+    <string name="赛车手B级">B-Racer</string>
+    <string name="赛车手A级">A-Racer</string>
+    <string name="F1赛车手">F1-Racer</string>
+    <string name="赛车之王">King of Racer</string>
+    <string name="飞车之王">King of Flyer</string>
+    <string name="超速之王">King of Super</string>
+    <string name="极速之王">king of Faster</string>
+    <string name="光速之王">King of Lighter</string>
+    <string name="车王之王">King of Kings</string>
+    <string name="新晋车神">Newbie Manito</string>
+    <string name="风速车神">Wind Manito</string>
+    <string name="火速车神">Fire Manito</string>
+    <string name="闪电车神">Light Manito</string>
+    <string name="雷霆车神">Thunder Manito</string>
+    <string name="曼威车神">MW Manito</string>
+
+
+    <!-- 提示信息 -->
+    <string name="none">null</string>
+    <string name="successfully">Successfully！</string>
+    <string name="failed">Failed！</string>
+    <string name="network_connection_is_failed">network connection is failed</string>
+    <string name="the_phone_or_email_is_not_correct">The phone or Email is not correct!</string>
+    <string name="the_verification_code_has_been_sent">The verification code has been sent to your phone. Please kindly check your message!</string>
+    <string name="the_phone_is_already_registered">The phone is already Registered!</string>
+    <string name="the_verification_is_not_correct">The verification is not correct!</string>
+    <string name="the_long_of_the_password_is_not_correct">The long of the password is not correct!</string>
+    <string name="the_password_does_not_match_for_the_two_times">The password does not match for the two times!</string>
+    <string name="registered_successfully">Register successfully!</string>
+    <string name="registration_failed">Register unsuccessfully！</string>
+    <string name="account_or_password_is_not_correct">Account or password is not correct!</string>
+    <string name="please_firstly_open_your_phone_Bluetooth">Please firstly open your phone’s Bluetooth!</string>
+    <string name="get_2_points">Get 2 Points</string>
+    <string name="published_successfully">Published Successfully!</string>
+    <string name="published_failure">Published failure</string>
+    <string name="shared_successfully">Shared Successfully！</string>
+    <string name="shared_failed">Shared failed！</string>
+    <string name="shared_cancel">Shared cancel</string>
+    <string name="update_successfully">Update Successfully！</string>
+    <string name="characters_are_too_long_or_invalid">Characters are too long or invalid!</string>
+    <string name="submit_successfully">Submit Successfully!</string>
+    <string name="sign_up_successfully">Sign up successfully! And get 1 Points</string>
+    <string name="signed_up_already">Signed up already!</string>
+    <string name="it_is_already_the_latest_version">It is already the latest version.</string>
+    <string name="press_again_to_quit_app">Press Again To Quit App</string>
+    <string name="please_enter_the_phone_number">Please enter the phone number</string>
+    <string name="please_enter_the_password">Please enter the password</string>
+    <string name="please_make_sure_the_password">Please make sure the password</string>
+    <string name="please_enter_the_new_password">Please enter the new password</string>
+    <string name="please_make_sure_the_new_password">Please make sure the new password</string>
+    <string name="please_enter_the_verification_code">Please enter the verification code</string>
+    <string name="please_enter_name">please enter name</string>
+    <string name="please_enter_title">please enter title</string>
+    <string name="more_than_limit_the_number_of_the_current_mobile_phone_number_send_text_messages">
+        More than limit the number of the current mobile phone number send text messages</string>
+    <string name="please_enter_a_correct_phone_number">Please enter a correct phone number</string>
+    <string name="a_new_version_has_been_found">A new version has been found. Do you want to use your browser to start downloading?</string>
+    <string name="please_enter_the_sn_code">Please enter the SN Code</string>
+    <string name="login_successful">Login successful!</string>
+    <string name="copy_success">Copy success</string>
+    <string name="找回密码成功">Retrieve password successfully</string>
+    <string name="找回密码失败">Retrieve password unsuccessfully</string>
+    <string name="修改成功">Modify password successfully</string>
+    <string name="修改失败">Modify password unsuccessfully</string>
+    <string name="用户不存在">The user does not exist</string>
+    <string name="验证码校验失败">Fail to verify Verification Code</string>
+    <string name="请安装微信客户端">Please install Webchat Client</string>
+    <string name="请安装QQ客户端">Please install QQ Client</string>
+    <string name="解析二维码失败">Identify QR Code unsuccessfully</string>
+    <string name="说点什么吧">Say something…</string>
+    <string name="用户验证失败">Fail to verify user. Please login again.</string>
+    <string name="请选择性别">Please select gender</string>
+    <string name="没有记录到轨迹">Record no tracks. Please record again!</string>
+    <string name="请选择封面图片">Please select the cover photo.</string>
+    <string name="请选择风景图片">Please select tour photoes.</string>
+    <string name="指纹">Fingerprint</string>
+    <string name="该设备不支持蓝牙功能">The device does not support bluetooth function.</string>
+    <string name="完成注册表示您已阅读和同意">Sign up to indicate that you have read and agree</string>
+    <string name="图片不能超过256k">The picture cannot exceed 256k</string>
+    <string name="视频不能超过20M">The video cannot exceed 20M</string>
+    <string name="gif图片不能超过5M">GIF images cannot exceed 5M</string>
+
+
+
+</resources>
