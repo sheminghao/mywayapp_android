@@ -5,17 +5,16 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.inuker.bluetooth.library.search.SearchResult;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.ListBaseAdapter;
 import com.mywaytec.myway.base.SuperViewHolder;
-import com.mywaytec.myway.model.BluetoothInfoModel;
-import com.mywaytec.myway.utils.BleUtil;
 
 /**
  * Created by shemh on 2017/2/16.
  */
 
-public class BluetoothListAdapter extends ListBaseAdapter<BluetoothInfoModel> {
+public class BluetoothListAdapter extends ListBaseAdapter<SearchResult> {
 
     public BluetoothListAdapter(Context context) {
         super(context);
@@ -31,13 +30,13 @@ public class BluetoothListAdapter extends ListBaseAdapter<BluetoothInfoModel> {
         TextView tvName = holder.getView(R.id.tv_name);
         TextView tvAddress = holder.getView(R.id.tv_address);
         ImageView imgRssi = holder.getView(R.id.img_rssi);
-        String deviceName = mDataList.get(position).getDevice().getName();
+        String deviceName = mDataList.get(position).getName();
         tvName.setText(deviceName);
-        if (!TextUtils.isEmpty(mDataList.get(position).getDevice().getAddress())) {
-            tvAddress.setText(mDataList.get(position).getDevice().getAddress());
+        if (!TextUtils.isEmpty(mDataList.get(position).getAddress())) {
+            tvAddress.setText(mDataList.get(position).getAddress());
         }
         if (null!=mDataList.get(position)) {
-            int rssi = mDataList.get(position).getRssi();
+            int rssi = mDataList.get(position).rssi;
             if (rssi >= -100 || rssi < -80){
                 imgRssi.setImageResource(R.mipmap.icon_xinghao5);
             }else if(rssi >= -80 || rssi < -60){

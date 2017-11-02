@@ -3,7 +3,6 @@ package com.mywaytec.myway.fragment.car;
 import android.content.Context;
 import android.widget.TextView;
 
-import com.mywaytec.myway.base.BluetoothLeService;
 import com.mywaytec.myway.base.IBaseView;
 
 /**
@@ -16,10 +15,7 @@ public interface CarView extends IBaseView {
 
     Context getContext();
 
-    BluetoothLeService getBluetoothLeService();
-
     boolean isOther();
 
     void setOther(boolean isOther);
-
 }

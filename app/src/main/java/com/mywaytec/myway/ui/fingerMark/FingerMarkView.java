@@ -22,8 +22,6 @@ public interface FingerMarkView extends IBaseView {
 
     RecyclerView getRecyclerView();
 
-    BluetoothLeService getBluetoothLeService();
-
     SlideUp getSlideUp();
 
     TextView getEnterCountTV();
@@ -33,5 +31,7 @@ public interface FingerMarkView extends IBaseView {
     ImageView getFingerWarkImg();
 
     TextView getCancelTV();
+
+    String getDeviceAddress();
 
 }

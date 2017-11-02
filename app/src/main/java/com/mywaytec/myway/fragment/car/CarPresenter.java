@@ -11,12 +11,14 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.inuker.bluetooth.library.connect.response.BleWriteResponse;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.BluetoothLeService;
 import com.mywaytec.myway.base.Constant;
 import com.mywaytec.myway.base.RxPresenter;
 import com.mywaytec.myway.model.BaseInfo;
 import com.mywaytec.myway.model.http.RetrofitHelper;
+import com.mywaytec.myway.utils.BleKitUtils;
 import com.mywaytec.myway.utils.BleUtil;
 import com.mywaytec.myway.utils.ConversionUtil;
 import com.mywaytec.myway.utils.PreferencesUtils;
@@ -72,7 +74,7 @@ public class CarPresenter extends RxPresenter<CarView> {
     }
 
     AlertDialog verificationVehicleDialog;
-    public void verificationVehiclePassword(final BluetoothLeService mBluetoothLeService){
+    public void verificationVehiclePassword(final String mDeviceAddress){
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         // 创建对话框
         verificationVehicleDialog = builder.create();
@@ -95,7 +97,6 @@ public class CarPresenter extends RxPresenter<CarView> {
             @Override
             public void onClick(View v) {
                 String password = etPassword.getText().toString().trim();
-                    if (mBluetoothLeService != null){
                         Log.i("TAG", "------verificationVehiclePassword确认发送");
                         mView.setOther(true);
                         SystemClock.sleep(30);
@@ -108,18 +109,21 @@ public class CarPresenter extends RxPresenter<CarView> {
                                 ToastUtils.showToast("密码长度不正确");
                                 return;
                             }
-                            mBluetoothLeService.writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                                    Constant.BLE.WRITE_CHARACTERISTIC_UUID,
-                                    BleUtil.verificationVehiclePassword(password));
+                            BleKitUtils.writeP(mDeviceAddress, BleUtil.verificationVehiclePassword(password), new BleWriteResponse() {
+                                @Override
+                                public void onResponse(int code) {
+                                    mView.setOther(false);
+                                }
+                            });
                         }else {
-                            mBluetoothLeService.writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                                    Constant.BLE.WRITE_CHARACTERISTIC_UUID,
-                                    Constant.BLE.VEHICLE_PASSWORD_RESET);
+                            BleKitUtils.writeP(mDeviceAddress, Constant.BLE.VEHICLE_PASSWORD_RESET, new BleWriteResponse() {
+                                @Override
+                                public void onResponse(int code) {
+                                    mView.setOther(false);
+                                }
+                            });
                         }
 
-                        SystemClock.sleep(30);
-                        mView.setOther(false);
-                    }
             }
         });
         tvCancel.setOnClickListener(new View.OnClickListener() {

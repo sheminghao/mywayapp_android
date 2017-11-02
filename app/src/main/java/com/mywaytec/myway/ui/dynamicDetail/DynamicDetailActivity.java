@@ -33,8 +33,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+import cn.jzvd.JZVideoPlayerStandard;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -84,7 +83,7 @@ public class DynamicDetailActivity extends BaseActivity<DynamicDetailPresenter> 
     @BindView(R.id.layout_praise)
     LinearLayout layoutPraise;
     @BindView(R.id.playerview)
-    JCVideoPlayerStandard mPlayerView;
+    JZVideoPlayerStandard mPlayerView;
 
     private FragmentManager fragmentManager;
     DynamicListBean.ObjBean dynamic;
@@ -126,7 +125,7 @@ public class DynamicDetailActivity extends BaseActivity<DynamicDetailPresenter> 
             if (mPlayerView != null) {
                 mPlayerView.release();
             }
-            mPlayerView.setUp(dynamic.getImages().get(0), JCVideoPlayer.SCREEN_LAYOUT_LIST, "");
+            mPlayerView.setUp(dynamic.getImages().get(0), JZVideoPlayerStandard.SCREEN_LAYOUT_LIST, "");
             Observable.create(new Observable.OnSubscribe<Bitmap>() {
                 @Override
                 public void call(Subscriber<? super Bitmap> subscriber) {
@@ -296,6 +295,6 @@ public class DynamicDetailActivity extends BaseActivity<DynamicDetailPresenter> 
     @Override
     public void onPause() {
         super.onPause();
-        JCVideoPlayer.releaseAllVideos();
+        JZVideoPlayerStandard.releaseAllVideos();
     }
 }

@@ -18,6 +18,9 @@ import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.ybq.android.spinkit.SpinKitView;
+import com.inuker.bluetooth.library.search.SearchRequest;
+import com.inuker.bluetooth.library.search.SearchResult;
+import com.inuker.bluetooth.library.search.response.SearchResponse;
 import com.mywaytec.myway.APP;
 import com.mywaytec.myway.ConnectedBleInfoDao;
 import com.mywaytec.myway.DaoSession;
@@ -27,6 +30,7 @@ import com.mywaytec.myway.base.BaseActivity;
 import com.mywaytec.myway.model.BluetoothInfoModel;
 import com.mywaytec.myway.model.db.ConnectedBleInfo;
 import com.mywaytec.myway.ui.lookoverAllCar.LookoverAllCarActivity;
+import com.mywaytec.myway.utils.BleKitUtils;
 import com.mywaytec.myway.utils.BleUtil;
 import com.mywaytec.myway.utils.LogUtil;
 import com.mywaytec.myway.utils.TimeUtil;
@@ -45,8 +49,8 @@ public class BluetoothActivity extends BaseActivity<BluetoothPresenter> implemen
     private BluetoothListAdapter bluetoothListAdapter;
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private BluetoothAdapter bluetoothAdapter;
-    private ArrayList<BluetoothDevice> bluetoothDevices = new ArrayList<>();
-    private ArrayList<BluetoothInfoModel> bluetoothInfoModels = new ArrayList<>();
+    private ArrayList<SearchResult> bluetoothDevices = new ArrayList<>();
+    private ArrayList<SearchResult> bluetoothInfoModels = new ArrayList<>();
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
@@ -94,7 +98,13 @@ public class BluetoothActivity extends BaseActivity<BluetoothPresenter> implemen
         lRecyclerView.setLoadMoreEnabled(false);
         lRecyclerViewAdapter.setOnItemClickListener(this);
 
-        scanLeDevice(true);
+//        scanLeDevice(true);
+
+        SearchRequest request = new SearchRequest.Builder()
+                .searchBluetoothLeDevice(1000000, 1)   // 先扫BLE设备3次，每次3s
+                .searchBluetoothLeDevice(2000)      // 再扫BLE设备2s
+                .build();
+        BleKitUtils.getBluetoothClient().search(request, searchResponse);
     }
 
     @Override
@@ -105,7 +115,6 @@ public class BluetoothActivity extends BaseActivity<BluetoothPresenter> implemen
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.img_search:
-                scanLeDevice(true);
                 break;
             case R.id.layout_more_car_info:
                 startActivity(new Intent(BluetoothActivity.this, LookoverAllCarActivity.class));
@@ -114,10 +123,38 @@ public class BluetoothActivity extends BaseActivity<BluetoothPresenter> implemen
         }
     }
 
+    SearchResponse searchResponse = new SearchResponse() {
+        @Override
+        public void onSearchStarted() {
+
+        }
+
+        @Override
+        public void onDeviceFounded(SearchResult device) {
+            if (null != device && !bluetoothDevices.contains(device)) {
+                //不重复添加
+                bluetoothDevices.add(device);
+                if(null != device.getName() && !device.getName().contains("iCre")) {
+                    bluetoothInfoModels.add(device);
+                    bluetoothListAdapter.setDataList(bluetoothInfoModels);
+                }
+            }
+        }
+
+        @Override
+        public void onSearchStopped() {
+
+        }
+
+        @Override
+        public void onSearchCanceled() {
+
+        }
+    };
+
     @Override
     public void onItemClick(View view, int position) {
-        stopScan();
-        BluetoothDevice bluetoothDevice = bluetoothInfoModels.get(position).getDevice();
+        SearchResult bluetoothDevice = bluetoothInfoModels.get(position);
         BleUtil.setBleAddress(bluetoothDevice.getAddress());
         BleUtil.setBleName(bluetoothDevice.getName());
         DaoSession daoSession = APP.getInstance().getDaoSession();
@@ -135,131 +172,10 @@ public class BluetoothActivity extends BaseActivity<BluetoothPresenter> implemen
                     bluetoothDevice.getAddress(), TimeUtil.getYMDHMSTime()));
         finish();
     }
-
-    BluetoothAdapter.LeScanCallback lescancallback = new BluetoothAdapter.LeScanCallback() {
-        @Override
-        public void onLeScan(final BluetoothDevice device, final int rssi, byte[] scanRecord) {
-            LogUtil.v("TAG","-----device"+device.getName(), true);
-            LogUtil.v("TAG","-----scanRecord"+scanRecord.toString(), true);
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (null != device && !bluetoothDevices.contains(device)) {
-                        //不重复添加
-                        bluetoothDevices.add(device);
-                        if(null != device.getName() && !device.getName().contains("iCre")) {
-                            BluetoothInfoModel bleInfoModel = new BluetoothInfoModel();
-                            bleInfoModel.setDevice(device);
-                            bleInfoModel.setRssi(rssi);
-                            bluetoothInfoModels.add(bleInfoModel);
-                            bluetoothListAdapter.setDataList(bluetoothInfoModels);
-                        }
-                    }
-                }
-            });
-//            bluetoothListAdapter.notifyDataSetChanged();
-        }
-    };
-
-    Timer timer;
-    //扫描设备
-    public void scanLeDevice(final boolean enable) {
-        if (enable) {
-//            timer = new Timer();
-//            timer.schedule(new TimerTask() {
-//                @Override
-//                public void run() {
-//                    stopScan();
-//                    Log.e("TAG", "run: stop");
-//                }
-//            }, SCAN_PERIOD);
-            startScan();
-            Log.e("TAG", "start");
-        } else {
-            stopScan();
-            Log.e("TAG", "stop");
-        }
-    }
-
-    //开始扫描BLE设备
-    private void startScan() {
-        imgSearch.setVisibility(View.GONE);
-        spinKitView.setVisibility(View.VISIBLE);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                bluetoothAdapter.startLeScan(lescancallback);
-
-                // 如果正在搜索，就先取消搜索
-                if (bluetoothAdapter.isDiscovering()) {
-                    bluetoothAdapter.cancelDiscovery();
-                }
-                bluetoothAdapter.startDiscovery();
-            }
-        }).start();
-    }
-
-    //停止扫描BLE设备
-    private void stopScan() {
-        imgSearch.post(new Runnable() {
-            @Override
-            public void run() {
-                imgSearch.setVisibility(View.VISIBLE);
-                spinKitView.setVisibility(View.GONE);
-            }
-        });
-        if (null != timer){
-            timer.cancel();
-            timer = null;
-        }
-        bluetoothAdapter.stopLeScan(lescancallback);
-        bluetoothAdapter.cancelDiscovery();
-    }
-
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            String action = intent.getAction();
-            // 获得已经搜索到的蓝牙设备
-            if (action.equals(BluetoothDevice.ACTION_FOUND)) {
-                BluetoothDevice device = intent
-                        .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                LogUtil.v("TAG","-----device"+device.getName(), true);
-                // 搜索到的不是已经绑定的蓝牙设备
-                if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
-                    // 显示在TextView上
-//                    mTextView.append(device.getName() + ":"
-//                            + device.getAddress()+"\n");
-                    if (!bluetoothDevices.contains(device)) {
-                        //不重复添加
-                        bluetoothDevices.add(device);
-                        if(null != device && null != device.getName() && !device.getName().contains("iCre")) {
-                            BluetoothInfoModel bleInfoModel = new BluetoothInfoModel();
-                            bleInfoModel.setDevice(device);
-                            bleInfoModel.setRssi(intent.getIntExtra(BluetoothDevice.EXTRA_RSSI, 0));
-                            bluetoothInfoModels.add(bleInfoModel);
-                        }
-                    }
-//                    bluetoothListAdapter.setDataList(bluetoothInfoModels);
-                    lRecyclerViewAdapter.notifyDataSetChanged();
-                }
-                // 搜索完成
-            } else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)) {
-                setProgressBarIndeterminateVisibility(false);
-//                setTitle("搜索蓝牙设备");
-            }
-        }
-    };
-
     @Override
     protected void onPause() {
         super.onPause();
-        if (null != timer) {
-            timer.cancel();
-            timer = null;
-        }
+        BleKitUtils.getBluetoothClient().stopSearch();
     }
 
     @Override

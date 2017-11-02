@@ -18,6 +18,9 @@ import com.mywaytec.myway.utils.PreferencesUtils;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 排行榜
+ */
 public class RankingListActivity extends BaseActivity<RankingListPresenter> implements RankingListView {
 
     @BindView(R.id.tv_title)

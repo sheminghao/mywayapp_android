@@ -113,10 +113,10 @@ public class LoginPresenter extends RxPresenter<LoginView> {
     public void qqLogin() {
         platform = 2;
         Platform qq = ShareSDK.getPlatform(QQ.NAME);
-        if (!qq.isClientValid()) {
-            ToastUtils.showToast("请安装QQ客户端");
-            return;
-        }
+//        if (!qq.isClientValid()) {
+//            ToastUtils.showToast("请安装QQ客户端");
+//            return;
+//        }
         loadingDialog = new LoadingDialog(mView.getContext());
         loadingDialog.show();
         qq.setPlatformActionListener(paListener);

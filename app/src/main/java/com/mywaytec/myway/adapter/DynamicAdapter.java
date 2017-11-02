@@ -51,6 +51,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.jzvd.JZVideoPlayerStandard;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
@@ -58,8 +59,6 @@ import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -277,11 +276,8 @@ public class DynamicAdapter extends ListBaseAdapter<DynamicListBean.ObjBean> imp
      * @param holder
      */
     private void showShiPin(SuperViewHolder holder, final int position) {
-        final JCVideoPlayerStandard mPlayerView = holder.getView(R.id.playerview);
-        if (mPlayerView != null) {
-            mPlayerView.release();
-        }
-        mPlayerView.setUp(mDataList.get(position).getImages().get(0), JCVideoPlayer.SCREEN_LAYOUT_LIST, "");
+        final JZVideoPlayerStandard mPlayerView = holder.getView(R.id.playerview);
+        mPlayerView.setUp(mDataList.get(position).getImages().get(0), JZVideoPlayerStandard.SCREEN_LAYOUT_LIST, "");
 //        Glide.with(mContext).load(getVideoThumb(mDataList.get(position).getImages().get(0))).into(mPlayerView.thumbImageView);
 //        mPlayerView.thumbImageView.setImageBitmap(getNetVideoBitmap(mDataList.get(position).getImages().get(0)));
         Observable.create(new Observable.OnSubscribe<Bitmap>() {

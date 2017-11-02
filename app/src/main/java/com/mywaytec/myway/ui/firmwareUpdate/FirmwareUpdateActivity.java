@@ -1,13 +1,8 @@
 package com.mywaytec.myway.ui.firmwareUpdate;
 
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.IBinder;
 import android.os.SystemClock;
 import android.support.design.widget.CoordinatorLayout;
 import android.util.Log;
@@ -21,12 +16,15 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.inuker.bluetooth.library.connect.listener.BleConnectStatusListener;
+import com.inuker.bluetooth.library.connect.response.BleNotifyResponse;
+import com.inuker.bluetooth.library.connect.response.BleWriteResponse;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.BaseActivity;
-import com.mywaytec.myway.base.BluetoothLeService;
 import com.mywaytec.myway.base.Constant;
 import com.mywaytec.myway.ui.main.MainActivity;
 import com.mywaytec.myway.utils.AppUtils;
+import com.mywaytec.myway.utils.BleKitUtils;
 import com.mywaytec.myway.utils.CRC16Util;
 import com.mywaytec.myway.utils.ConversionUtil;
 import com.mywaytec.myway.utils.PreferencesUtils;
@@ -38,9 +36,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.inuker.bluetooth.library.Constants.REQUEST_CANCELED;
+import static com.inuker.bluetooth.library.Constants.REQUEST_FAILED;
+import static com.inuker.bluetooth.library.Constants.REQUEST_SUCCESS;
+import static com.inuker.bluetooth.library.Constants.STATUS_CONNECTED;
+import static com.inuker.bluetooth.library.Constants.STATUS_DISCONNECTED;
 
 /**
  * 固件升级
@@ -66,41 +71,8 @@ public class FirmwareUpdateActivity extends BaseActivity<FirmwareUpdatePresenter
     LinearLayout layoutStartAdjust;
     ProgressBar progressBar;
     LinearLayout layoutAdjustConfirm;
-    private BluetoothLeService mBluetoothLeService;
     String uuid;
 
-    // Code to manage Service lifecycle.
-    private final ServiceConnection mServiceConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder service) {
-            mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
-            if (!mBluetoothLeService.initialize()) {//手机不支持ble
-                Log.e("TAG", "Unable to initialize Bluetooth");
-                //  finish();
-            }
-
-            if (null != mBluetoothLeService) {
-                String uuid = PreferencesUtils.getString(FirmwareUpdateActivity.this, "uuid");
-                if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-                    mBluetoothLeService.writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                            Constant.BLE.WRITE_CHARACTERISTIC_UUID,
-                            Constant.BLE.FIRMWARE_VERSION_CODE);
-                } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
-                    mBluetoothLeService.writeCharacteristic(Constant.BLE.TAIDOU_WRITE_SERVICE_UUID,
-                            Constant.BLE.TAIDOU_WRITE_CHARACTERISTIC_UUID,
-                            Constant.BLE.TAIDOU_NOTIFY_CHARACTERISTIC_UUID,
-                            Constant.BLE.FIRMWARE_VERSION_CODE);
-                }
-            }
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-            mBluetoothLeService = null;
-        }
-    };
-    private boolean mConnected = false;
     private String mDeviceAddress;
 
     //
@@ -121,24 +93,6 @@ public class FirmwareUpdateActivity extends BaseActivity<FirmwareUpdatePresenter
      * 5.发送结束包
      */
     private int firmwareSendType = -2;
-    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-            if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
-                Log.i("TAG", "----蓝牙连接成功");
-                mConnected = true;
-            } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
-                Log.i("TAG", "----蓝牙断开连接成功");
-                mConnected = false;
-            } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
-                // Show all the supported services and characteristics on the user interface.
-            } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
-                byte[] data = intent.getByteArrayExtra(BluetoothLeService.EXTRA_DATA);
-                displayData(data);
-            }
-        }
-    };
 
     /**
      * 获得指定文件的byte数组
@@ -165,15 +119,6 @@ public class FirmwareUpdateActivity extends BaseActivity<FirmwareUpdatePresenter
         return buffer;
     }
 
-    private static IntentFilter makeGattUpdateIntentFilter() {
-        final IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
-        intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
-        return intentFilter;
-    }
-
     @Override
     protected int attachLayoutRes() {
         return R.layout.activity_firmware_update;
@@ -192,9 +137,7 @@ public class FirmwareUpdateActivity extends BaseActivity<FirmwareUpdatePresenter
         //屏幕常亮
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
-        bindService(gattServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
-
+        mDeviceAddress = getIntent().getStringExtra("mDeviceAddress");
         uuid = PreferencesUtils.getString(FirmwareUpdateActivity.this, "uuid");
 
         firmwareCode = getIntent().getStringExtra("firmwareCode");
@@ -202,6 +145,50 @@ public class FirmwareUpdateActivity extends BaseActivity<FirmwareUpdatePresenter
         tvDescription.setText(firmwareUpdataInfo);
         if (null != firmwareCode)
             tvFirmwareCode.setText(getResources().getString(R.string.current_firmware_version)+"：" + firmwareCode);
+
+        if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.notifyP(mDeviceAddress, new BleNotifyResponse() {
+                @Override
+                public void onNotify(UUID service, UUID character, byte[] value) {
+                    displayData(value);
+                }
+
+                @Override
+                public void onResponse(int code) {
+
+                }
+            });
+        } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.notifyTaiTou(mDeviceAddress, new BleNotifyResponse() {
+                @Override
+                public void onNotify(UUID service, UUID character, byte[] value) {
+                    displayData(value);
+                }
+
+                @Override
+                public void onResponse(int code) {
+
+                }
+            });
+        }
+
+
+        String uuid = PreferencesUtils.getString(FirmwareUpdateActivity.this, "uuid");
+        if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.writeP(mDeviceAddress, Constant.BLE.FIRMWARE_VERSION_CODE, new BleWriteResponse() {
+                @Override
+                public void onResponse(int code) {
+
+                }
+            });
+        } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.FIRMWARE_VERSION_CODE, new BleWriteResponse() {
+                @Override
+                public void onResponse(int code) {
+
+                }
+            });
+        }
     }
 
     @Override
@@ -217,7 +204,7 @@ public class FirmwareUpdateActivity extends BaseActivity<FirmwareUpdatePresenter
                     PreferencesUtils.putBoolean(FirmwareUpdateActivity.this, "isFirmwareUpdate", false);
                     startActivity(new Intent(FirmwareUpdateActivity.this, MainActivity.class));
                     finish();
-                }else {
+                }else if (getResources().getString(R.string.update).equals(tvUpload.getText().toString())){
                     PreferencesUtils.putBoolean(FirmwareUpdateActivity.this, "isFirmwareUpdate", true);
                     Log.i("TAG", "------firmwareUpdate, 更新");
 
@@ -229,19 +216,22 @@ public class FirmwareUpdateActivity extends BaseActivity<FirmwareUpdatePresenter
                     timerTask = new TimerTask() {
                         @Override
                         public void run() {
-                            if (null != mBluetoothLeService) {
                                 Log.i("TAG", "------发送固件确认指令");
                                 if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-                                    mBluetoothLeService.writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                                            Constant.BLE.WRITE_CHARACTERISTIC_UUID,
-                                            Constant.BLE.FIRMWARE_UPDATE_CONFIRM);
+                                    BleKitUtils.writeP(mDeviceAddress, Constant.BLE.FIRMWARE_UPDATE_CONFIRM, new BleWriteResponse() {
+                                        @Override
+                                        public void onResponse(int code) {
+
+                                        }
+                                    });
                                 } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
-                                        mBluetoothLeService.writeCharacteristic(Constant.BLE.TAIDOU_WRITE_SERVICE_UUID,
-                                            Constant.BLE.TAIDOU_WRITE_CHARACTERISTIC_UUID,
-                                            Constant.BLE.TAIDOU_NOTIFY_CHARACTERISTIC_UUID,
-                                            Constant.BLE.FIRMWARE_UPDATE_CONFIRM);
+                                    BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.FIRMWARE_UPDATE_CONFIRM, new BleWriteResponse() {
+                                        @Override
+                                        public void onResponse(int code) {
+
+                                        }
+                                    });
                                 }
-                            }
                         }
                     };
                     timer.schedule(timerTask, 0, 1000);
@@ -367,8 +357,8 @@ public class FirmwareUpdateActivity extends BaseActivity<FirmwareUpdatePresenter
             }
 
             if (!"06".equals(infos[0])) {
-                for (int i = 0; i < infos.length; i++) {
-                    if ("43".equals(infos[i])) {
+//                for (int i = 0; i < infos.length; i++) {
+                    if ("43".equals(infos[0])) {
                         if (resend >= 20) {
                             layoutProgress.setVisibility(View.GONE);
                             tvTishi.setText(R.string.update_unsuccessfully_please_restart_vehicle_to_update_firmware_again);
@@ -413,37 +403,40 @@ public class FirmwareUpdateActivity extends BaseActivity<FirmwareUpdatePresenter
                             resend++;
                             firmwareUpdateEnd();
                         }
-                        break;
+//                        break;
                     }
                 }
             }
-        }
+//        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
-        if (mBluetoothLeService != null) {
-            final boolean result = mBluetoothLeService.connect(mDeviceAddress);
-            Log.d("TAG", "Connect request result=" + result);
-        }
+        BleKitUtils.getBluetoothClient().registerConnectStatusListener(mDeviceAddress, mBleConnectStatusListener);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        unregisterReceiver(mGattUpdateReceiver);
+        BleKitUtils.getBluetoothClient().unregisterConnectStatusListener(mDeviceAddress, mBleConnectStatusListener);
     }
+
+    private final BleConnectStatusListener mBleConnectStatusListener = new BleConnectStatusListener() {
+
+        @Override
+        public void onConnectStatusChanged(String mac, int status) {
+            if (status == STATUS_CONNECTED) {
+            } else if (status == STATUS_DISCONNECTED) {
+                finish();
+            }
+        }
+    };
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         PreferencesUtils.putBoolean(FirmwareUpdateActivity.this, "isFirmwareUpdate", false);
-        if (null != mBluetoothLeService) {
-            unbindService(mServiceConnection);
-            mBluetoothLeService = null;
-        }
     }
 
     @Override
@@ -493,10 +486,12 @@ public class FirmwareUpdateActivity extends BaseActivity<FirmwareUpdatePresenter
         tvConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mBluetoothLeService.writeCharacteristic(Constant.BLE.TAIDOU_WRITE_SERVICE_UUID,
-                        Constant.BLE.TAIDOU_WRITE_CHARACTERISTIC_UUID,
-                        Constant.BLE.TAIDOU_NOTIFY_CHARACTERISTIC_UUID,
-                        Constant.BLE.FIRMWARE_UPDATE);
+                BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.FIRMWARE_UPDATE, new BleWriteResponse() {
+                    @Override
+                    public void onResponse(int code) {
+
+                    }
+                });
 
 //                layoutIsContinue.setVisibility(View.GONE);
 //                layoutStartAdjust.setVisibility(View.VISIBLE);
@@ -526,16 +521,14 @@ public class FirmwareUpdateActivity extends BaseActivity<FirmwareUpdatePresenter
                                                  timerTask = new TimerTask() {
                                                      @Override
                                                      public void run() {
-                                                         if (null != mBluetoothLeService) {
                                                              Log.i("TAG", "------发送固件确认指令");
                                                              String uuid = PreferencesUtils.getString(FirmwareUpdateActivity.this, "uuid");
-                                                             if (null != mBluetoothLeService) {
-                                                                 mBluetoothLeService.writeCharacteristic(Constant.BLE.TAIDOU_WRITE_SERVICE_UUID,
-                                                                             Constant.BLE.TAIDOU_WRITE_CHARACTERISTIC_UUID,
-                                                                             Constant.BLE.TAIDOU_NOTIFY_CHARACTERISTIC_UUID,
-                                                                             Constant.BLE.FIRMWARE_UPDATE_CONFIRM);
+                                                         BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.FIRMWARE_UPDATE_CONFIRM, new BleWriteResponse() {
+                                                             @Override
+                                                             public void onResponse(int code) {
+
                                                              }
-                                                         }
+                                                         });
                                                      }
                                                  };
                                                  timer.schedule(timerTask, 0, 125);
@@ -599,36 +592,37 @@ public class FirmwareUpdateActivity extends BaseActivity<FirmwareUpdatePresenter
 
         System.arraycopy(s, 0, soh, 3, s.length);
         int count = soh.length / 20 + 1;
-        for (int i = 0; i < count; i++) {//发送文件名和文件大小， 分包发送，每个包20个字节
-            if (i == count - 1) {
-                byte[] b = new byte[soh.length - (count - 1) * 20];
-                System.arraycopy(soh, 20 * i, b, 0, b.length);
-                String info = ConversionUtil.byte2HexStr(b);
-                Log.i("TAG", "-----起始包数据" + info);
-                sendBleDate(b);
-                if (!isRESend) {
-                    if (null != progressBar) {
-                        progress += b.length;
-                        progressBar.setProgress(progress);
-                        tvProgress.setText((progressBar.getProgress() * 100) / progressBar.getMax() + "%");
-                    }
-                }
-            } else {
-                byte[] b = new byte[20];
-                System.arraycopy(soh, 20 * i, b, 0, b.length);
-                String info = ConversionUtil.byte2HexStr(b);
-                Log.i("TAG", "-----起始包数据" + info);
-                sendBleDate(b);
-                if (!isRESend) {
-                    if (null != progressBar) {
-                        progress += b.length;
-                        progressBar.setProgress(progress);
-                        tvProgress.setText((progressBar.getProgress() * 100) / progressBar.getMax() + "%");
-                    }
-                }
-            }
-            Log.i("TAG", "------firmware,progress:" + progress);
-        }
+//        for (int i = 0; i < count; i++) {//发送文件名和文件大小， 分包发送，每个包20个字节
+//            if (i == count - 1) {
+//                byte[] b = new byte[soh.length - (count - 1) * 20];
+//                System.arraycopy(soh, 20 * i, b, 0, b.length);
+//                String info = ConversionUtil.byte2HexStr(b);
+//                Log.i("TAG", "-----起始包数据" + info);
+//                sendBleDate(b);
+//                if (!isRESend) {
+//                    if (null != progressBar) {
+//                        progress += b.length;
+//                        progressBar.setProgress(progress);
+//                        tvProgress.setText((progressBar.getProgress() * 100) / progressBar.getMax() + "%");
+//                    }
+//                }
+//            } else {
+//                byte[] b = new byte[20];
+//                System.arraycopy(soh, 20 * i, b, 0, b.length);
+//                String info = ConversionUtil.byte2HexStr(b);
+//                Log.i("TAG", "-----起始包数据" + info);
+//                sendBleDate(b);
+//                if (!isRESend) {
+//                    if (null != progressBar) {
+//                        progress += b.length;
+//                        progressBar.setProgress(progress);
+//                        tvProgress.setText((progressBar.getProgress() * 100) / progressBar.getMax() + "%");
+//                    }
+//                }
+//            }
+//            Log.i("TAG", "------firmware,progress:" + progress);
+//        }
+        sendDatePackage(soh, true, "起始包数据");
     }
 
     //数据包的最后一个包
@@ -661,32 +655,33 @@ public class FirmwareUpdateActivity extends BaseActivity<FirmwareUpdatePresenter
 
                 System.arraycopy(stxData, 0, stx, 3, stxData.length);
                 int stxcount = stx.length / 20 + 1;
-                for (int k = 0; k < stxcount; k++) {//发送文件名和文件大小， 分包发送，每个包20个字节
-                    if (k == stxcount - 1) {
-                        byte[] b = new byte[stx.length - (stxcount - 1) * 20];
-                        System.arraycopy(stx, 20 * k, b, 0, b.length);
-                        String info = ConversionUtil.byte2HexStr(b);
-                        Log.i("TAG", "-----文件数据" + sendCount + "," + info);
-                        sendBleDate(b);
-                        if (!isRESend) {
-                            progress += b.length;
-                            progressBar.setProgress(progress);
-                            tvProgress.setText((progressBar.getProgress() * 100) / progressBar.getMax() + "%");
-                        }
-                    } else {
-                        byte[] b = new byte[20];
-                        System.arraycopy(stx, 20 * k, b, 0, b.length);
-                        String info = ConversionUtil.byte2HexStr(b);
-                        Log.i("TAG", "-----文件数据" + sendCount + "," + info);
-                        sendBleDate(b);
-                        if (!isRESend) {
-                            progress += b.length;
-                            progressBar.setProgress(progress);
-                            tvProgress.setText((progressBar.getProgress() * 100) / progressBar.getMax() + "%");
-                        }
-                    }
-                    Log.i("TAG", "------firmware,progress:" + progress);
-                }
+//                for (int k = 0; k < stxcount; k++) {//发送文件名和文件大小， 分包发送，每个包20个字节
+//                    if (k == stxcount - 1) {
+//                        byte[] b = new byte[stx.length - (stxcount - 1) * 20];
+//                        System.arraycopy(stx, 20 * k, b, 0, b.length);
+//                        String info = ConversionUtil.byte2HexStr(b);
+//                        Log.i("TAG", "-----文件数据" + sendCount + "," + info);
+//                        sendBleDate(b);
+//                        if (!isRESend) {
+//                            progress += b.length;
+//                            progressBar.setProgress(progress);
+//                            tvProgress.setText((progressBar.getProgress() * 100) / progressBar.getMax() + "%");
+//                        }
+//                    } else {
+//                        byte[] b = new byte[20];
+//                        System.arraycopy(stx, 20 * k, b, 0, b.length);
+//                        String info = ConversionUtil.byte2HexStr(b);
+//                        Log.i("TAG", "-----文件数据" + sendCount + "," + info);
+//                        sendBleDate(b);
+//                        if (!isRESend) {
+//                            progress += b.length;
+//                            progressBar.setProgress(progress);
+//                            tvProgress.setText((progressBar.getProgress() * 100) / progressBar.getMax() + "%");
+//                        }
+//                    }
+//                    Log.i("TAG", "------firmware,progress:" + progress);
+//                }
+                sendDatePackage(stx, true, "文件数据"+sendCount + ",");
             }
         }
     }
@@ -715,33 +710,33 @@ public class FirmwareUpdateActivity extends BaseActivity<FirmwareUpdatePresenter
 
                     System.arraycopy(dataend, 0, data, 3, dataend.length);
                     int stxcount = data.length / 20 + 1;
-                    for (int k = 0; k < stxcount; k++) {//发送文件名和文件大小， 分包发送，每个包20个字节
-                        if (k == stxcount - 1) {
-                            byte[] b = new byte[data.length - (stxcount - 1) * 20];
-                            System.arraycopy(data, 20 * k, b, 0, b.length);
-                            String info = ConversionUtil.byte2HexStr(b);
-                            Log.i("TAG", "-----最后一个包数据" + (sendCount + sendDataEndCount - 1) + "," + info);
-                            sendBleDate(b);
-                            if (!isRESend) {
-                                progress += b.length;
-                                progressBar.setProgress(progress);
-                                tvProgress.setText((progressBar.getProgress() * 100) / progressBar.getMax() + "%");
-                            }
-                        } else {
-                            byte[] b = new byte[20];
-                            System.arraycopy(data, 20 * k, b, 0, b.length);
-                            String info = ConversionUtil.byte2HexStr(b);
-                            Log.i("TAG", "-----最后一个包数据" + (sendCount + sendDataEndCount - 1) + "," + info);
-                            sendBleDate(b);
-                            if (!isRESend) {
-                                progress += b.length;
-                                progressBar.setProgress(progress);
-                                tvProgress.setText((progressBar.getProgress() * 100) / progressBar.getMax() + "%");
-                            }
-                        }
-                        Log.i("TAG", "------firmware,progress:" + progress);
-                    }
-
+//                    for (int k = 0; k < stxcount; k++) {//发送文件名和文件大小， 分包发送，每个包20个字节
+//                        if (k == stxcount - 1) {
+//                            byte[] b = new byte[data.length - (stxcount - 1) * 20];
+//                            System.arraycopy(data, 20 * k, b, 0, b.length);
+//                            String info = ConversionUtil.byte2HexStr(b);
+//                            Log.i("TAG", "-----最后一个包数据" + (sendCount + sendDataEndCount - 1) + "," + info);
+//                            sendBleDate(b);
+//                            if (!isRESend) {
+//                                progress += b.length;
+//                                progressBar.setProgress(progress);
+//                                tvProgress.setText((progressBar.getProgress() * 100) / progressBar.getMax() + "%");
+//                            }
+//                        } else {
+//                            byte[] b = new byte[20];
+//                            System.arraycopy(data, 20 * k, b, 0, b.length);
+//                            String info = ConversionUtil.byte2HexStr(b);
+//                            Log.i("TAG", "-----最后一个包数据" + (sendCount + sendDataEndCount - 1) + "," + info);
+//                            sendBleDate(b);
+//                            if (!isRESend) {
+//                                progress += b.length;
+//                                progressBar.setProgress(progress);
+//                                tvProgress.setText((progressBar.getProgress() * 100) / progressBar.getMax() + "%");
+//                            }
+//                        }
+//                        Log.i("TAG", "------firmware,progress:" + progress);
+//                    }
+                    sendDatePackage(data, true, "最后一个包数据"+(sendCount + sendDataEndCount - 1) + ",");
                 } else {
                     Log.i("TAG", "-----最后一个包数据sendDataEndCount," + sendDataEndCount);
                     byte[] data = new byte[133];//整包数据133个字节，
@@ -756,32 +751,33 @@ public class FirmwareUpdateActivity extends BaseActivity<FirmwareUpdatePresenter
                     System.arraycopy(dataend, 0, data, 3, dataend.length);
 
                     int stxcount = data.length / 20 + 1;
-                    for (int k = 0; k < stxcount; k++) {//发送文件名和文件大小， 分包发送，每个包20个字节
-                        if (k == stxcount - 1) {
-                            byte[] b = new byte[data.length - (stxcount - 1) * 20];
-                            System.arraycopy(data, 20 * k, b, 0, b.length);
-                            String info = ConversionUtil.byte2HexStr(b);
-                            Log.i("TAG", "-----最后一个包数据" + (sendCount + sendDataEndCount - 1) + "," + info);
-                            sendBleDate(b);
-                            if (!isRESend) {
-                                progress += b.length;
-                                progressBar.setProgress(progress);
-                                tvProgress.setText((progressBar.getProgress() * 100) / progressBar.getMax() + "%");
-                            }
-                        } else {
-                            byte[] b = new byte[20];
-                            System.arraycopy(data, 20 * k, b, 0, b.length);
-                            String info = ConversionUtil.byte2HexStr(b);
-                            Log.i("TAG", "-----最后一个包数据" + (sendCount + sendDataEndCount - 1) + "," + info);
-                            sendBleDate(b);
-                            if (!isRESend) {
-                                progress += b.length;
-                                progressBar.setProgress(progress);
-                                tvProgress.setText((progressBar.getProgress() * 100) / progressBar.getMax() + "%");
-                            }
-                        }
-                        Log.i("TAG", "------firmware,progress:" + progress);
-                    }
+//                    for (int k = 0; k < stxcount; k++) {//发送文件名和文件大小， 分包发送，每个包20个字节
+//                        if (k == stxcount - 1) {
+//                            byte[] b = new byte[data.length - (stxcount - 1) * 20];
+//                            System.arraycopy(data, 20 * k, b, 0, b.length);
+//                            String info = ConversionUtil.byte2HexStr(b);
+//                            Log.i("TAG", "-----最后一个包数据" + (sendCount + sendDataEndCount - 1) + "," + info);
+//                            sendBleDate(b);
+//                            if (!isRESend) {
+//                                progress += b.length;
+//                                progressBar.setProgress(progress);
+//                                tvProgress.setText((progressBar.getProgress() * 100) / progressBar.getMax() + "%");
+//                            }
+//                        } else {
+//                            byte[] b = new byte[20];
+//                            System.arraycopy(data, 20 * k, b, 0, b.length);
+//                            String info = ConversionUtil.byte2HexStr(b);
+//                            Log.i("TAG", "-----最后一个包数据" + (sendCount + sendDataEndCount - 1) + "," + info);
+//                            sendBleDate(b);
+//                            if (!isRESend) {
+//                                progress += b.length;
+//                                progressBar.setProgress(progress);
+//                                tvProgress.setText((progressBar.getProgress() * 100) / progressBar.getMax() + "%");
+//                            }
+//                        }
+//                        Log.i("TAG", "------firmware,progress:" + progress);
+//                    }
+                    sendDatePackage(data, true, "最后一个包数据"+(sendCount + sendDataEndCount - 1) + ",");
                 }
             }
         }
@@ -802,50 +798,98 @@ public class FirmwareUpdateActivity extends BaseActivity<FirmwareUpdatePresenter
         soh2[132] = (byte) c;
         System.arraycopy(soh2data, 0, soh2, 3, soh2data.length);
         int count2 = soh2.length / 20 + 1;
-        for (int i = 0; i < count2; i++) {//发送文件名和文件大小， 分包发送，每个包20个字节
-            if (i == count2 - 1) {
-                byte[] b = new byte[soh2.length - (count2 - 1) * 20];
-                System.arraycopy(soh2, 20 * i, b, 0, b.length);
-                String info = ConversionUtil.byte2HexStr(b);
-                Log.i("TAG", "-----结束包数据" + "," + info);
-                sendBleDate(b);
-                if (!isRESend) {
-                    progress += b.length;
-                    progressBar.setProgress(progress);
-                    tvProgress.setText((progressBar.getProgress() * 100) / progressBar.getMax() + "%");
-                }
-            } else {
-                byte[] b = new byte[20];
-                System.arraycopy(soh2, 20 * i, b, 0, b.length);
-                String info = ConversionUtil.byte2HexStr(b);
-                Log.i("TAG", "-----结束包数据" + "," + info);
-                sendBleDate(b);
-                if (!isRESend) {
-                    progress += b.length;
-                    progressBar.setProgress(progress);
-                    tvProgress.setText((progressBar.getProgress() * 100) / progressBar.getMax() + "%");
-                }
-            }
-            Log.i("TAG", "------firmware,progress:" + progress);
-        }
+//        for (int i = 0; i < count2; i++) {//发送文件名和文件大小， 分包发送，每个包20个字节
+//            if (i == count2 - 1) {
+//                byte[] b = new byte[soh2.length - (count2 - 1) * 20];
+//                System.arraycopy(soh2, 20 * i, b, 0, b.length);
+//                String info = ConversionUtil.byte2HexStr(b);
+//                Log.i("TAG", "-----结束包数据" + "," + info);
+//                sendBleDate(b);
+//                if (!isRESend) {
+//                    progress += b.length;
+//                    progressBar.setProgress(progress);
+//                    tvProgress.setText((progressBar.getProgress() * 100) / progressBar.getMax() + "%");
+//                }
+//            } else {
+//                byte[] b = new byte[20];
+//                System.arraycopy(soh2, 20 * i, b, 0, b.length);
+//                String info = ConversionUtil.byte2HexStr(b);
+//                Log.i("TAG", "-----结束包数据" + "," + info);
+//                sendBleDate(b);
+//                if (!isRESend) {
+//                    progress += b.length;
+//                    progressBar.setProgress(progress);
+//                    tvProgress.setText((progressBar.getProgress() * 100) / progressBar.getMax() + "%");
+//                }
+//            }
+//            Log.i("TAG", "------firmware,progress:" + progress);
+//        }
+        sendDatePackage(soh2, true, "结束包数据" + ",");
     }
 
     //发送数据
     private void sendBleDate(byte[] date) {
-        SystemClock.sleep(30);
+        SystemClock.sleep(80);
         String uuid = PreferencesUtils.getString(FirmwareUpdateActivity.this, "uuid");
-        if (null != mBluetoothLeService) {
             if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-                mBluetoothLeService.writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                        Constant.BLE.WRITE_CHARACTERISTIC_UUID,
-                        date);
+                BleKitUtils.writeP(mDeviceAddress, date, new BleWriteResponse() {
+                    @Override
+                    public void onResponse(int code) {
 
+                    }
+                });
             } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
-                mBluetoothLeService.writeCharacteristic(Constant.BLE.TAIDOU_WRITE_SERVICE_UUID,
-                        Constant.BLE.TAIDOU_WRITE_CHARACTERISTIC_UUID,
-                        Constant.BLE.TAIDOU_NOTIFY_CHARACTERISTIC_UUID,
-                        date);
+                BleKitUtils.writeTaiTou(mDeviceAddress, date, new BleWriteResponse() {
+                    @Override
+                    public void onResponse(int code) {
+
+                    }
+                });
+            }
+    }
+
+    private int flag;
+    private void sendDatePackage(final byte[] data, boolean isReset, final String ceshi){
+        if (isReset){
+            flag = 0;
+        }
+//        SystemClock.sleep(30);
+
+        int count = data.length / 20 + 1;
+        byte[] b = new byte[20];
+        if (flag == count - 1) {
+            b = new byte[data.length - (count - 1) * 20];
+        }
+        System.arraycopy(data, 20 * flag, b, 0, b.length);
+        String info = ConversionUtil.byte2HexStr(b);
+        Log.i("TAG", "-----"+ceshi + info);
+        if (!isRESend) {
+            if (null != progressBar) {
+                progress += b.length;
+                progressBar.setProgress(progress);
+                tvProgress.setText((progressBar.getProgress() * 100) / progressBar.getMax() + "%");
             }
         }
+        Log.i("TAG", "------firmware,progress:" + progress);
+        BleKitUtils.writeNoRspTaiTou(mDeviceAddress, b, new BleWriteResponse() {
+                    @Override
+                    public void onResponse(int code) {
+                        if (code == REQUEST_SUCCESS){
+//                            Log.i("TAG", "------flag," + flag);
+                            if (20 * (flag+1) >= data.length){
+                                return;
+                            }
+                            flag++;
+                            sendDatePackage(data, false, ceshi);
+                        }else if(code == REQUEST_FAILED){
+                            if (20 * (flag+1) >= data.length){
+                                return;
+                            }
+                            sendDatePackage(data, false, ceshi);
+                        }else if(code == REQUEST_CANCELED){
+
+                        }
+                    }
+                });
     }
 }

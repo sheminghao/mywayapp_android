@@ -2,7 +2,6 @@ package com.mywaytec.myway.ui.moreCarInfo;
 
 import android.content.Context;
 
-import com.mywaytec.myway.base.BluetoothLeService;
 import com.mywaytec.myway.base.IBaseView;
 
 /**
@@ -12,7 +11,5 @@ import com.mywaytec.myway.base.IBaseView;
 public interface MoreCarInfoView extends IBaseView {
 
     Context getContext();
-
-    BluetoothLeService getBluetoothLeService();
 
 }

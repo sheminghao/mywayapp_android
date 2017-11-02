@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.inuker.bluetooth.library.Constants;
+import com.inuker.bluetooth.library.connect.response.BleWriteResponse;
 import com.mywaytec.myway.APP;
 import com.mywaytec.myway.DaoSession;
 import com.mywaytec.myway.FingerWarkInfoDao;
@@ -18,6 +20,7 @@ import com.mywaytec.myway.base.Constant;
 import com.mywaytec.myway.base.RxPresenter;
 import com.mywaytec.myway.model.db.FingerWarkInfo;
 import com.mywaytec.myway.model.http.RetrofitHelper;
+import com.mywaytec.myway.utils.BleKitUtils;
 import com.mywaytec.myway.utils.BleUtil;
 import com.mywaytec.myway.utils.ConversionUtil;
 import com.mywaytec.myway.utils.ToastUtils;
@@ -81,12 +84,13 @@ public class FingerMarkPresenter extends RxPresenter<FingerMarkView> {
             @Override
             public void onDel(int pos) {
                 position = pos;
-                if (null != mView.getBluetoothLeService()){
-                    byte fingerWarkId = fingerMarkAdapter.getDataList().get(pos).getFingerWarkId();
-                    mView.getBluetoothLeService().writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                            Constant.BLE.WRITE_CHARACTERISTIC_UUID, BleUtil.deleteFingerWark(fingerWarkId));
-                    mView.getBluetoothLeService().setCharacteristicNotification(null, true);
-                }
+                byte fingerWarkId = fingerMarkAdapter.getDataList().get(pos).getFingerWarkId();
+                BleKitUtils.writeP(mView.getDeviceAddress(), BleUtil.deleteFingerWark(fingerWarkId), new BleWriteResponse() {
+                    @Override
+                    public void onResponse(int code) {
+
+                    }
+                });
             }
 
             @Override
@@ -235,12 +239,14 @@ public class FingerMarkPresenter extends RxPresenter<FingerMarkView> {
         tvContinue.setOnClickListener(new View.OnClickListener() {//添加指纹
             @Override
             public void onClick(View v) {
-                if (null != mView.getBluetoothLeService()) {
-                    mView.getBluetoothLeService().writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                            Constant.BLE.WRITE_CHARACTERISTIC_UUID, Constant.BLE.ENTER_FINGER_WARK);
-                    mView.getBluetoothLeService().setCharacteristicNotification(null, true);
-                }
-                hint1Dialog.dismiss();
+                BleKitUtils.writeP(mView.getDeviceAddress(), Constant.BLE.ENTER_FINGER_WARK, new BleWriteResponse() {
+                    @Override
+                    public void onResponse(int code) {
+                        if (code == Constants.REQUEST_SUCCESS) {
+                            hint1Dialog.dismiss();
+                        }
+                    }
+                });
             }
         });
         builder.setView(view);

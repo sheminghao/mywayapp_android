@@ -2,44 +2,57 @@ package com.mywaytec.myway.fragment.car;
 
 
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothGattService;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
-import android.os.IBinder;
 import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.inuker.bluetooth.library.connect.listener.BleConnectStatusListener;
+import com.inuker.bluetooth.library.connect.response.BleConnectResponse;
+import com.inuker.bluetooth.library.connect.response.BleNotifyResponse;
+import com.inuker.bluetooth.library.connect.response.BleWriteResponse;
+import com.inuker.bluetooth.library.model.BleGattProfile;
+import com.inuker.bluetooth.library.model.BleGattService;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.BaseFragment;
-import com.mywaytec.myway.base.BluetoothLeService;
 import com.mywaytec.myway.base.Constant;
 import com.mywaytec.myway.base.MqttService;
+import com.mywaytec.myway.model.bean.BleInfoBean;
 import com.mywaytec.myway.ui.bluetooth.BluetoothActivity;
 import com.mywaytec.myway.ui.firmwareUpdate.FirmwareUpdateActivity;
 import com.mywaytec.myway.ui.moreCarInfo.MoreCarInfoActivity;
 import com.mywaytec.myway.ui.scFirmwareUpdate.ScFirmwareUpdateActivity;
+import com.mywaytec.myway.utils.BleKitUtils;
 import com.mywaytec.myway.utils.BleUtil;
 import com.mywaytec.myway.utils.ConversionUtil;
 import com.mywaytec.myway.utils.PreferencesUtils;
 import com.mywaytec.myway.utils.ToastUtils;
+import com.mywaytec.myway.utils.data.BleInfo;
 import com.mywaytec.myway.view.EmptyLayout;
 
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.inuker.bluetooth.library.Constants.REQUEST_CANCELED;
+import static com.inuker.bluetooth.library.Constants.REQUEST_FAILED;
+import static com.inuker.bluetooth.library.Constants.REQUEST_SUCCESS;
+import static com.inuker.bluetooth.library.Constants.STATUS_CONNECTED;
+import static com.inuker.bluetooth.library.Constants.STATUS_DEVICE_CONNECTED;
+import static com.inuker.bluetooth.library.Constants.STATUS_DISCONNECTED;
 
 /**
  * 车辆模块
@@ -63,7 +76,6 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
     @BindView(R.id.btn_lock_car)
     Button btnLockCar;
 
-    private BluetoothAdapter bluetoothAdapter;
     /**
      * 是否锁车
      */
@@ -77,10 +89,10 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
      */
     private String mDeviceName;
     private String mDeviceAddress;
-    private BluetoothLeService mBluetoothLeService;
     //是否在发速度请求以外的指令
     private boolean isOther;
-    private boolean mConnected = false;
+
+    private BluetoothAdapter bluetoothAdapter;
 
     private static CarFragment carFragment;
 
@@ -91,80 +103,19 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
         return carFragment;
     }
 
-    // Code to manage Service lifecycle.
-    private final ServiceConnection mServiceConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder service) {
-            mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
-            if (!mBluetoothLeService.initialize()) {//手机不支持ble
-                Log.e("TAG", "Unable to initialize Bluetooth");
-                //  finish();
-            }
-            // Automatically connects to the device upon successful start-up initialization.
-            mBluetoothLeService.connect(mDeviceAddress);
-
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-            mBluetoothLeService = null;
-            mConnected = false;
-        }
-    };
-
-    // Handles various events fired by the Service.
-    // ACTION_GATT_CONNECTED: connected to a GATT server.
-    // ACTION_GATT_DISCONNECTED: disconnected from a GATT server.
-    // ACTION_GATT_SERVICES_DISCOVERED: discovered GATT services.
-    // ACTION_DATA_AVAILABLE: received data from the device.  This can be a result of read
-    //                        or notification operations.
-    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-            if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
-                Log.i("TAG", "----蓝牙连接成功");
-                mConnected = true;
-                tvConnection.setText(R.string.disconnect);
-                if (isFirstConn) {
-                    isFirstConn = false;
-                }else {
-                    sendSpeedRequest();
-                }
-            } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
-                Log.i("TAG", "----蓝牙断开连接成功");
-                mConnected = false;
-                tvConnection.setText(R.string.connected);
-                tvSpeed.setText("0.0");
-                tvLicheng.setText("0.0");
-                tvDianliang.setText("0");
-                tvZonglicheng.setText("0.0");
-                stopSendSpeedRequest();
-            } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
-                // Show all the supported services and characteristics on the user interface.
-                //
-                displayGattServices(mBluetoothLeService.getSupportedGattServices());
-            } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
-                byte[] data = intent.getByteArrayExtra(BluetoothLeService.EXTRA_DATA);
-                displayData(data);
-            }
-        }
-    };
-
     String uuid = null;
 
     // 演示如何遍历支持GATT Services/Characteristics
     // 这个例子中，我们填充绑定到UI的ExpandableListView上的数据结构
-    private void displayGattServices(List<BluetoothGattService> gattServices) {
+    private void displayGattServices(List<BleGattService> gattServices) {
         if (gattServices == null) {
             Log.i("TAG", "-------gattServices为空");
             return;
         }
         Log.i("TAG", "-------进入gattServices" + gattServices.size());
         // 循环可用的GATT Services.
-        for (BluetoothGattService gattService : gattServices) {
-            String suuid = gattService.getUuid().toString();
+        for (BleGattService gattService : gattServices) {
+            String suuid = gattService.getUUID().toString();
             if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(suuid)) {
                 Log.i("TAG", "-------泰斗：" + suuid);
                 uuid = suuid;
@@ -178,51 +129,85 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
         PreferencesUtils.putString(getActivity(), "uuid", uuid);
 
         SystemClock.sleep(100);
+        if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.notifyP(mDeviceAddress, new BleNotifyResponse() {
+                @Override
+                public void onNotify(UUID service, UUID character, byte[] value) {
+                    displayData(value);
+                }
+
+                @Override
+                public void onResponse(int code) {
+
+                }
+            });
+        } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.notifyTaiTou(mDeviceAddress, new BleNotifyResponse() {
+                @Override
+                public void onNotify(UUID service, UUID character, byte[] value) {
+                    displayData(value);
+                }
+
+                @Override
+                public void onResponse(int code) {
+
+                }
+            });
+        }
+
+        SystemClock.sleep(100);
         //查询车辆sn码
-        if (null != mBluetoothLeService) {
-            String uuid = PreferencesUtils.getString(getActivity(), "uuid");
-            if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-                mBluetoothLeService.writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                        Constant.BLE.WRITE_CHARACTERISTIC_UUID, Constant.BLE.SN_CODE);
-                mBluetoothLeService.setCharacteristicNotification(null, true);
-            } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
-                mBluetoothLeService.writeCharacteristic(Constant.BLE.TAIDOU_WRITE_SERVICE_UUID,
-                        Constant.BLE.TAIDOU_WRITE_CHARACTERISTIC_UUID,
-                        Constant.BLE.TAIDOU_NOTIFY_CHARACTERISTIC_UUID,
-                        Constant.BLE.SN_CODE);
-            }
+        String uuid = PreferencesUtils.getString(getActivity(), "uuid");
+        if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.writeP(mDeviceAddress, Constant.BLE.SN_CODE, new BleWriteResponse() {
+                @Override
+                public void onResponse(int code) {
+
+                }
+            });
+        } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.SN_CODE, new BleWriteResponse() {
+                @Override
+                public void onResponse(int code) {
+
+                }
+            });
         }
 
         SystemClock.sleep(100);
         //车辆状态
-        if (null != mBluetoothLeService) {
-            String uuid = PreferencesUtils.getString(getActivity(), "uuid");
-            if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-                mBluetoothLeService.writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                        Constant.BLE.WRITE_CHARACTERISTIC_UUID, Constant.BLE.CAR_STATE);
-                mBluetoothLeService.setCharacteristicNotification(null, true);
-            } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
-                mBluetoothLeService.writeCharacteristic(Constant.BLE.TAIDOU_WRITE_SERVICE_UUID,
-                        Constant.BLE.TAIDOU_WRITE_CHARACTERISTIC_UUID,
-                        Constant.BLE.TAIDOU_NOTIFY_CHARACTERISTIC_UUID,
-                        Constant.BLE.CAR_STATE);
-            }
+        if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.writeP(mDeviceAddress, Constant.BLE.CAR_STATE, new BleWriteResponse() {
+                @Override
+                public void onResponse(int code) {
+
+                }
+            });
+        } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.CAR_STATE, new BleWriteResponse() {
+                @Override
+                public void onResponse(int code) {
+
+                }
+            });
         }
 
         SystemClock.sleep(100);
 
-        if (null != mBluetoothLeService) {
-            String uuid = PreferencesUtils.getString(getActivity(), "uuid");
-            if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-                mBluetoothLeService.writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                        Constant.BLE.WRITE_CHARACTERISTIC_UUID, Constant.BLE.PROGRAM_LOCATION);
-                mBluetoothLeService.setCharacteristicNotification(null, true);
-            } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
-                mBluetoothLeService.writeCharacteristic(Constant.BLE.TAIDOU_WRITE_SERVICE_UUID,
-                        Constant.BLE.TAIDOU_WRITE_CHARACTERISTIC_UUID,
-                        Constant.BLE.TAIDOU_NOTIFY_CHARACTERISTIC_UUID,
-                        Constant.BLE.PROGRAM_LOCATION);
-            }
+        if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.writeP(mDeviceAddress, Constant.BLE.PROGRAM_LOCATION, new BleWriteResponse() {
+                @Override
+                public void onResponse(int code) {
+
+                }
+            });
+        } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.PROGRAM_LOCATION, new BleWriteResponse() {
+                @Override
+                public void onResponse(int code) {
+
+                }
+            });
         }
 
         //发送速度请求指令
@@ -243,6 +228,7 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
     protected void initViews() {
         tvTitle.setText("MYWAY");
         setFouts();
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (null != BleUtil.getBleName()) {
             //初始化，优先显示上次连接过的车辆，如果没有数据，显示MYWAY
             if (BleUtil.getBleName().length() > 3 && "RA".equals(BleUtil.getBleName().substring(0, 2))
@@ -257,12 +243,6 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
         mDeviceAddress = BleUtil.getBleAddress();
 
         tvTitle.setText(mDeviceName);
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
-        if (bluetoothAdapter.isEnabled()) {
-            Intent gattServiceIntent = new Intent(getActivity(), BluetoothLeService.class);
-            getActivity().bindService(gattServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
-        }
     }
 
     //设置字体
@@ -289,18 +269,21 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                if (null != mBluetoothLeService && !isOther) {
+                if (!isOther) {
                     if (null != BleUtil.getSpeedAndPower() || BleUtil.getSpeedAndPower().length > 0) {
                         if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-                            mBluetoothLeService.writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                                    Constant.BLE.WRITE_CHARACTERISTIC_UUID, BleUtil.getSpeedAndPower());
-                            mBluetoothLeService.setCharacteristicNotification(null, true);
+                            BleKitUtils.writeP(mDeviceAddress, BleUtil.getSpeedAndPower(), new BleWriteResponse() {
+                                @Override
+                                public void onResponse(int code) {
+                                }
+                            });
                         } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
 //                            Log.i("TAG", "-------泰斗发送指令");
-                            mBluetoothLeService.writeCharacteristic(Constant.BLE.TAIDOU_WRITE_SERVICE_UUID,
-                                    Constant.BLE.TAIDOU_WRITE_CHARACTERISTIC_UUID,
-                                    Constant.BLE.TAIDOU_NOTIFY_CHARACTERISTIC_UUID,
-                                    BleUtil.getSpeedAndPower());
+                            BleKitUtils.writeTaiTou(mDeviceAddress, BleUtil.getSpeedAndPower(), new BleWriteResponse() {
+                                @Override
+                                public void onResponse(int code) {
+                                }
+                            });
                         }
                     }
                 }
@@ -415,9 +398,17 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
                     if ("01".equals(infos[6])) {//引导程序中
                         PreferencesUtils.putString(getActivity(), "programLocation", "01");
                         if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-                            startActivity(new Intent(getActivity(), ScFirmwareUpdateActivity.class));
+                            Intent intent = new Intent(getActivity(), ScFirmwareUpdateActivity.class);
+//                            intent.putExtra("firmwareCode", fi);
+//                            intent.putExtra("firmwareUpdataInfo", firmwareUpdataInfo);
+                            intent.putExtra("mDeviceAddress", mDeviceAddress);
+                            startActivity(intent);
                         } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
-                            startActivity(new Intent(getActivity(), FirmwareUpdateActivity.class));
+                            Intent intent = new Intent(getActivity(), FirmwareUpdateActivity.class);
+//                            intent.putExtra("firmwareCode", firmwareCode);
+//                            intent.putExtra("firmwareUpdataInfo", firmwareUpdataInfo);
+                            intent.putExtra("mDeviceAddress", mDeviceAddress);
+                            startActivity(intent);
                         }
                     } else if ("00".equals(infos[6])) {//应用程序中
                         PreferencesUtils.putString(getActivity(), "programLocation", "00");
@@ -446,8 +437,19 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
                 startActivityForResult(intent1, 0x01);
             }
         } else if (requestCode == 0x02) {//打开蓝牙返回连接设备
-            Intent gattServiceIntent = new Intent(getActivity(), BluetoothLeService.class);
-            getActivity().bindService(gattServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
+            tvConnection.setText(R.string.connecting);
+            BleKitUtils.getBluetoothClient().connect(mDeviceAddress, new BleConnectResponse() {
+                @Override
+                public void onResponse(int code, BleGattProfile data) {
+                    if (code == REQUEST_SUCCESS) {
+                        displayGattServices(data.getServices());
+                    } else if (code == REQUEST_FAILED) {
+                        tvConnection.setText(R.string.connected);
+                    } else if (code == REQUEST_CANCELED) {
+                        tvConnection.setText(R.string.connected);
+                    }
+                }
+            });
         } else if (requestCode == 0x01) {//选择设备返回
             mDeviceAddress = BleUtil.getBleAddress();
             if (null != BleUtil.getBleName()) {
@@ -463,8 +465,19 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
             tvTitle.setText(mDeviceName);
             Log.i("TAG", "----address:" + mDeviceAddress + "\n"
                     + "name:" + mDeviceName);
-            Intent gattServiceIntent = new Intent(getActivity(), BluetoothLeService.class);
-            getActivity().bindService(gattServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
+            tvConnection.setText(R.string.connecting);
+            BleKitUtils.getBluetoothClient().connect(mDeviceAddress, new BleConnectResponse() {
+                @Override
+                public void onResponse(int code, BleGattProfile data) {
+                    if (code == REQUEST_SUCCESS) {
+                        displayGattServices(data.getServices());
+                    } else if (code == REQUEST_FAILED) {
+                        tvConnection.setText(R.string.connected);
+                    } else if (code == REQUEST_CANCELED) {
+                        tvConnection.setText(R.string.connected);
+                    }
+                }
+            });
         }
     }
 
@@ -474,10 +487,10 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
             String action = intent.getAction();
             if (MqttService.ACTION_MQTT.equals(action)) {//获取手机解锁状态
                 byte[] data = intent.getByteArrayExtra(MqttService.EXTRA_DATA);
-                if (data != null && data.length > 0){
-                    if (data[0] == 1){
+                if (data != null && data.length > 0) {
+                    if (data[0] == 1) {
                         Log.i("TAG", "------车辆为锁车状态");
-                    }else if (data[0] == 2){
+                    } else if (data[0] == 2) {
                         Log.i("TAG", "------车辆为解锁状态");
                     }
                 }
@@ -489,79 +502,57 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
     public void onResume() {
         super.onResume();
         Log.i("TAG", "-------CarFragment,onResume()");
-        getActivity().registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
         getActivity().registerReceiver(mMqttUpdateReceiver, makeMqttUpdateIntentFilter());
+        BleKitUtils.getBluetoothClient().registerConnectStatusListener(mDeviceAddress, mBleConnectStatusListener);
 
-        if (null != mBluetoothLeService && mBluetoothLeService.getConnectionState() == BluetoothLeService.STATE_DISCONNECTED) {
-            Log.i("TAG", "-------CarFragment,onResume(),1");
+        if (BleKitUtils.getBluetoothClient().getConnectStatus(mDeviceAddress) == STATUS_DEVICE_CONNECTED) {
+            tvConnection.setText(R.string.disconnect);
+            sendSpeedRequest();
+        } else {
             tvConnection.setText(R.string.connected);
             tvSpeed.setText("0.0");
             tvLicheng.setText("0.0");
             tvDianliang.setText("0");
             tvZonglicheng.setText("0.0");
-            final boolean result = mBluetoothLeService.connect(mDeviceAddress);
-            Log.i("TAG", "-------Connect request result=" + result);
+            stopSendSpeedRequest();
         }
-
-        if (null != mBluetoothLeService && mBluetoothLeService.getConnectionState() == BluetoothLeService.STATE_CONNECTED) {
-            Log.d("TAG", "-------CarFragment,onResume(),2");
-            SystemClock.sleep(100);
-            //车辆状态
-            if (null != mBluetoothLeService) {
-                String uuid = PreferencesUtils.getString(getActivity(), "uuid");
-                if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-                    mBluetoothLeService.writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                            Constant.BLE.WRITE_CHARACTERISTIC_UUID, Constant.BLE.CAR_STATE);
-                    mBluetoothLeService.setCharacteristicNotification(null, true);
-                } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
-                    mBluetoothLeService.writeCharacteristic(Constant.BLE.TAIDOU_WRITE_SERVICE_UUID,
-                            Constant.BLE.TAIDOU_WRITE_CHARACTERISTIC_UUID,
-                            Constant.BLE.TAIDOU_NOTIFY_CHARACTERISTIC_UUID,
-                            Constant.BLE.CAR_STATE);
-                }
-            }
-
-            sendSpeedRequest();
-            tvConnection.setText(R.string.disconnect);
-        }
-
-        if (null == mBluetoothLeService){
-            Log.i("TAG", "-------CarFragment,onResume(),3");
-            Intent gattServiceIntent = new Intent(getActivity(), BluetoothLeService.class);
-            getActivity().bindService(gattServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
-        }else {
-            Log.i("TAG", "-------CarFragment,onResume(),mBluetoothLeService.getConnectionState(),"+mBluetoothLeService.getConnectionState());
-            Log.i("TAG", "-------CarFragment,onResume(),4");
-        }
-
     }
 
     @Override
     public void onPause() {
         super.onPause();
         stopSendSpeedRequest();
-        getActivity().unregisterReceiver(mGattUpdateReceiver);
         getActivity().unregisterReceiver(mMqttUpdateReceiver);
+        BleKitUtils.getBluetoothClient().unregisterConnectStatusListener(mDeviceAddress, mBleConnectStatusListener);
     }
+
+    private final BleConnectStatusListener mBleConnectStatusListener = new BleConnectStatusListener() {
+
+        @Override
+        public void onConnectStatusChanged(String mac, int status) {
+            if (status == STATUS_CONNECTED) {
+                //如果更新连接车辆，将车辆缓存信息清空
+                if (TextUtils.isEmpty(BleInfo.getBleInfo().getMac()) && !mac.equals(BleInfo.getBleInfo().getMac())){
+                    BleInfo.clearBleInfo();
+                    BleInfoBean bleInfoBean = BleInfo.getBleInfo();
+                    bleInfoBean.setMac(mac);
+                    BleInfo.saveBleInfo(bleInfoBean);
+                }
+                tvConnection.setText(R.string.disconnect);
+            } else if (status == STATUS_DISCONNECTED) {
+                tvConnection.setText(R.string.connected);
+                tvSpeed.setText("0.0");
+                tvLicheng.setText("0.0");
+                tvDianliang.setText("0");
+                tvZonglicheng.setText("0.0");
+                stopSendSpeedRequest();
+            }
+        }
+    };
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        stopSendSpeedRequest();
-        if (null != mBluetoothLeService) {
-            mBluetoothLeService.disconnect();
-            mBluetoothLeService = null;
-        }
-        getActivity().unbindService(mServiceConnection);
-    }
-
-    private static IntentFilter makeGattUpdateIntentFilter() {
-        final IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
-        intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
-        return intentFilter;
     }
 
     private static IntentFilter makeMqttUpdateIntentFilter() {
@@ -574,40 +565,28 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.connection:// 连接|断开设备
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (getResources().getString(R.string.connected).equals(tvConnection.getText().toString())) {
-                            if (null != bluetoothAdapter && bluetoothAdapter.isEnabled()) {
-                                if (null != mBluetoothLeService) {
-                                    if (!mBluetoothLeService.connect(mDeviceAddress)) {
-                                        getActivity().unbindService(mServiceConnection);
-                                        mBluetoothLeService = null;
-                                        Intent gattServiceIntent = new Intent(getActivity(), BluetoothLeService.class);
-                                        getActivity().bindService(gattServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
-//                                      ToastUtils.showToast("连接设备失败");
-                                        tvConnection.setText(R.string.connected);
-                                    } else {
-                                        tvConnection.setText(R.string.connecting);
-                                    }
+                if (getResources().getString(R.string.connected).equals(tvConnection.getText().toString())) {
+                    if (BleKitUtils.getBluetoothClient().isBluetoothOpened()) {
+                        tvConnection.setText(R.string.connecting);
+                        BleKitUtils.getBluetoothClient().connect(mDeviceAddress, new BleConnectResponse() {
+                            @Override
+                            public void onResponse(int code, BleGattProfile data) {
+                                if (code == REQUEST_SUCCESS) {
+                                    displayGattServices(data.getServices());
+                                } else if (code == REQUEST_FAILED) {
+                                    tvConnection.setText(R.string.connected);
+                                } else if (code == REQUEST_CANCELED) {
+                                    tvConnection.setText(R.string.connected);
                                 }
-                            } else {
-//                              ToastUtils.showToast("手机蓝牙未打开");
-                                Intent intent2 = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                                startActivityForResult(intent2, 0x02);
                             }
-                        } else if (getResources().getString(R.string.disconnect).equals(tvConnection.getText().toString())) {
-                            //如果设备实际上已经断开，直接将状态改过来
-                            if (null != mBluetoothLeService && mBluetoothLeService.getConnectionState() == BluetoothLeService.STATE_DISCONNECTED) {
-                                tvConnection.setText(R.string.connected);
-                            }
-                            //如果设备在连接状态，调用断开连接方法
-                            if (null != mBluetoothLeService && mBluetoothLeService.getConnectionState() == BluetoothLeService.STATE_CONNECTED) {
-                                mBluetoothLeService.disconnect();
-                            }
-                        }
+                        });
+                    } else {
+                        Intent intent2 = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                        startActivityForResult(intent2, 0x02);
                     }
-                });
+                } else if (getResources().getString(R.string.disconnect).equals(tvConnection.getText().toString())) {
+                    BleKitUtils.getBluetoothClient().disconnect(mDeviceAddress);
+                }
                 break;
             case R.id.img_search://搜索
                 if (null != bluetoothAdapter) {
@@ -624,7 +603,7 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
                 break;
             case R.id.tv_right://更多设置
                 stopSendSpeedRequest();
-                if (null != mBluetoothLeService && mBluetoothLeService.getConnectionState() == BluetoothLeService.STATE_CONNECTED) {
+                if (BleKitUtils.getBluetoothClient().getConnectStatus(mDeviceAddress) == STATUS_DEVICE_CONNECTED) {
                     Intent intent = new Intent(getActivity(), MoreCarInfoActivity.class);
                     intent.putExtra("mDeviceAddress", mDeviceAddress);
                     startActivity(intent);
@@ -633,29 +612,36 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
                 }
                 break;
             case R.id.btn_lock_car:
-                if (null != mBluetoothLeService && mBluetoothLeService.getConnectionState() == BluetoothLeService.STATE_CONNECTED) {
+                if (BleKitUtils.getBluetoothClient().getConnectStatus(mDeviceAddress) == STATUS_DEVICE_CONNECTED) {
                     isOther = true;
                     SystemClock.sleep(30);
                     if (!isLock) {//锁车
                         if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-                            mBluetoothLeService.writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                                    Constant.BLE.WRITE_CHARACTERISTIC_UUID, Constant.BLE.LOCK_CAR);
-                            mBluetoothLeService.setCharacteristicNotification(null, true);
+                            BleKitUtils.writeP(mDeviceAddress, Constant.BLE.LOCK_CAR, new BleWriteResponse() {
+                                @Override
+                                public void onResponse(int code) {
+
+                                }
+                            });
                         } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
-                            mBluetoothLeService.writeCharacteristic(Constant.BLE.TAIDOU_WRITE_SERVICE_UUID,
-                                    Constant.BLE.TAIDOU_WRITE_CHARACTERISTIC_UUID,
-                                    Constant.BLE.TAIDOU_NOTIFY_CHARACTERISTIC_UUID,
-                                    Constant.BLE.LOCK_CAR);
+                            BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.LOCK_CAR, new BleWriteResponse() {
+                                @Override
+                                public void onResponse(int code) {
+
+                                }
+                            });
                         }
                     } else {//解锁
                         if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
                             Log.i("TAG", "------verificationVehiclePassword");
-                            mPresenter.verificationVehiclePassword(mBluetoothLeService);
+                            mPresenter.verificationVehiclePassword(mDeviceAddress);
                         } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
-                            mBluetoothLeService.writeCharacteristic(Constant.BLE.TAIDOU_WRITE_SERVICE_UUID,
-                                    Constant.BLE.TAIDOU_WRITE_CHARACTERISTIC_UUID,
-                                    Constant.BLE.TAIDOU_NOTIFY_CHARACTERISTIC_UUID,
-                                    Constant.BLE.DEBLOCKING);
+                            BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.DEBLOCKING, new BleWriteResponse() {
+                                @Override
+                                public void onResponse(int code) {
+
+                                }
+                            });
                         }
                     }
                     SystemClock.sleep(30);
@@ -665,18 +651,23 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
                 }
                 break;
             case R.id.btn_close_car://关机
-                if (null != mBluetoothLeService && mBluetoothLeService.getConnectionState() == BluetoothLeService.STATE_CONNECTED) {
+                if (BleKitUtils.getBluetoothClient().getConnectStatus(mDeviceAddress) == STATUS_DEVICE_CONNECTED) {
                     isOther = true;
                     SystemClock.sleep(30);
                     if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-                        mBluetoothLeService.writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                                Constant.BLE.WRITE_CHARACTERISTIC_UUID, Constant.BLE.CLOSE_CAR);
-                        mBluetoothLeService.setCharacteristicNotification(null, true);
+                        BleKitUtils.writeP(mDeviceAddress, Constant.BLE.CLOSE_CAR, new BleWriteResponse() {
+                            @Override
+                            public void onResponse(int code) {
+
+                            }
+                        });
                     } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
-                        mBluetoothLeService.writeCharacteristic(Constant.BLE.TAIDOU_WRITE_SERVICE_UUID,
-                                Constant.BLE.TAIDOU_WRITE_CHARACTERISTIC_UUID,
-                                Constant.BLE.TAIDOU_NOTIFY_CHARACTERISTIC_UUID,
-                                Constant.BLE.CLOSE_CAR);
+                        BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.CLOSE_CAR, new BleWriteResponse() {
+                            @Override
+                            public void onResponse(int code) {
+
+                            }
+                        });
                     }
                     SystemClock.sleep(30);
                     isOther = false;
@@ -695,11 +686,6 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
     @Override
     public TextView getTextView() {
         return tvLicheng;
-    }
-
-    @Override
-    public BluetoothLeService getBluetoothLeService() {
-        return mBluetoothLeService;
     }
 
     @Override

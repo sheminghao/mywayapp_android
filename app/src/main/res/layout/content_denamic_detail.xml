@@ -89,7 +89,7 @@
 
                 </com.mywaytec.myway.view.FamilyBookView>
 
-                <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+                <cn.jzvd.JZVideoPlayerStandard
                     android:id="@+id/playerview"
                     android:layout_width="match_parent"
                     android:layout_height="220dp"

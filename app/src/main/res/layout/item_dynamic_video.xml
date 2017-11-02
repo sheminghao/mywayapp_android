@@ -70,7 +70,7 @@ android:orientation="vertical">
         android:autoLink="all"
         android:textIsSelectable="true" />
 
-    <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+    <cn.jzvd.JZVideoPlayerStandard
         android:id="@+id/playerview"
         android:layout_width="match_parent"
         android:layout_height="220dp" />

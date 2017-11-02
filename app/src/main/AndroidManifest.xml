@@ -145,7 +145,8 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|locale"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true" />
         <activity
             android:name=".ui.bluetooth.BluetoothActivity"
             android:configChanges="locale"
@@ -167,7 +168,8 @@
             android:name=".ui.dynamicDetail.DynamicDetailActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:hardwareAccelerated="true" />
         <activity
             android:name=".ui.messageDetail.MessageDetailActivity"
             android:configChanges="locale"

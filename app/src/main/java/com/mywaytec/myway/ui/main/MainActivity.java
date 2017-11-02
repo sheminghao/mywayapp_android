@@ -37,7 +37,6 @@ import com.mywaytec.myway.ui.rankingList.RankingListActivity;
 import com.mywaytec.myway.ui.setting.SettingActivity;
 import com.mywaytec.myway.ui.track.TrackRecordActivity;
 import com.mywaytec.myway.utils.AppUtils;
-import com.mywaytec.myway.utils.DialogUtils;
 import com.mywaytec.myway.utils.PreferencesUtils;
 import com.mywaytec.myway.utils.ToastUtils;
 import com.mywaytec.myway.view.CircleImageView;
@@ -47,7 +46,7 @@ import com.tencent.tinker.lib.tinker.TinkerInstaller;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import cn.jzvd.JZVideoPlayerStandard;
 
 import static com.mywaytec.myway.fragment.dynamic.DynamicFragment.PUBLISH;
 import static com.mywaytec.myway.ui.myprofile.MyProfileActivity.MYPROFILE_CODE;
@@ -403,7 +402,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Override
     public void onBackPressed() {
-        if (JCVideoPlayer.backPress()) {
+        if (JZVideoPlayerStandard.backPress()) {
             return;
         }
         super.onBackPressed();

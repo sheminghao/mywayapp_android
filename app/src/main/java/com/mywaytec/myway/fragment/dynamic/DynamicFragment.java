@@ -25,7 +25,7 @@ import com.mywaytec.myway.view.CircleImageView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import cn.jzvd.JZVideoPlayerStandard;
 
 /**
  * 动态模块
@@ -158,7 +158,7 @@ public class DynamicFragment extends BaseFragment<DynamicPresenter> implements D
     @Override
     public void onPause() {
         super.onPause();
-        JCVideoPlayer.releaseAllVideos();
+        JZVideoPlayerStandard.releaseAllVideos();
     }
 
     @Override

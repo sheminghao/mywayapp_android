@@ -1,12 +1,6 @@
 package com.mywaytec.myway.ui.fingerMark;
 
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
-import android.os.IBinder;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -16,14 +10,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.inuker.bluetooth.library.connect.listener.BleConnectStatusListener;
+import com.inuker.bluetooth.library.connect.response.BleNotifyResponse;
+import com.inuker.bluetooth.library.connect.response.BleWriteResponse;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.BaseActivity;
-import com.mywaytec.myway.base.BluetoothLeService;
 import com.mywaytec.myway.base.Constant;
+import com.mywaytec.myway.utils.BleKitUtils;
+import com.mywaytec.myway.utils.PreferencesUtils;
 import com.mywaytec.myway.view.SlideUp;
+
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.inuker.bluetooth.library.Constants.STATUS_CONNECTED;
+import static com.inuker.bluetooth.library.Constants.STATUS_DISCONNECTED;
 
 
 /**
@@ -49,8 +52,6 @@ public class FingerMarkActivity extends BaseActivity<FingerMarkPresenter> implem
 
     SlideUp slideUp;
 
-    private BluetoothLeService mBluetoothLeService;
-    private boolean mConnected = false;
     private String mDeviceAddress;
     String uuid;
 
@@ -69,6 +70,8 @@ public class FingerMarkActivity extends BaseActivity<FingerMarkPresenter> implem
         tvTitle.setText(R.string.fingerprint_identification);
         // 透明状态栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        mDeviceAddress = getIntent().getStringExtra("mDeviceAddress");
+        uuid = PreferencesUtils.getString(this, "uuid");
 
         slideUp = new SlideUp.Builder(slideview)
                 .withStartGravity(Gravity.BOTTOM)
@@ -76,8 +79,31 @@ public class FingerMarkActivity extends BaseActivity<FingerMarkPresenter> implem
                 .withStartState(SlideUp.State.HIDDEN)
                 .build();
 
-        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
-        bindService(gattServiceIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
+        if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.notifyP(mDeviceAddress, new BleNotifyResponse() {
+                @Override
+                public void onNotify(UUID service, UUID character, byte[] value) {
+                    mPresenter.displayData(value);
+                }
+
+                @Override
+                public void onResponse(int code) {
+
+                }
+            });
+        } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.notifyTaiTou(mDeviceAddress, new BleNotifyResponse() {
+                @Override
+                public void onNotify(UUID service, UUID character, byte[] value) {
+                    mPresenter.displayData(value);
+                }
+
+                @Override
+                public void onResponse(int code) {
+
+                }
+            });
+        }
 
     }
 
@@ -93,11 +119,12 @@ public class FingerMarkActivity extends BaseActivity<FingerMarkPresenter> implem
                 mPresenter.hint1();
                 break;
             case R.id.tv_delete_all_finger://删除所有指纹
-                if (null != mBluetoothLeService) {
-                    mBluetoothLeService.writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                            Constant.BLE.WRITE_CHARACTERISTIC_UUID, Constant.BLE.DETELE_ALL_FINGER_WARK);
-                    mBluetoothLeService.setCharacteristicNotification(null, true);
-                }
+                BleKitUtils.writeP(mDeviceAddress, Constant.BLE.DETELE_ALL_FINGER_WARK, new BleWriteResponse() {
+                    @Override
+                    public void onResponse(int code) {
+
+                    }
+                });
                 break;
             case R.id.tv_cancel://取消
                 slideUp.hide();
@@ -113,11 +140,6 @@ public class FingerMarkActivity extends BaseActivity<FingerMarkPresenter> implem
     @Override
     public RecyclerView getRecyclerView() {
         return recyclerView;
-    }
-
-    @Override
-    public BluetoothLeService getBluetoothLeService() {
-        return mBluetoothLeService;
     }
 
     @Override
@@ -145,76 +167,37 @@ public class FingerMarkActivity extends BaseActivity<FingerMarkPresenter> implem
         return tvCancel;
     }
 
-    // Code to manage Service lifecycle.
-    private final ServiceConnection mServiceConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder service) {
-            mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
-            if (!mBluetoothLeService.initialize()) {//手机不支持ble
-                Log.e("TAG", "Unable to initialize Bluetooth");
-                //  finish();
-            }
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-            mBluetoothLeService = null;
-        }
-    };
-
-    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-            if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
-                Log.i("TAG", "----蓝牙连接成功");
-                mConnected = true;
-            } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
-                Log.i("TAG", "----蓝牙断开连接成功");
-                mConnected = false;
-            } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
-                // Show all the supported services and characteristics on the user interface.
-                Log.i("TAG", "----蓝牙DISCOVERED");
-            } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
-                byte[] data = intent.getByteArrayExtra(BluetoothLeService.EXTRA_DATA);
-                mPresenter.displayData(data);
-            }
-        }
-    };
+    @Override
+    public String getDeviceAddress() {
+        return mDeviceAddress;
+    }
 
     @Override
     public void onResume() {
         super.onResume();
         Log.i("TAG", "-------MoreCarInfo OnResume");
-        registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
-        if (mBluetoothLeService != null) {
-            boolean result = mBluetoothLeService.connect(mDeviceAddress);
-            Log.d("TAG", "Connect request result=" + result);
-        }
+        BleKitUtils.getBluetoothClient().registerConnectStatusListener(mDeviceAddress, mBleConnectStatusListener);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        unregisterReceiver(mGattUpdateReceiver);
+        BleKitUtils.getBluetoothClient().unregisterConnectStatusListener(mDeviceAddress, mBleConnectStatusListener);
     }
+
+    private final BleConnectStatusListener mBleConnectStatusListener = new BleConnectStatusListener() {
+
+        @Override
+        public void onConnectStatusChanged(String mac, int status) {
+            if (status == STATUS_CONNECTED) {
+            } else if (status == STATUS_DISCONNECTED) {
+                finish();
+            }
+        }
+    };
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (null != mBluetoothLeService) {
-            unbindService(mServiceConnection);
-            mBluetoothLeService = null;
-        }
-    }
-
-    private static IntentFilter makeGattUpdateIntentFilter() {
-        final IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_CONNECTED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
-        intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
-        intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
-        return intentFilter;
     }
 }

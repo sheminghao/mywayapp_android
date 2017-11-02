@@ -18,16 +18,20 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.inuker.bluetooth.library.connect.response.BleWriteResponse;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.BluetoothLeService;
 import com.mywaytec.myway.base.Constant;
 import com.mywaytec.myway.base.RxPresenter;
+import com.mywaytec.myway.model.bean.BleInfoBean;
 import com.mywaytec.myway.model.http.RetrofitHelper;
+import com.mywaytec.myway.utils.BleKitUtils;
 import com.mywaytec.myway.utils.BleUtil;
 import com.mywaytec.myway.utils.ConversionUtil;
 import com.mywaytec.myway.utils.PreferencesUtils;
 import com.mywaytec.myway.utils.RxCountDown;
 import com.mywaytec.myway.utils.ToastUtils;
+import com.mywaytec.myway.utils.data.BleInfo;
 
 import javax.inject.Inject;
 
@@ -41,6 +45,7 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
 
     RetrofitHelper mRetrofitHelper;
     Context mContext;
+    BleInfoBean bleInfoBean;
 
     @Inject
     public MoreCarInfoPresenter(RetrofitHelper mRetrofitHelper) {
@@ -55,6 +60,7 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
     public void attachView(MoreCarInfoView view) {
         super.attachView(view);
         this.mContext = mView.getContext();
+        currentMode = BleInfo.getBleInfo().getDengdaimoshi();
     }
 
     public RetrofitHelper getRetrofitHelper(){
@@ -62,7 +68,7 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
     }
 
     //修改密码对话框
-    public void changeBlePasswordDialog(Context context, final BluetoothLeService mBluetoothLeService){
+    public void changeBlePasswordDialog(Context context, final String mDeviceAddress){
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context);
         // 创建对话框
         final AlertDialog alertDialog = builder.create();
@@ -95,12 +101,12 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
                 }
 
                 int password = Integer.parseInt(confirmPassword);
-                if (mBluetoothLeService != null){
-                    mBluetoothLeService.writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                            Constant.BLE.WRITE_CHARACTERISTIC_UUID,
-                            BleUtil.setVehiclePassword(password+""));
-                    mBluetoothLeService.setCharacteristicNotification(null, true);
-                }
+                BleKitUtils.writeP(mDeviceAddress, BleUtil.setVehiclePassword(password+""), new BleWriteResponse() {
+                    @Override
+                    public void onResponse(int code) {
+
+                    }
+                });
                 alertDialog.dismiss();
             }
         });
@@ -116,7 +122,7 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
 
     //灯带模式
     PopupWindow dengdaiPopupWindow;
-    public void openDengdaiPopupWindow(View v, BluetoothLeService mBluetoothLeService) {
+    public void openDengdaiPopupWindow(View v, String mDeviceAddress) {
         //防止重复按按钮
         if (dengdaiPopupWindow != null && dengdaiPopupWindow.isShowing()) {
             return;
@@ -137,7 +143,7 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
         //设置消失监听
         dengdaiPopupWindow.setOnDismissListener(this);
         //设置PopupWindow的View点击事件
-        setOnPopupViewClick(view, mBluetoothLeService);
+        setOnPopupViewClick(view, mDeviceAddress);
         //设置背景色
         setBackgroundAlpha(0.5f);
     }
@@ -155,7 +161,7 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
     ImageView imgRight4;
     ImageView imgRight5;
     int currentMode = 0;
-    private void setOnPopupViewClick(View view, final BluetoothLeService mBluetoothLeService) {
+    private void setOnPopupViewClick(View view, final String mDeviceAddress) {
         TextView tvClose = (TextView) view.findViewById(R.id.tv_close);
         LinearLayout layoutDengdai1 = (LinearLayout) view.findViewById(R.id.layout_dengdai_1);
         LinearLayout layoutDengdai2 = (LinearLayout) view.findViewById(R.id.layout_dengdai_2);
@@ -182,60 +188,72 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
         tvClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mBluetoothLeService){
-                    mBluetoothLeService.writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                            Constant.BLE.WRITE_CHARACTERISTIC_UUID, Constant.BLE.CLOSE_DENGDAI_MODE);
-                }
+                BleKitUtils.writeP(mDeviceAddress, Constant.BLE.CLOSE_DENGDAI_MODE, new BleWriteResponse() {
+                    @Override
+                    public void onResponse(int code) {
+
+                    }
+                });
             }
         });
         //全彩流水
         layoutDengdai1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mBluetoothLeService){
-                    mBluetoothLeService.writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                            Constant.BLE.WRITE_CHARACTERISTIC_UUID, BleUtil.dengdaiMode(1));
-                }
+                BleKitUtils.writeP(mDeviceAddress, BleUtil.dengdaiMode(1), new BleWriteResponse() {
+                    @Override
+                    public void onResponse(int code) {
+
+                    }
+                });
             }
         });
         //全彩呼吸
         layoutDengdai2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mBluetoothLeService){
-                    mBluetoothLeService.writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                            Constant.BLE.WRITE_CHARACTERISTIC_UUID, BleUtil.dengdaiMode(2));
-                }
+                BleKitUtils.writeP(mDeviceAddress, BleUtil.dengdaiMode(2), new BleWriteResponse() {
+                    @Override
+                    public void onResponse(int code) {
+
+                    }
+                });
             }
         });
         //炫彩霓虹
         layoutDengdai3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mBluetoothLeService){
-                    mBluetoothLeService.writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                            Constant.BLE.WRITE_CHARACTERISTIC_UUID, BleUtil.dengdaiMode(3));
-                }
+                BleKitUtils.writeP(mDeviceAddress, BleUtil.dengdaiMode(3), new BleWriteResponse() {
+                    @Override
+                    public void onResponse(int code) {
+
+                    }
+                });
             }
         });
         //照明模式
         layoutDengdai4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mBluetoothLeService){
-                    mBluetoothLeService.writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                            Constant.BLE.WRITE_CHARACTERISTIC_UUID, BleUtil.dengdaiMode(4));
-                }
+                BleKitUtils.writeP(mDeviceAddress, BleUtil.dengdaiMode(4), new BleWriteResponse() {
+                    @Override
+                    public void onResponse(int code) {
+
+                    }
+                });
             }
         });
         //警灯模式
         layoutDengdai5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mBluetoothLeService){
-                    mBluetoothLeService.writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                            Constant.BLE.WRITE_CHARACTERISTIC_UUID, BleUtil.dengdaiMode(5));
-                }
+                BleKitUtils.writeP(mDeviceAddress, BleUtil.dengdaiMode(5), new BleWriteResponse() {
+                    @Override
+                    public void onResponse(int code) {
+
+                    }
+                });
             }
         });
     }
@@ -325,6 +343,9 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
                             imgRight3.setVisibility(View.GONE);
                             imgRight4.setVisibility(View.GONE);
                             imgRight5.setVisibility(View.GONE);
+                            bleInfoBean = BleInfo.getBleInfo();
+                            bleInfoBean.setDengdaimoshi(currentMode);
+                            BleInfo.saveBleInfo(bleInfoBean);
                         } else if ("02".equals(infos[6])) {//全彩呼吸
                             currentMode = 2;
                             imgRight1.setVisibility(View.GONE);
@@ -332,6 +353,9 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
                             imgRight3.setVisibility(View.GONE);
                             imgRight4.setVisibility(View.GONE);
                             imgRight5.setVisibility(View.GONE);
+                            bleInfoBean = BleInfo.getBleInfo();
+                            bleInfoBean.setDengdaimoshi(currentMode);
+                            BleInfo.saveBleInfo(bleInfoBean);
                         } else if ("03".equals(infos[6])) {//炫彩霓虹
                             currentMode = 3;
                             imgRight1.setVisibility(View.GONE);
@@ -339,6 +363,9 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
                             imgRight3.setVisibility(View.VISIBLE);
                             imgRight4.setVisibility(View.GONE);
                             imgRight5.setVisibility(View.GONE);
+                            bleInfoBean = BleInfo.getBleInfo();
+                            bleInfoBean.setDengdaimoshi(currentMode);
+                            BleInfo.saveBleInfo(bleInfoBean);
                         } else if ("04".equals(infos[6])) {//照明模式
                             currentMode = 4;
                             imgRight1.setVisibility(View.GONE);
@@ -346,6 +373,9 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
                             imgRight3.setVisibility(View.GONE);
                             imgRight4.setVisibility(View.VISIBLE);
                             imgRight5.setVisibility(View.GONE);
+                            bleInfoBean = BleInfo.getBleInfo();
+                            bleInfoBean.setDengdaimoshi(currentMode);
+                            BleInfo.saveBleInfo(bleInfoBean);
                         } else if ("05".equals(infos[6])) {//
                             currentMode = 5;
                             imgRight1.setVisibility(View.GONE);
@@ -353,6 +383,9 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
                             imgRight3.setVisibility(View.GONE);
                             imgRight4.setVisibility(View.GONE);
                             imgRight5.setVisibility(View.VISIBLE);
+                            bleInfoBean = BleInfo.getBleInfo();
+                            bleInfoBean.setDengdaimoshi(currentMode);
+                            BleInfo.saveBleInfo(bleInfoBean);
                         } else if ("FF".equals(infos[6])){//关闭
                             currentMode = 0;
                             imgRight1.setVisibility(View.GONE);
@@ -360,6 +393,9 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
                             imgRight3.setVisibility(View.GONE);
                             imgRight4.setVisibility(View.GONE);
                             imgRight5.setVisibility(View.GONE);
+                            bleInfoBean = BleInfo.getBleInfo();
+                            bleInfoBean.setDengdaimoshi(currentMode);
+                            BleInfo.saveBleInfo(bleInfoBean);
                         }else {//失败
                         }
                     }
@@ -368,6 +404,9 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
             //氛围灯模式
             else if ("04".equals(infos[2]) && "01".equals(infos[3]) && "09".equals(infos[4])){
                 currentMode = data[6];
+                bleInfoBean = BleInfo.getBleInfo();
+                bleInfoBean.setDengdaimoshi(currentMode);
+                BleInfo.saveBleInfo(bleInfoBean);
                 Log.i("TAG", "------灯带当前模式，" + currentMode);
                 if (null != imgRight1 && null != imgRight2 && null != imgRight3 &&
                         null != imgRight4 && null != imgRight5) {
@@ -404,7 +443,7 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
     /**
      * 油门校准弹框
      */
-    public void showYoumenAlignmentPop(View v, final BluetoothLeService mBluetoothLeService) {
+    public void showYoumenAlignmentPop(View v, final String mDeviceAddress) {
         //防止重复按按钮
         if (youmenPopupWindow != null && youmenPopupWindow.isShowing()) {
             return;
@@ -429,15 +468,16 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
             @Override
             public void onClick(View v) {
                 String uuid = PreferencesUtils.getString(mContext, "uuid");
-                if (null != mBluetoothLeService) {
                     if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-                        mBluetoothLeService.writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                                Constant.BLE.WRITE_CHARACTERISTIC_UUID,
-                                Constant.BLE.YOUMEN_ALIGNMENT);
+                        BleKitUtils.writeP(mDeviceAddress, Constant.BLE.YOUMEN_ALIGNMENT, new BleWriteResponse() {
+                            @Override
+                            public void onResponse(int code) {
+
+                            }
+                        });
                     } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
 
                     }
-                }
             }
         });
         //取消
@@ -454,15 +494,16 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
             @Override
             public void onClick(View v) {
                 String uuid = PreferencesUtils.getString(mContext, "uuid");
-                if (null != mBluetoothLeService) {
                     if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-                        mBluetoothLeService.writeCharacteristic(Constant.BLE.WRITE_SERVICE_UUID,
-                                Constant.BLE.WRITE_CHARACTERISTIC_UUID,
-                                Constant.BLE.YOUMEN_ALIGNMENT_CONFIRM);
+                        BleKitUtils.writeP(mDeviceAddress, Constant.BLE.YOUMEN_ALIGNMENT_CONFIRM, new BleWriteResponse() {
+                            @Override
+                            public void onResponse(int code) {
+
+                            }
+                        });
                     } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
 
                     }
-                }
             }
         });
         youmenPopupWindow = new PopupWindow(view, RelativeLayout.LayoutParams.MATCH_PARENT,

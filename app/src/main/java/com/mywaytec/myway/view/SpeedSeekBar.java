@@ -49,8 +49,8 @@ public class SpeedSeekBar extends LinearLayout {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 tvSpeed.setText((progress+lowSpeed)+" km/h");
-                Log.i("TAG", "------seekBar改变监听速度，" + (progress+lowSpeed)+" km/h");
-                onProgressChange.progressChange(progress+lowSpeed);
+//                Log.i("TAG", "------seekBar改变监听速度，" + (progress+lowSpeed)+" km/h");
+
 //                int width = mWindowManager.getDefaultDisplay().getWidth();
 //                width = width * 730 / 750;
 //                int mW = seekBar.getWidth() * progress / seekBar.getMax() - tvSpeed.getWidth()/2+(width-seekBar.getWidth())/2;
@@ -74,7 +74,9 @@ public class SpeedSeekBar extends LinearLayout {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+//                Log.i("TAG", "------onStopTrackingTouch，" + (seekBar.getProgress()+lowSpeed)+" km/h");
+                if (null != onProgressChange)
+                    onProgressChange.progressChange(seekBar.getProgress()+lowSpeed);
             }
         });
         setOrientation(VERTICAL);
@@ -110,5 +112,9 @@ public class SpeedSeekBar extends LinearLayout {
     public void setPracticalSpeed(int Speed){
         seekBar.setProgress(Speed - lowSpeed);
         Log.i("TAG", "------设置最低速度，" + seekBar.getProgress()+" km/h");
+    }
+
+    public int getProgress(){
+        return seekBar.getProgress();
     }
 }

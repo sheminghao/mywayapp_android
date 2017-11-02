@@ -96,7 +96,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="20px"
-            android:background="@color/transparency" />
+            android:background="#f9f9f9" />
 
         <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="match_parent"
@@ -111,12 +111,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingBottom="20px"
-                android:paddingTop="20px">
+                android:paddingBottom="30px"
+                android:paddingTop="30px">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="@string/nickname"
                     android:textColor="@color/black"
                     android:textSize="32px" />
@@ -125,11 +126,9 @@
                     android:id="@+id/et_nickname"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10px"
+                    android:layout_weight="3"
                     android:layout_marginRight="16px"
-                    android:layout_weight="1"
                     android:background="@color/transparency"
-                    android:gravity="right"
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="28px" />
@@ -151,12 +150,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingBottom="20px"
-                android:paddingTop="20px">
+                android:paddingBottom="30px"
+                android:paddingTop="30px">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="@string/name"
                     android:textColor="@color/black"
                     android:textSize="32px" />
@@ -165,11 +165,9 @@
                     android:id="@+id/et_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10px"
                     android:layout_marginRight="16px"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:background="@color/transparency"
-                    android:gravity="right"
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="28px" />
@@ -184,19 +182,19 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/transparency" />
+                android:background="#eeeeee" />
 
             <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingBottom="20px"
-                android:paddingTop="20px">
+                android:paddingBottom="30px"
+                android:paddingTop="30px">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="@string/signature"
                     android:textColor="@color/black"
                     android:textSize="32px" />
@@ -205,12 +203,10 @@
                     android:id="@+id/et_signature"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10px"
                     android:layout_marginRight="16px"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:background="@color/transparency"
-                    android:gravity="right|center_vertical"
-                    android:singleLine="true"
+                    android:maxLines="2"
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="28px" />
@@ -224,8 +220,8 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/transparency" />
+                android:layout_height="18px"
+                android:background="#f9f9f9" />
 
             <com.zhy.autolayout.AutoLinearLayout
                 android:id="@+id/layout_sex"
@@ -233,12 +229,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingBottom="20px"
-                android:paddingTop="20px">
+                android:paddingBottom="30px"
+                android:paddingTop="30px">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="@string/gender"
                     android:textColor="@color/black"
                     android:textSize="32px" />
@@ -247,11 +244,9 @@
                     android:id="@+id/tv_sex"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10px"
                     android:layout_marginRight="16px"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:background="@color/transparency"
-                    android:gravity="right"
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="28px" />
@@ -266,7 +261,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/transparency" />
+                android:background="#eeeeee" />
 
             <com.zhy.autolayout.AutoLinearLayout
                 android:id="@+id/layout_birthday"
@@ -274,12 +269,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingBottom="20px"
-                android:paddingTop="20px">
+                android:paddingBottom="30px"
+                android:paddingTop="30px">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="@string/birthday"
                     android:textColor="@color/black"
                     android:textSize="32px" />
@@ -288,11 +284,9 @@
                     android:id="@+id/tv_birthday"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10px"
                     android:layout_marginRight="16px"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:background="@color/transparency"
-                    android:gravity="right"
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="28px" />
@@ -307,19 +301,20 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/transparency" />
+                android:background="#eeeeee" />
 
             <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingBottom="20px"
-                android:paddingTop="20px">
+                android:paddingBottom="30px"
+                android:paddingTop="30px">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="@string/profession"
                     android:textColor="@color/black"
                     android:textSize="32px" />
@@ -328,11 +323,9 @@
                     android:id="@+id/et_profession"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10px"
                     android:layout_marginRight="16px"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:background="@color/transparency"
-                    android:gravity="right"
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="28px" />
@@ -347,19 +340,20 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/transparency" />
+                android:background="#eeeeee" />
 
             <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingBottom="20px"
-                android:paddingTop="20px">
+                android:paddingBottom="30px"
+                android:paddingTop="30px">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="@string/address"
                     android:textColor="@color/black"
                     android:textSize="32px" />
@@ -368,11 +362,9 @@
                     android:id="@+id/et_address"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10px"
                     android:layout_marginRight="16px"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:background="@color/transparency"
-                    android:gravity="right"
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="28px" />
@@ -387,19 +379,20 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/transparency" />
+                android:background="#eeeeee" />
 
             <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingBottom="20px"
-                android:paddingTop="20px">
+                android:paddingBottom="30px"
+                android:paddingTop="30px">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="@string/phone_number"
                     android:textColor="@color/black"
                     android:textSize="32px" />
@@ -408,11 +401,9 @@
                     android:id="@+id/et_phone_number"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10px"
                     android:layout_marginRight="16px"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:background="@color/transparency"
-                    android:gravity="right"
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="28px" />
@@ -427,19 +418,20 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/transparency" />
+                android:background="#eeeeee" />
 
             <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingBottom="20px"
-                android:paddingTop="20px">
+                android:paddingBottom="30px"
+                android:paddingTop="30px">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="@string/e_mail"
                     android:textColor="@color/black"
                     android:textSize="32px" />
@@ -448,11 +440,9 @@
                     android:id="@+id/et_email"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10px"
                     android:layout_marginRight="16px"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:background="@color/transparency"
-                    android:gravity="right"
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="28px" />
@@ -469,7 +459,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="20px"
-            android:background="@color/transparency" />
+            android:background="#f9f9f9" />
 
         <com.zhy.autolayout.AutoLinearLayout
             android:id="@+id/layout_change_password"
@@ -478,7 +468,10 @@
             android:background="@color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="20px"
+            android:paddingLeft="20px"
+            android:paddingRight="20px"
+            android:paddingTop="30px"
+            android:paddingBottom="30px"
             android:visibility="gone">
 
             <TextView
