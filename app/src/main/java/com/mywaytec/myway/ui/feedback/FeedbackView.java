@@ -1,6 +1,7 @@
 package com.mywaytec.myway.ui.feedback;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 
 import com.mywaytec.myway.base.IBaseView;
 
@@ -11,5 +12,7 @@ import com.mywaytec.myway.base.IBaseView;
 public interface FeedbackView extends IBaseView {
 
     Context getContext();
+
+    RecyclerView getRecyclerView();
 
 }

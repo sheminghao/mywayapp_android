@@ -122,9 +122,9 @@ public class DynamicDetailActivity extends BaseActivity<DynamicDetailPresenter> 
         if (dynamic.isVideo()) {
             mPlayerView.setVisibility(View.VISIBLE);
             familybookview.setVisibility(View.GONE);
-            if (mPlayerView != null) {
-                mPlayerView.release();
-            }
+//            if (mPlayerView != null) {
+//                mPlayerView.release();
+//            }
             mPlayerView.setUp(dynamic.getImages().get(0), JZVideoPlayerStandard.SCREEN_LAYOUT_LIST, "");
             Observable.create(new Observable.OnSubscribe<Bitmap>() {
                 @Override
@@ -138,7 +138,9 @@ public class DynamicDetailActivity extends BaseActivity<DynamicDetailPresenter> 
                         @Override
                         public void call(Bitmap data) {
                             // 主线程操作
-                            mPlayerView.thumbImageView.setImageBitmap(data);
+                            if (null != data) {
+                                mPlayerView.thumbImageView.setImageBitmap(data);
+                            }
                         }
                     });
         }else {

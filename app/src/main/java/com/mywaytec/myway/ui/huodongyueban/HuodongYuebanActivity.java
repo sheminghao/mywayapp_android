@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,12 +13,14 @@ import com.baidu.mapapi.map.MapView;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.BaseActivity;
+import com.mywaytec.myway.model.bean.NearbyActivityBean;
 import com.mywaytec.myway.ui.fabuhuodong.FabuHuodongActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.mywaytec.myway.ui.fabuhuodong.FabuHuodongActivity.FABUHUODONG;
+import static com.mywaytec.myway.ui.huodongXiangqing.HuodongXiangqingActivity.ACTIVITY_INFO;
 
 public class HuodongYuebanActivity extends BaseActivity<HuodongYuebanPresenter> implements HuodongYuebanView{
 
@@ -97,6 +100,7 @@ public class HuodongYuebanActivity extends BaseActivity<HuodongYuebanPresenter> 
                 viewWodeHuodong.setVisibility(View.INVISIBLE);
                 fujinRecyclerView.setVisibility(View.VISIBLE);
                 wodeRecyclerView.setVisibility(View.GONE);
+                mPresenter.initAMap();
                 break;
             case R.id.layout_wode_huodong://我的活动
                 tvFujinHuodong.setTextColor(Color.parseColor("#767676"));
@@ -105,6 +109,7 @@ public class HuodongYuebanActivity extends BaseActivity<HuodongYuebanPresenter> 
                 viewWodeHuodong.setVisibility(View.VISIBLE);
                 fujinRecyclerView.setVisibility(View.GONE);
                 wodeRecyclerView.setVisibility(View.VISIBLE);
+                mPresenter.loadWode();
                 break;
         }
     }
@@ -141,8 +146,18 @@ public class HuodongYuebanActivity extends BaseActivity<HuodongYuebanPresenter> 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == FABUHUODONG && requestCode == RESULT_OK){
+        if (requestCode == FABUHUODONG && resultCode == RESULT_OK){
             mPresenter.initNearby();
+        }else if (requestCode == 0x141 && resultCode == RESULT_OK){
+            NearbyActivityBean.ObjBean activityInfo = (NearbyActivityBean.ObjBean) data.getSerializableExtra(ACTIVITY_INFO);
+            int position = data.getIntExtra("position", -1);
+
+            if (position != -1 && mPresenter.getNearbyActivityAdapter().getDataList().size() > position) {
+                NearbyActivityBean.ObjBean objBean = mPresenter.getNearbyActivityAdapter().getDataList().get(position);
+                objBean.setCurrentNum(activityInfo.getCurrentNum());
+                objBean.setSign(activityInfo.isSign());
+                objBean.setParticipant(activityInfo.isParticipant());
+            }
         }
     }
 }

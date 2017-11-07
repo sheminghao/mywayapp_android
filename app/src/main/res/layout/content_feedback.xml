@@ -47,6 +47,7 @@
             android:paddingLeft="20px"
             android:paddingRight="20px"
             android:paddingTop="10px"
+            android:paddingBottom="10px"
             android:overScrollMode="never"
             android:background="@color/white"/>
 

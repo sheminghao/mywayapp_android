@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,8 +29,9 @@ import com.mywaytec.myway.model.bean.DynamicListBean;
 import com.mywaytec.myway.model.bean.LoginInfo;
 import com.mywaytec.myway.model.http.RetrofitHelper;
 import com.mywaytec.myway.ui.dynamicDetail.DynamicDetailActivity;
-import com.mywaytec.myway.ui.main.MainActivity;
+import com.mywaytec.myway.ui.mydynamic.MyDynamicActivity;
 import com.mywaytec.myway.utils.Base64_2;
+import com.mywaytec.myway.utils.ImageUtils;
 import com.mywaytec.myway.utils.PreferencesUtils;
 import com.mywaytec.myway.utils.RxUtil;
 import com.mywaytec.myway.utils.TimeUtil;
@@ -203,7 +205,7 @@ public class MyDynamicAdapter extends ListBaseAdapter<DynamicListBean.ObjBean> i
                 intent.putStringArrayListExtra("ImgUrl", pics);
                 intent.putExtra("dynamic", mDataList.get(position));
                 intent.putExtra("position", position);
-                ((Activity)mContext).startActivityForResult(intent, 0x130);
+                ((MyDynamicActivity)mContext).startActivityForResult(intent, 0x131);
             }
         });
         LinearLayout layoutComment = holder.getView(R.id.layout_comment);
@@ -282,7 +284,7 @@ public class MyDynamicAdapter extends ListBaseAdapter<DynamicListBean.ObjBean> i
             @Override
             public void call(Subscriber<? super Bitmap> subscriber) {
                 //异步操作相关代码
-                subscriber.onNext(getNetVideoBitmap(mDataList.get(position).getImages().get(0)));
+                subscriber.onNext(ImageUtils.getNetVideoBitmap(mDataList.get(position).getImages().get(0)));
                 subscriber.onCompleted();
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
@@ -290,34 +292,11 @@ public class MyDynamicAdapter extends ListBaseAdapter<DynamicListBean.ObjBean> i
                     @Override
                     public void call(Bitmap data) {
                         // 主线程操作
-                        mPlayerView.thumbImageView.setImageBitmap(data);
+                        if (null != data) {
+                            mPlayerView.thumbImageView.setImageBitmap(data);
+                        }
                     }
                 });
-    }
-
-    /**
-     *  服务器返回url，通过url去获取视频的第一帧
-     *  Android 原生给我们提供了一个MediaMetadataRetriever类
-     *  提供了获取url视频第一帧的方法,返回Bitmap对象
-     *
-     *  @param videoUrl
-     *  @return
-     */
-    public static Bitmap getNetVideoBitmap(String videoUrl) {
-        Bitmap bitmap = null;
-
-        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-        try {
-            //根据url获取缩略图
-            retriever.setDataSource(videoUrl, new HashMap());
-            //获得第一帧图片
-            bitmap = retriever.getFrameAtTime();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } finally {
-            retriever.release();
-        }
-        return bitmap;
     }
 
     @Override

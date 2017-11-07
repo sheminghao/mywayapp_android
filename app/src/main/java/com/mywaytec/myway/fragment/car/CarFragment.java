@@ -532,7 +532,7 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
         public void onConnectStatusChanged(String mac, int status) {
             if (status == STATUS_CONNECTED) {
                 //如果更新连接车辆，将车辆缓存信息清空
-                if (TextUtils.isEmpty(BleInfo.getBleInfo().getMac()) && !mac.equals(BleInfo.getBleInfo().getMac())){
+                if (!mac.equals(BleInfo.getBleInfo().getMac())){
                     BleInfo.clearBleInfo();
                     BleInfoBean bleInfoBean = BleInfo.getBleInfo();
                     bleInfoBean.setMac(mac);

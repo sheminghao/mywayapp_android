@@ -141,6 +141,7 @@
     <!-- 意见反馈界面 -->
     <string name="submit">Submit</string>
     <string name="my_feedback">My Feedback…</string>
+    <string name="please_enter_feedback">Please enter your feedback</string>
 
     <!-- 关于我们界面 -->
     <string name="about">About</string>

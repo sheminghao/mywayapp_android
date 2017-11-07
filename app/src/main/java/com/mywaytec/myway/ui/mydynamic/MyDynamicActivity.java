@@ -1,18 +1,28 @@
 package com.mywaytec.myway.ui.mydynamic;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.LocationManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.BaseActivity;
+import com.mywaytec.myway.model.bean.DynamicListBean;
 import com.mywaytec.myway.ui.blacklist.BlacklistActivity;
+import com.mywaytec.myway.ui.track.TrackRecordActivity;
+import com.mywaytec.myway.utils.PreferencesUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.mywaytec.myway.fragment.dynamic.DynamicFragment.PUBLISH;
+import static com.mywaytec.myway.ui.myprofile.MyProfileActivity.MYPROFILE_CODE;
 
 public class MyDynamicActivity extends BaseActivity<MyDynamicPresenter> implements MyDynamicView {
 
@@ -49,6 +59,11 @@ public class MyDynamicActivity extends BaseActivity<MyDynamicPresenter> implemen
     }
 
     @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
     public LRecyclerView getDynamicList() {
         return dynamicRecyclerview;
     }
@@ -76,6 +91,18 @@ public class MyDynamicActivity extends BaseActivity<MyDynamicPresenter> implemen
             case R.id.img_right://黑名单
                 startActivity(new Intent(MyDynamicActivity.this, BlacklistActivity.class));
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0x131 && resultCode == RESULT_OK){
+            DynamicListBean.ObjBean dynamic = (DynamicListBean.ObjBean) data.getSerializableExtra("dynamic");
+            int position = data.getIntExtra("position", -1);
+            if (null != dynamic) {
+                mPresenter.refreshItem(dynamic, position);
+            }
         }
     }
 }

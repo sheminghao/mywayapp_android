@@ -1,6 +1,7 @@
 package com.mywaytec.myway.ui.feedback;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -23,6 +24,8 @@ public class FeedbackActivity extends BaseActivity<FeedbackPresenter> implements
     MaxByteLengthEditText etFeedback;
     @BindView(R.id.tv_text_num)
     TextView tvTextNum;
+    @BindView(R.id.recycler)
+    RecyclerView recyclerView;
 
     @Override
     protected int attachLayoutRes() {
@@ -76,5 +79,10 @@ public class FeedbackActivity extends BaseActivity<FeedbackPresenter> implements
     @Override
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    public RecyclerView getRecyclerView() {
+        return recyclerView;
     }
 }

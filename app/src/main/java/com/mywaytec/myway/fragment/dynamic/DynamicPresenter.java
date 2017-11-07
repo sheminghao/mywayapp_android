@@ -14,7 +14,6 @@ import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnNetWorkErrorListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
-import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.adapter.DynamicAdapter;
 import com.mywaytec.myway.adapter.WayAdapter;
@@ -23,7 +22,6 @@ import com.mywaytec.myway.model.bean.DynamicListBean;
 import com.mywaytec.myway.model.bean.PraiseBean;
 import com.mywaytec.myway.model.bean.RouteListBean;
 import com.mywaytec.myway.model.http.RetrofitHelper;
-import com.mywaytec.myway.ui.login.LoginActivity;
 import com.mywaytec.myway.ui.wayDetail.WayDetailActivity;
 import com.mywaytec.myway.utils.DialogUtils;
 import com.mywaytec.myway.utils.PreferencesUtils;
@@ -31,7 +29,6 @@ import com.mywaytec.myway.utils.RxUtil;
 import com.mywaytec.myway.utils.SystemUtil;
 import com.mywaytec.myway.utils.ToastUtils;
 import com.mywaytec.myway.utils.data.DynamicData;
-import com.mywaytec.myway.utils.data.IsLogin;
 import com.mywaytec.myway.utils.data.RouteData;
 import com.mywaytec.myway.view.CommonSubscriber;
 import com.mywaytec.myway.view.goodview.GoodView;
@@ -93,8 +90,10 @@ public class DynamicPresenter extends RxPresenter<DynamicView> {
                         .subscribe(new CommonSubscriber<PraiseBean>() {
                             @Override
                             public void onNext(PraiseBean praiseBean) {
+//                                Log.i("TAG", "------点赞, "+praiseBean.getCode());
                                 if (praiseBean.getCode() == 308){
 //                                    ToastUtils.showToast("点赞成功");
+//                                    Log.i("TAG", "------点赞成功");
                                     int likeNum = Integer.parseInt(tvLike.getText().toString().trim());
                                     dynamicAdapter.getDataList().get(position).setLikeNum(likeNum+1);
                                     dynamicAdapter.getDataList().get(position).setIsLike(true);
@@ -104,19 +103,21 @@ public class DynamicPresenter extends RxPresenter<DynamicView> {
                                     goodView.setTextInfo("+1", Color.parseColor("#2984DF"), SystemUtil.dp2px(10));
                                     goodView.show(imgLike);
                                     imgLike.setImageResource(R.mipmap.dianzan_press);
+                                    tvLike.setText(dynamicAdapter.getDataList().get(position).getLikeNum() + "");
                                     if (null != praiseBean.getObj()){
 //                                        ToastUtils.showToast("获得1金币，1积分");
                                     }else {
 
                                     }
-                                }else if (praiseBean.getCode() == 310){
+                                }else if (praiseBean.getCode() == 310){//取消点赞成功
+//                                    Log.i("TAG", "------取消点赞成功");
                                     int likeNum = Integer.parseInt(tvLike.getText().toString().trim());
                                     dynamicAdapter.getDataList().get(position).setLikeNum(likeNum-1);
                                     dynamicAdapter.getDataList().get(position).setIsLike(false);
 //                                    refreshItem(dynamicAdapter.getDataList().get(position), position);
                                     DynamicData.saveDynamicData(dynamicAdapter.getDataList());
-                                    tvLike.setText(dynamicAdapter.getDataList().get(position).getLikeNum());
                                     imgLike.setImageResource(R.mipmap.dianzan);
+                                    tvLike.setText(dynamicAdapter.getDataList().get(position).getLikeNum()+"");
                                 }else if (praiseBean.getCode() == 19){
                                     DialogUtils.reLoginDialog(context);
                                 }
@@ -156,7 +157,7 @@ public class DynamicPresenter extends RxPresenter<DynamicView> {
                         } else if (dynamicListBean.getCode() == 233) {
                             DialogUtils.reLoginDialog(mView.getContext());
                         } else {
-                            ToastUtils.showToast(dynamicListBean.getMsg());
+//                            ToastUtils.showToast(dynamicListBean.getMsg());
                             //加赞失败，点击重新加载
                             mView.getDynamicList().setOnNetWorkErrorListener(new OnNetWorkErrorListener() {
                                 @Override
@@ -250,7 +251,7 @@ public class DynamicPresenter extends RxPresenter<DynamicView> {
                             //保存缓存数据
                             RouteData.saveRouteData(wayAdapter.getDataList());
                         } else {
-                            ToastUtils.showToast(routeListBean.getMsg());
+//                            ToastUtils.showToast(routeListBean.getMsg());
                             //加赞失败，点击重新加载
                             mView.getWayList().setOnNetWorkErrorListener(new OnNetWorkErrorListener() {
                                 @Override

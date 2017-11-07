@@ -135,7 +135,7 @@ public class PeopleNearbyActivity extends BaseActivity<PeopleNearbyPresenter> im
                     recyclerView.setVisibility(View.VISIBLE);
                     layoutMap.setVisibility(View.GONE);
                 }else {
-                    imgRight.setImageResource(R.mipmap.cebianlan_fujinderen_liebiao_icon);
+                    imgRight.setImageResource(R.mipmap.cebianlan_fujinren_liebiao_icon);
                     recyclerView.setVisibility(View.GONE);
                     layoutMap.setVisibility(View.VISIBLE);
                 }

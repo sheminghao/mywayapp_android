@@ -141,6 +141,7 @@
     <!-- 意见反馈界面 -->
     <string name="submit">提交</string>
     <string name="my_feedback">您的宝贵意见…</string>
+    <string name="please_enter_feedback">请填写您的宝贵意见</string>
 
     <!-- 关于我们界面 -->
     <string name="about">关于</string>

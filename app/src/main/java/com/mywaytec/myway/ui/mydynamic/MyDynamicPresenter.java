@@ -3,7 +3,6 @@ package com.mywaytec.myway.ui.mydynamic;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,10 +18,13 @@ import com.mywaytec.myway.model.BaseInfo;
 import com.mywaytec.myway.model.bean.DynamicListBean;
 import com.mywaytec.myway.model.bean.RouteListBean;
 import com.mywaytec.myway.model.http.RetrofitHelper;
+import com.mywaytec.myway.utils.DialogUtils;
 import com.mywaytec.myway.utils.PreferencesUtils;
 import com.mywaytec.myway.utils.RxUtil;
 import com.mywaytec.myway.utils.ToastUtils;
 import com.mywaytec.myway.view.CommonSubscriber;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -81,14 +83,14 @@ public class MyDynamicPresenter extends RxPresenter<MyDynamicView> {
                                     int likeNum = Integer.parseInt(tvLike.getText().toString().trim());
                                     myDynamicAdapter.getDataList().get(position).setLikeNum(likeNum+1);
                                     myDynamicAdapter.getDataList().get(position).setIsLike(true);
-                                    tvLike.setText(likeNum+1+"");
                                     imgLike.setImageResource(R.mipmap.dianzan_press);
+                                    tvLike.setText(likeNum+1+"");
                                 }else if (baseInfo.getCode() == 310){
                                     int likeNum = Integer.parseInt(tvLike.getText().toString().trim());
                                     myDynamicAdapter.getDataList().get(position).setLikeNum(likeNum-1);
                                     myDynamicAdapter.getDataList().get(position).setIsLike(false);
-                                    tvLike.setText(likeNum-1+"");
                                     imgLike.setImageResource(R.mipmap.dianzan);
+                                    tvLike.setText(likeNum-1+"");
                                 }
                             }
                         });
@@ -121,9 +123,10 @@ public class MyDynamicPresenter extends RxPresenter<MyDynamicView> {
                             }
 //                            DynamicData.saveDynamicData(dynamicAdapter.getDataList());
                         } else if (dynamicListBean.getCode() == 233) {
-                            ToastUtils.showToast(R.string.用户验证失败);
+//                            ToastUtils.showToast(R.string.用户验证失败);
+                            DialogUtils.reLoginDialog(mView.getContext());
                         } else {
-                            ToastUtils.showToast(dynamicListBean.getMsg());
+//                            ToastUtils.showToast(dynamicListBean.getMsg());
                         }
                     }
 
@@ -166,6 +169,14 @@ public class MyDynamicPresenter extends RxPresenter<MyDynamicView> {
         getWayData();
     }
 
+    //刷新单个item
+    public void refreshItem(DynamicListBean.ObjBean dynamic, int position){
+        Log.i("TAG", "-------MyDynamicPresenter刷新"+position + dynamic.getLikeNum());
+        List<DynamicListBean.ObjBean> objBeanList = myDynamicAdapter.getDataList();
+        objBeanList.set(position, dynamic);
+        myDynamicAdapter.notifyDataSetChanged();
+    }
+
     int wayCurrentPage = 1;
 
     public void getWayData(){
@@ -190,7 +201,7 @@ public class MyDynamicPresenter extends RxPresenter<MyDynamicView> {
                                 }
                             }
                         } else {
-                            ToastUtils.showToast(routeListBean.getMsg());
+//                            ToastUtils.showToast(routeListBean.getMsg());
                         }
                     }
 

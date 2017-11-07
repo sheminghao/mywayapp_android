@@ -21,7 +21,7 @@ public class CleanMessageUtil {
      */
     public static String getTotalCacheSize(Context context) {
         try {
-            long cacheSize = getFolderSize(context.getCacheDir());
+            long cacheSize = getFolderSize(context.getCacheDir())/4;
             if (Environment.getExternalStorageState().equals(
                     Environment.MEDIA_MOUNTED)) {
                 cacheSize += getFolderSize(context.getExternalCacheDir());

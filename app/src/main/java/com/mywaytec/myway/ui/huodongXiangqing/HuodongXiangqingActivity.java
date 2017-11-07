@@ -2,7 +2,10 @@ package com.mywaytec.myway.ui.huodongXiangqing;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mywaytec.myway.R;
@@ -10,7 +13,6 @@ import com.mywaytec.myway.base.BaseActivity;
 import com.mywaytec.myway.base.GlideImageLoader;
 import com.mywaytec.myway.model.bean.NearbyActivityBean;
 import com.mywaytec.myway.ui.huodongChengyuan.HuodongChengyuanActivity;
-import com.mywaytec.myway.utils.ToastUtils;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -46,8 +48,11 @@ public class HuodongXiangqingActivity extends BaseActivity<HuodongXiangqingPrese
     TextView tvCanyu;
     @BindView(R.id.tv_signin)
     TextView tvSignin;
+    @BindView(R.id.img_back)
+    ImageView imgBack;
 
     private NearbyActivityBean.ObjBean activityInfo;
+    private int position;
 
     @Override
     protected int attachLayoutRes() {
@@ -63,6 +68,19 @@ public class HuodongXiangqingActivity extends BaseActivity<HuodongXiangqingPrese
     protected void initViews() {
         tvTitle.setText(R.string.activity_detail);
         activityInfo = (NearbyActivityBean.ObjBean) getIntent().getSerializableExtra(ACTIVITY_INFO);
+        position = getIntent().getIntExtra("position", -1);
+
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra(ACTIVITY_INFO, activityInfo);
+                intent.putExtra("position", position);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
+
         if (null != activityInfo) {
             tvActivityName.setText(activityInfo.getTitle());
             //TODO
@@ -81,7 +99,7 @@ public class HuodongXiangqingActivity extends BaseActivity<HuodongXiangqingPrese
             }else {
                 tvSignin.setVisibility(View.GONE);
                 tvCanyu.setText(R.string.join_now);
-            }
+        }
             if (activityInfo.isLanucher()){
                 tvCanyu.setVisibility(View.GONE);
             }else {
@@ -125,9 +143,9 @@ public class HuodongXiangqingActivity extends BaseActivity<HuodongXiangqingPrese
             case R.id.tv_canyu://立即参与
                 if (null != activityInfo) {
                     if (getResources().getString(R.string.join_now).equals(tvCanyu.getText().toString())) {
-                        mPresenter.joinActivity(tvCanyu, tvSignin, activityInfo.getId() + "");
+                        mPresenter.joinActivity(activityInfo.getId() + "");
                     }else if (getResources().getString(R.string.quit).equals(tvCanyu.getText().toString())){
-                        mPresenter.exitActivity(tvCanyu, tvSignin, activityInfo.getId() + "");
+                        mPresenter.exitActivity(activityInfo.getId() + "");
                     }
                 }
                 break;
@@ -140,7 +158,7 @@ public class HuodongXiangqingActivity extends BaseActivity<HuodongXiangqingPrese
                 break;
             case R.id.tv_signin://签到
                 if (activityInfo != null) {
-                    mPresenter.signin(activityInfo.getId()+"", tvSignin);
+                    mPresenter.signin(activityInfo.getId()+"");
                 }
                 break;
         }
@@ -150,4 +168,38 @@ public class HuodongXiangqingActivity extends BaseActivity<HuodongXiangqingPrese
     public Context getContext() {
         return this;
     }
+
+    @Override
+    public NearbyActivityBean.ObjBean getActivityInfo() {
+        return activityInfo;
+    }
+
+    @Override
+    public TextView getCanyuTV() {
+        return tvCanyu;
+    }
+
+    @Override
+    public TextView getSigninTV() {
+        return tvSignin;
+    }
+
+    @Override
+    public TextView getCurrentNumTV() {
+        return tvCurrentNum;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+            Intent intent = new Intent();
+            intent.putExtra(ACTIVITY_INFO, activityInfo);
+            intent.putExtra("position", position);
+            setResult(RESULT_OK, intent);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

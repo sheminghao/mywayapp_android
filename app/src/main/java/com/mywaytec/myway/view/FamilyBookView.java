@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.mywaytec.myway.APP;
 import com.mywaytec.myway.R;
+import com.mywaytec.myway.utils.SystemUtil;
 
 import java.util.List;
 
@@ -46,7 +47,6 @@ public class FamilyBookView extends LinearLayout {
         super(context, attrs);
         this.context = context;
 
-        Log.i("familytbookView", "on");
         TypedArray typedArray = context.obtainStyledAttributes(attrs,
                 R.styleable.familybookview);
 
@@ -54,8 +54,6 @@ public class FamilyBookView extends LinearLayout {
 
         String url = typedArray.getString(R.styleable.familybookview_picurl);
 
-        Log.i("familytbookView", "picnum=" + picnum);
-        Log.i("familytbookView", "url=" + url);
         setOrientation(LinearLayout.HORIZONTAL);
 
         int showpicnum = 0;
@@ -338,13 +336,26 @@ public class FamilyBookView extends LinearLayout {
                 case 1:
                     removeAllViewsInLayout();
                     setOrientation(LinearLayout.VERTICAL);
-                    ImageView iv = new ImageView(context);
-                    DisplayMetrics dm1 = new DisplayMetrics();
-                    //取得窗口属性
-                    Activity activity1 = (Activity) context;
-                    activity1.getWindowManager().getDefaultDisplay().getMetrics(dm1);
+//                    ImageView iv = new ImageView(context);
+//                    DisplayMetrics dm1 = new DisplayMetrics();
+//                    //取得窗口属性
+//                    Activity activity1 = (Activity) context;
+//                    activity1.getWindowManager().getDefaultDisplay().getMetrics(dm1);
+//
+//                    iv.setOnClickListener(new OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            if (null != clickItemImage)
+//                            clickItemImage.onClickItemImage(furls, 0);
+//                        }
+//                    });
+//
+//                    iv.setLayoutParams(new LayoutParams(dm1.widthPixels, dm1.widthPixels*428/750));
+//                    iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-                    iv.setOnClickListener(new OnClickListener() {
+                    View view1 = View.inflate(context, R.layout.layout_dynamic_pic_1, null);
+                    ImageView img11 = (ImageView) view1.findViewById(R.id.img_pic_1);
+                    img11.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (null != clickItemImage)
@@ -352,218 +363,270 @@ public class FamilyBookView extends LinearLayout {
                         }
                     });
 
-                    iv.setLayoutParams(new LayoutParams(dm1.widthPixels, (dm1.widthPixels-48)));
-                    iv.setAdjustViewBounds(true);
-                    iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
                     if (!TextUtils.isEmpty(urls.get(0)))
-                        APP.loadImgCrossFade(urls.get(0), iv);
-                    addView(iv);
+                        APP.loadImgCrossFade(urls.get(0), img11);
+                    addView(view1);
                     break;
                 case 2:
                     removeAllViewsInLayout();
-                    setOrientation(LinearLayout.HORIZONTAL);
-                    DisplayMetrics dm = new DisplayMetrics();
-                    //取得窗口属性
-                    Activity activity = (Activity) context;
-                    activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-                    ImageView iv1 = new ImageView(context);
-                    ImageView iv2 = new ImageView(context);
-                    iv1.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    iv2.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    setOrientation(LinearLayout.HORIZONTAL);
+//                    DisplayMetrics dm = new DisplayMetrics();
+//                    //取得窗口属性
+//                    Activity activity = (Activity) context;
+//                    activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+//                    ImageView iv1 = new ImageView(context);
+//                    ImageView iv2 = new ImageView(context);
+//                    iv1.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    iv2.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//
+//                    LayoutParams lp = new LayoutParams(0, (dm.widthPixels-48) / 2);
+//                    LayoutParams lp2 = new LayoutParams(0, (dm.widthPixels-48) / 2);
+//
+//                    lp.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1.5f, dm);
+//                    lp2.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1.5f, dm);
+//
+//                    lp.weight = 1;
+//                    lp2.weight = 1;
+//                    iv1.setLayoutParams(lp);
+//                    iv2.setLayoutParams(lp2);
+//
+//                    iv1.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    iv2.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    iv1.setOnClickListener(new OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            if (null != clickItemImage)
+//                            clickItemImage.onClickItemImage(furls, 0);
+//                        }
+//                    });
+//                    iv2.setOnClickListener(new OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            if (null != clickItemImage)
+//                            clickItemImage.onClickItemImage(furls, 1);
+//                        }
+//                    });
 
-                    LayoutParams lp = new LayoutParams(0, (dm.widthPixels-48) / 2);
-                    LayoutParams lp2 = new LayoutParams(0, (dm.widthPixels-48) / 2);
+                    View view2 = View.inflate(context, R.layout.layout_dynamic_pic_2, null);
+                    ImageView img21 = (ImageView) view2.findViewById(R.id.img_pic_1);
+                    ImageView img22 = (ImageView) view2.findViewById(R.id.img_pic_2);
 
-                    lp.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1.5f, dm);
-                    lp2.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1.5f, dm);
-
-                    lp.weight = 1;
-                    lp2.weight = 1;
-                    iv1.setLayoutParams(lp);
-                    iv2.setLayoutParams(lp2);
-
-                    iv1.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    iv2.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    iv1.setOnClickListener(new OnClickListener() {
+                    img21.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (null != clickItemImage)
-                            clickItemImage.onClickItemImage(furls, 0);
+                                clickItemImage.onClickItemImage(furls, 0);
                         }
                     });
-                    iv2.setOnClickListener(new OnClickListener() {
+                    img22.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (null != clickItemImage)
-                            clickItemImage.onClickItemImage(furls, 1);
+                                clickItemImage.onClickItemImage(furls, 1);
                         }
                     });
-
-                    addView(iv1);
-                    addView(iv2);
 
                     if (!TextUtils.isEmpty(urls.get(0)))
-                    APP.loadImgCrossFade(urls.get(0), iv1);
+                    APP.loadImgCrossFade(urls.get(0), img21);
                     if (!TextUtils.isEmpty(urls.get(1)))
-                    APP.loadImgCrossFade(urls.get(1), iv2);
-                /*  iv1.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
-                    iv2.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark));*/
+                    APP.loadImgCrossFade(urls.get(1), img22);
+
+                    addView(view2);
+//                    addView(iv2);
                     break;
                 case 3:
                     removeAllViewsInLayout();
-                    setOrientation(LinearLayout.HORIZONTAL);
-                    DisplayMetrics dmx = new DisplayMetrics();
-                    //取得窗口属性
-                    Activity activityx = (Activity) context;
-                    activityx.getWindowManager().getDefaultDisplay().getMetrics(dmx);
-                    ImageView iv1x = new ImageView(context);
-                    ImageView iv2x = new ImageView(context);
-                    ImageView iv3 = new ImageView(context);
-                    iv1x.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    iv2x.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    iv3.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    setOrientation(LinearLayout.HORIZONTAL);
+//                    DisplayMetrics dmx = new DisplayMetrics();
+//                    //取得窗口属性
+//                    Activity activityx = (Activity) context;
+//                    activityx.getWindowManager().getDefaultDisplay().getMetrics(dmx);
+//                    ImageView iv1x = new ImageView(context);
+//                    ImageView iv2x = new ImageView(context);
+//                    ImageView iv3 = new ImageView(context);
+//                    iv1x.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    iv2x.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    iv3.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//
+//                    LinearLayout lin = new LinearLayout(context);
+//                    lin.setOrientation(LinearLayout.VERTICAL);
+//
+//                    LayoutParams linlp = new LayoutParams((int) (dmx.widthPixels * (1f / 3f)), (int) ((dmx.widthPixels-48) * (2f / 3f)));
+//
+//                    linlp.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1.5f, dmx);
+//                    lin.setLayoutParams(linlp);
+//
+//                    LayoutParams lpx = new LayoutParams(dmx.widthPixels / 3, (dmx.widthPixels-48) / 3);
+//                    LayoutParams lp2x = new LayoutParams(dmx.widthPixels / 3, (dmx.widthPixels-48) / 3);
+//                    LayoutParams lp3 = new LayoutParams(0, (int) ((dmx.widthPixels-48) * (2f / 3f)));
+//
+//                  /*lpx.weight=1;
+//                    lp2x.weight=1;*/
+//                    lpx.bottomMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1.5f, dmx);
+//                    lp2x.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1.5f, dmx);
+//                    lp3.weight = 1;
+//                    lp3.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1.5f, dmx);
+//
+//                    iv1x.setLayoutParams(lpx);
+//                    iv2x.setLayoutParams(lp2x);
+//                    iv3.setLayoutParams(lp3);
+//
+//                    iv1x.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    iv2x.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    iv3.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    lin.addView(iv1x);
+//                    lin.addView(iv2x);
+//
+//                    iv1x.setOnClickListener(new OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            if (null != clickItemImage)
+//                            clickItemImage.onClickItemImage(furls, 1);
+//                        }
+//                    });
+//                    iv2x.setOnClickListener(new OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            if (null != clickItemImage)
+//                            clickItemImage.onClickItemImage(furls, 2);
+//                        }
+//                    });
+//                    iv3.setOnClickListener(new OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            if (null != clickItemImage)
+//                            clickItemImage.onClickItemImage(furls, 0);
+//                        }
+//                    });
+//
+//                    addView(iv3);
+//                    addView(lin);
+//                    if (!TextUtils.isEmpty(urls.get(0)))
+//                    APP.loadImgCrossFade(urls.get(1), iv1x);
+//                    if (!TextUtils.isEmpty(urls.get(1)))
+//                    APP.loadImgCrossFade(urls.get(2), iv2x);
+//                    if (!TextUtils.isEmpty(urls.get(2)))
+//                    APP.loadImgCrossFade(urls.get(0), iv3);
 
-                    LinearLayout lin = new LinearLayout(context);
-                    lin.setOrientation(LinearLayout.VERTICAL);
+                    View view3 = View.inflate(context, R.layout.layout_dynamic_pic_3, null);
+                    ImageView img31 = (ImageView) view3.findViewById(R.id.img_pic_1);
+                    ImageView img32 = (ImageView) view3.findViewById(R.id.img_pic_2);
+                    ImageView img33 = (ImageView) view3.findViewById(R.id.img_pic_3);
 
-                    LayoutParams linlp = new LayoutParams((int) (dmx.widthPixels * (1f / 3f)), (int) ((dmx.widthPixels-48) * (2f / 3f)));
-
-                    linlp.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1.5f, dmx);
-                    lin.setLayoutParams(linlp);
-
-                    LayoutParams lpx = new LayoutParams(dmx.widthPixels / 3, (dmx.widthPixels-48) / 3);
-                    LayoutParams lp2x = new LayoutParams(dmx.widthPixels / 3, (dmx.widthPixels-48) / 3);
-                    LayoutParams lp3 = new LayoutParams(0, (int) ((dmx.widthPixels-48) * (2f / 3f)));
-
-                  /*lpx.weight=1;
-                    lp2x.weight=1;*/
-                    lpx.bottomMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1.5f, dmx);
-                    lp2x.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1.5f, dmx);
-                    lp3.weight = 1;
-                    lp3.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1.5f, dmx);
-
-                    iv1x.setLayoutParams(lpx);
-                    iv2x.setLayoutParams(lp2x);
-                    iv3.setLayoutParams(lp3);
-
-                    iv1x.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    iv2x.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    iv3.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    lin.addView(iv1x);
-                    lin.addView(iv2x);
-
-                    iv1x.setOnClickListener(new OnClickListener() {
+                    img31.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (null != clickItemImage)
-                            clickItemImage.onClickItemImage(furls, 1);
+                                clickItemImage.onClickItemImage(furls, 0);
                         }
                     });
-                    iv2x.setOnClickListener(new OnClickListener() {
+                    img32.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (null != clickItemImage)
-                            clickItemImage.onClickItemImage(furls, 2);
+                                clickItemImage.onClickItemImage(furls, 1);
                         }
                     });
-                    iv3.setOnClickListener(new OnClickListener() {
+                    img33.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (null != clickItemImage)
-                            clickItemImage.onClickItemImage(furls, 0);
+                                clickItemImage.onClickItemImage(furls, 2);
                         }
                     });
 
-                    addView(iv3);
-                    addView(lin);
                     if (!TextUtils.isEmpty(urls.get(0)))
-                    APP.loadImgCrossFade(urls.get(1), iv1x);
+                        APP.loadImgCrossFade(urls.get(0), img31);
                     if (!TextUtils.isEmpty(urls.get(1)))
-                    APP.loadImgCrossFade(urls.get(2), iv2x);
+                        APP.loadImgCrossFade(urls.get(1), img32);
                     if (!TextUtils.isEmpty(urls.get(2)))
-                    APP.loadImgCrossFade(urls.get(0), iv3);
+                        APP.loadImgCrossFade(urls.get(2), img33);
 
-                /*  iv1x.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
-                    iv2x.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark));
-                    iv3.setBackgroundColor(getResources().getColor(android.R.color.holo_orange_dark));*/
+                    addView(view3);
+
                     break;
                 case 4:
                     removeAllViewsInLayout();
                     setOrientation(LinearLayout.VERTICAL);
-                    DisplayMetrics dmx4 = new DisplayMetrics();
-                    //取得窗口属性
-                    Activity activityx4 = (Activity) context;
-                    activityx4.getWindowManager().getDefaultDisplay().getMetrics(dmx4);
-                    LinearLayout lin4 = new LinearLayout(context);
-                    lin4.setOrientation(LinearLayout.HORIZONTAL);
+//                    DisplayMetrics dmx4 = new DisplayMetrics();
+//                    //取得窗口属性
+//                    Activity activityx4 = (Activity) context;
+//                    activityx4.getWindowManager().getDefaultDisplay().getMetrics(dmx4);
+//                    LinearLayout lin4 = new LinearLayout(context);
+//                    lin4.setOrientation(LinearLayout.HORIZONTAL);
+//
+//                    LayoutParams lin4lp = new LayoutParams(LayoutParams.MATCH_PARENT, (int) (dmx4.widthPixels * (1f / 3f)));
+//
+//                    lin4lp.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3f, dmx4);
+//                    lin4.setLayoutParams(lin4lp);
+//
+//                    ImageView iv41 = new ImageView(context);
+//                    ImageView iv42 = new ImageView(context);
+//                    ImageView iv43 = new ImageView(context);
+//                    ImageView iv44 = new ImageView(context);
+//                    iv41.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    iv42.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    iv43.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    iv44.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//
+//                    LayoutParams iv42p = new LayoutParams(0, (dmx4.widthPixels-48) / 3);
+//                    LayoutParams iv43p = new LayoutParams(0, (dmx4.widthPixels-48) / 3);
+//                    LayoutParams iv44p = new LayoutParams(0, (dmx4.widthPixels-48) / 3);
+//                    LayoutParams iv41p = new LayoutParams(LayoutParams.MATCH_PARENT, (int) ((dmx4.widthPixels-48) * (2f / 3f)));
+//
+//                    iv42p.weight = 1;
+//                    iv43p.weight = 1;
+//                    iv44p.weight = 1;
+//                    iv42p.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3 * (2f / 3f), dmx4);
+//                    iv43p.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3 * (1f / 3f), dmx4);
+//                    iv43p.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3 * (1f / 3f), dmx4);
+//                    iv44p.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3 * (2f / 3f), dmx4);
+//
+//                    iv42.setLayoutParams(iv42p);
+//                    iv43.setLayoutParams(iv43p);
+//                    iv44.setLayoutParams(iv44p);
+//                    iv41.setLayoutParams(iv41p);
+//
+//                    iv41.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    iv42.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    iv43.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    iv44.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//
+//                    lin4.addView(iv42);
+//                    lin4.addView(iv43);
+//                    lin4.addView(iv44);
+//
+//                    addView(iv41);
+//                    addView(lin4);
 
-                    LayoutParams lin4lp = new LayoutParams(LayoutParams.MATCH_PARENT, (int) (dmx4.widthPixels * (1f / 3f)));
+                    View view4 = View.inflate(context, R.layout.layout_dynamic_pic_4, null);
+                    ImageView img41 = (ImageView) view4.findViewById(R.id.img_pic_1);
+                    ImageView img42 = (ImageView) view4.findViewById(R.id.img_pic_2);
+                    ImageView img43 = (ImageView) view4.findViewById(R.id.img_pic_3);
+                    ImageView img44 = (ImageView) view4.findViewById(R.id.img_pic_4);
 
-                    lin4lp.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3f, dmx4);
-                    lin4.setLayoutParams(lin4lp);
-
-                    ImageView iv41 = new ImageView(context);
-                    ImageView iv42 = new ImageView(context);
-                    ImageView iv43 = new ImageView(context);
-                    ImageView iv44 = new ImageView(context);
-                    iv41.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    iv42.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    iv43.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    iv44.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-                    LayoutParams iv42p = new LayoutParams(0, (dmx4.widthPixels-48) / 3);
-                    LayoutParams iv43p = new LayoutParams(0, (dmx4.widthPixels-48) / 3);
-                    LayoutParams iv44p = new LayoutParams(0, (dmx4.widthPixels-48) / 3);
-                    LayoutParams iv41p = new LayoutParams(LayoutParams.MATCH_PARENT, (int) ((dmx4.widthPixels-48) * (2f / 3f)));
-
-                    iv42p.weight = 1;
-                    iv43p.weight = 1;
-                    iv44p.weight = 1;
-                    iv42p.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3 * (2f / 3f), dmx4);
-                    iv43p.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3 * (1f / 3f), dmx4);
-                    iv43p.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3 * (1f / 3f), dmx4);
-                    iv44p.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3 * (2f / 3f), dmx4);
-
-                    iv42.setLayoutParams(iv42p);
-                    iv43.setLayoutParams(iv43p);
-                    iv44.setLayoutParams(iv44p);
-                    iv41.setLayoutParams(iv41p);
-
-                    iv41.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    iv42.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    iv43.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    iv44.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-                    lin4.addView(iv42);
-                    lin4.addView(iv43);
-                    lin4.addView(iv44);
-
-                    addView(iv41);
-                    addView(lin4);
-
-                    iv41.setOnClickListener(new OnClickListener() {
+                    img41.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (null != clickItemImage)
                             clickItemImage.onClickItemImage(furls, 0);
                         }
                     });
-                    iv42.setOnClickListener(new OnClickListener() {
+                    img42.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (null != clickItemImage)
                             clickItemImage.onClickItemImage(furls, 1);
                         }
                     });
-                    iv43.setOnClickListener(new OnClickListener() {
+                    img43.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (null != clickItemImage)
                             clickItemImage.onClickItemImage(furls, 2);
                         }
                     });
-                    iv44.setOnClickListener(new OnClickListener() {
+                    img44.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (null != clickItemImage)
@@ -572,80 +635,132 @@ public class FamilyBookView extends LinearLayout {
                     });
 
                     if (!TextUtils.isEmpty(urls.get(0)))
-                        APP.loadImgCrossFade(urls.get(0), iv41);
+                        APP.loadImgCrossFade(urls.get(0), img41);
                     if (!TextUtils.isEmpty(urls.get(1)))
-                        APP.loadImgCrossFade(urls.get(1), iv42);
+                        APP.loadImgCrossFade(urls.get(1), img42);
                     if (!TextUtils.isEmpty(urls.get(2)))
-                        APP.loadImgCrossFade(urls.get(2), iv43);
+                        APP.loadImgCrossFade(urls.get(2), img43);
                     if (!TextUtils.isEmpty(urls.get(3)))
-                        APP.loadImgCrossFade(urls.get(3), iv44);
+                        APP.loadImgCrossFade(urls.get(3), img44);
+
+                    addView(view4);
                     break;
                 case 5:
-                    Log.i("familytbookView", "casee=5");
                     removeAllViewsInLayout();
                     setOrientation(LinearLayout.VERTICAL);
 
-                    DisplayMetrics dmx5 = new DisplayMetrics();
-                    //取得窗口属性
-                    Activity activityx5 = (Activity) context;
-                    activityx5.getWindowManager().getDefaultDisplay().getMetrics(dmx5);
+//                    DisplayMetrics dmx5 = new DisplayMetrics();
+//                    //取得窗口属性
+//                    Activity activityx5 = (Activity) context;
+//                    activityx5.getWindowManager().getDefaultDisplay().getMetrics(dmx5);
+//
+//                    LinearLayout lin5down = new LinearLayout(context);
+//                    lin5down.setOrientation(LinearLayout.HORIZONTAL);
+//                    LayoutParams lin5lp = new LayoutParams(LayoutParams.MATCH_PARENT, (int) ((dmx5.widthPixels-48) * (1f / 3f)));
+//                    lin5lp.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3f / 2f, dmx5);
+//                    lin5down.setLayoutParams(lin5lp);
+//
+//                    LinearLayout lin5up = new LinearLayout(context);
+//                    lin5up.setOrientation(LinearLayout.HORIZONTAL);
+//                    LayoutParams linlpup = new LayoutParams(LayoutParams.MATCH_PARENT, (int) ((dmx5.widthPixels-48) * (1f / 2f)));
+//                    linlpup.bottomMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3f / 2f, dmx5);
+//                    lin5up.setLayoutParams(linlpup);
+//
+//                    ImageView iv51 = new ImageView(context);
+//                    ImageView iv52 = new ImageView(context);
+//                    ImageView iv53 = new ImageView(context);
+//                    ImageView iv54 = new ImageView(context);
+//                    RelativeLayout rela = new RelativeLayout(context);
+//                    ImageView iv55 = new ImageView(context);
+//                    iv51.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    iv52.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    iv53.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    iv54.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    iv55.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    TextView ivt5txt = new TextView(context);
+//                    iv55.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+//                    ivt5txt.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+//
+//                    LayoutParams iv51p = new LayoutParams(0, (dmx5.widthPixels-48) / 2);
+//                    LayoutParams iv52p = new LayoutParams(0, (dmx5.widthPixels-48) / 2);
+//                    LayoutParams iv53p = new LayoutParams(0, (dmx5.widthPixels-48) / 3);
+//                    LayoutParams iv54p = new LayoutParams(0, (dmx5.widthPixels-48) / 3);
+//                    LayoutParams iv55p = new LayoutParams(0, (dmx5.widthPixels-48) / 3);
+//
+//                    // LinearLayout.LayoutParams iv51p=   new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,(int)(dmx5.widthPixels*(2f/3f)));
+//
+//                    iv51p.weight = 1;
+//                    iv52p.weight = 1;
+//                    iv53p.weight = 1;
+//                    iv54p.weight = 1;
+//                    iv55p.weight = 1;
+//
+//                    iv51p.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1.5f, dmx5);
+//                    iv52p.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1.5f, dmx5);
+//                    iv53p.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3 * (2f / 3f), dmx5);
+//                    iv54p.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3 * (1f / 3f), dmx5);
+//                    iv54p.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3 * (1f / 3f), dmx5);
+//                    iv55p.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3 * (2f / 3f), dmx5);
+//
+//                    iv51.setLayoutParams(iv51p);
+//                    iv52.setLayoutParams(iv52p);
+//                    iv53.setLayoutParams(iv53p);
+//                    iv54.setLayoutParams(iv54p);
+//                    rela.setLayoutParams(iv55p);
+//
+//                    iv51.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    iv52.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    iv53.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    iv54.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    iv55.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//
+//                    lin5up.addView(iv51);
+//                    lin5up.addView(iv52);
+//                    rela.addView(iv55);
+//                    rela.addView(ivt5txt);
+//                    lin5down.addView(iv53);
+//                    lin5down.addView(iv54);
+//                    lin5down.addView(rela);
+//                    addView(lin5up);
+//                    addView(lin5down);
 
-                    LinearLayout lin5down = new LinearLayout(context);
-                    lin5down.setOrientation(LinearLayout.HORIZONTAL);
-                    LayoutParams lin5lp = new LayoutParams(LayoutParams.MATCH_PARENT, (int) ((dmx5.widthPixels-48) * (1f / 3f)));
-                    lin5lp.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3f / 2f, dmx5);
-                    lin5down.setLayoutParams(lin5lp);
+                    View view5 = View.inflate(context, R.layout.layout_dynamic_pic_5, null);
+                    ImageView img51 = (ImageView) view5.findViewById(R.id.img_pic_1);
+                    ImageView img52 = (ImageView) view5.findViewById(R.id.img_pic_2);
+                    ImageView img53 = (ImageView) view5.findViewById(R.id.img_pic_3);
+                    ImageView img54 = (ImageView) view5.findViewById(R.id.img_pic_4);
+                    ImageView img55 = (ImageView) view5.findViewById(R.id.img_pic_5);
+                    TextView tvPic = (TextView) view5.findViewById(R.id.tv_pic);
 
-                    LinearLayout lin5up = new LinearLayout(context);
-                    lin5up.setOrientation(LinearLayout.HORIZONTAL);
-                    LayoutParams linlpup = new LayoutParams(LayoutParams.MATCH_PARENT, (int) ((dmx5.widthPixels-48) * (1f / 2f)));
-                    linlpup.bottomMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3f / 2f, dmx5);
-                    lin5up.setLayoutParams(linlpup);
-
-                    ImageView iv51 = new ImageView(context);
-                    ImageView iv52 = new ImageView(context);
-                    ImageView iv53 = new ImageView(context);
-                    ImageView iv54 = new ImageView(context);
-                    RelativeLayout rela = new RelativeLayout(context);
-                    ImageView iv55 = new ImageView(context);
-                    iv51.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    iv52.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    iv53.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    iv54.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    iv55.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    TextView ivt5txt = new TextView(context);
-                    iv55.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-                    ivt5txt.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-
-                    iv51.setOnClickListener(new OnClickListener() {
+                    img51.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (null != clickItemImage)
                             clickItemImage.onClickItemImage(furls, 0);
                         }
                     });
-                    iv52.setOnClickListener(new OnClickListener() {
+                    img52.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (null != clickItemImage)
                             clickItemImage.onClickItemImage(furls, 1);
                         }
                     });
-                    iv53.setOnClickListener(new OnClickListener() {
+                    img53.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (null != clickItemImage)
                             clickItemImage.onClickItemImage(furls, 2);
                         }
                     });
-                    iv54.setOnClickListener(new OnClickListener() {
+                    img54.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (null != clickItemImage)
                             clickItemImage.onClickItemImage(furls, 3);
                         }
                     });
-                    iv55.setOnClickListener(new OnClickListener() {
+                    img55.setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (null != clickItemImage)
@@ -653,73 +768,29 @@ public class FamilyBookView extends LinearLayout {
                         }
                     });
 
-                    LayoutParams iv51p = new LayoutParams(0, (dmx5.widthPixels-48) / 2);
-                    LayoutParams iv52p = new LayoutParams(0, (dmx5.widthPixels-48) / 2);
-                    LayoutParams iv53p = new LayoutParams(0, (dmx5.widthPixels-48) / 3);
-                    LayoutParams iv54p = new LayoutParams(0, (dmx5.widthPixels-48) / 3);
-                    LayoutParams iv55p = new LayoutParams(0, (dmx5.widthPixels-48) / 3);
-
-                    // LinearLayout.LayoutParams iv51p=   new LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,(int)(dmx5.widthPixels*(2f/3f)));
-
-                    iv51p.weight = 1;
-                    iv52p.weight = 1;
-                    iv53p.weight = 1;
-                    iv54p.weight = 1;
-                    iv55p.weight = 1;
-
-                    iv51p.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1.5f, dmx5);
-                    iv52p.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1.5f, dmx5);
-                    iv53p.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3 * (2f / 3f), dmx5);
-                    iv54p.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3 * (1f / 3f), dmx5);
-                    iv54p.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3 * (1f / 3f), dmx5);
-                    iv55p.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3 * (2f / 3f), dmx5);
-
-                    iv51.setLayoutParams(iv51p);
-                    iv52.setLayoutParams(iv52p);
-                    iv53.setLayoutParams(iv53p);
-                    iv54.setLayoutParams(iv54p);
-                    rela.setLayoutParams(iv55p);
-
-                    iv51.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    iv52.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    iv53.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    iv54.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    iv55.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-                    lin5up.addView(iv51);
-                    lin5up.addView(iv52);
-                    rela.addView(iv55);
-                    rela.addView(ivt5txt);
-                    lin5down.addView(iv53);
-                    lin5down.addView(iv54);
-                    lin5down.addView(rela);
-                    addView(lin5up);
-                    addView(lin5down);
-
                     if (!TextUtils.isEmpty(urls.get(0)))
-                        APP.loadImgCrossFade(urls.get(0), iv51);
+                        APP.loadImgCrossFade(urls.get(0), img51);
                     if (!TextUtils.isEmpty(urls.get(1)))
-                        APP.loadImgCrossFade(urls.get(1), iv52);
+                        APP.loadImgCrossFade(urls.get(1), img52);
                     if (!TextUtils.isEmpty(urls.get(2)))
-                        APP.loadImgCrossFade(urls.get(2), iv53);
+                        APP.loadImgCrossFade(urls.get(2), img53);
                     if (!TextUtils.isEmpty(urls.get(3)))
-                        APP.loadImgCrossFade(urls.get(3), iv54);
+                        APP.loadImgCrossFade(urls.get(3), img54);
                     if (!TextUtils.isEmpty(urls.get(4)))
-                        APP.loadImgCrossFade(urls.get(4), iv55);
+                        APP.loadImgCrossFade(urls.get(4), img55);
 
-                    ivt5txt.setGravity(Gravity.CENTER);
-                    ivt5txt.setTextColor(getResources().getColor(android.R.color.white));
-
+//                    ivt5txt.setGravity(Gravity.CENTER);
+//                    ivt5txt.setTextColor(getResources().getColor(android.R.color.white));
+//
                     int restnum = 0;
                     if (urls.size() > showpicnum) {
                         restnum = urls.size() - showpicnum;
-                        ivt5txt.setText("+" + restnum);
-                        ivt5txt.setTextSize(20);
-                        ivt5txt.setBackgroundColor(0x80716f70);
-                        ivt5txt.setVisibility(VISIBLE);
+                        tvPic.setText("+" + restnum);
+                        tvPic.setVisibility(VISIBLE);
                     } else {
-                        ivt5txt.setVisibility(GONE);
+                        tvPic.setVisibility(GONE);
                     }
+                    addView(view5);
                     break;
             }
         }

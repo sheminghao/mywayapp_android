@@ -73,7 +73,7 @@ android:orientation="vertical">
     <cn.jzvd.JZVideoPlayerStandard
         android:id="@+id/playerview"
         android:layout_width="match_parent"
-        android:layout_height="220dp" />
+        android:layout_height="428px" />
 
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"

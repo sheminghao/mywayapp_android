@@ -1,12 +1,14 @@
 package com.mywaytec.myway.ui.userDynamic;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.WindowManager;
 
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.BaseActivity;
+import com.mywaytec.myway.model.bean.DynamicListBean;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -48,5 +50,17 @@ public class UserDynamicActivity extends BaseActivity<UserDynamicPresenter> impl
     @Override
     public LRecyclerView getRecyclerView() {
         return recyclerView;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0x132 && resultCode == RESULT_OK){
+            DynamicListBean.ObjBean dynamic = (DynamicListBean.ObjBean) data.getSerializableExtra("dynamic");
+            int position = data.getIntExtra("position", -1);
+            if (null != dynamic) {
+                mPresenter.refreshItem(dynamic, position);
+            }
+        }
     }
 }

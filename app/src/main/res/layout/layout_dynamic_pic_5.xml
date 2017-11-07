@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/img_pic_1"
+            android:layout_width="344px"
+            android:layout_height="260px"
+            android:scaleType="centerCrop"/>
+
+        <ImageView
+            android:id="@+id/img_pic_2"
+            android:layout_width="344px"
+            android:layout_height="260px"
+            android:scaleType="centerCrop"
+            android:layout_marginLeft="14px"/>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="12px">
+
+        <ImageView
+            android:id="@+id/img_pic_3"
+            android:layout_width="226px"
+            android:layout_height="226px"
+            android:scaleType="centerCrop"/>
+
+        <ImageView
+            android:id="@+id/img_pic_4"
+            android:layout_width="226px"
+            android:layout_height="226px"
+            android:scaleType="centerCrop"
+            android:layout_marginLeft="12px"/>
+
+        <com.zhy.autolayout.AutoFrameLayout
+            android:layout_width="226px"
+            android:layout_height="226px"
+            android:layout_marginLeft="12px" >
+
+            <ImageView
+                android:id="@+id/img_pic_5"
+                android:layout_width="226px"
+                android:layout_height="226px"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/tv_pic"
+                android:layout_width="226px"
+                android:layout_height="226px"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:background="#80716f70"
+                android:textSize="30px"/>
+
+        </com.zhy.autolayout.AutoFrameLayout>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+</com.zhy.autolayout.AutoLinearLayout>

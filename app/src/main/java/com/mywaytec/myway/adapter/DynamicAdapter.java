@@ -292,7 +292,9 @@ public class DynamicAdapter extends ListBaseAdapter<DynamicListBean.ObjBean> imp
                     @Override
                     public void call(Bitmap data) {
                         // 主线程操作
-                        mPlayerView.thumbImageView.setImageBitmap(data);
+                        if (null != data) {
+                            mPlayerView.thumbImageView.setImageBitmap(data);
+                        }
                     }
                 });
     }

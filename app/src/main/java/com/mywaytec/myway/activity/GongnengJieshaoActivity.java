@@ -1,14 +1,17 @@
 package com.mywaytec.myway.activity;
 
 import android.util.Log;
+import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.BaseActivity;
+import com.mywaytec.myway.utils.AppUtils;
 import com.mywaytec.myway.utils.PreferencesUtils;
 
 import java.util.Locale;
@@ -21,6 +24,8 @@ public class GongnengJieshaoActivity extends BaseActivity {
     TextView tvTitle;
     @BindView(R.id.webview)
     WebView webView;
+    @BindView(R.id.activity_gongneng_jieshao)
+    LinearLayout layoutGongnengJieshao;
 
     @Override
     protected int attachLayoutRes() {
@@ -34,6 +39,9 @@ public class GongnengJieshaoActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
+        // 透明状态栏
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        layoutGongnengJieshao.setPadding(0, AppUtils.getStatusBar(), 0, 0);
         tvTitle.setText("功能介绍");
 
         Locale locale = getResources().getConfiguration().locale;

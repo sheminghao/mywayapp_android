@@ -25,6 +25,8 @@ import com.mywaytec.myway.utils.ToastUtils;
 import com.mywaytec.myway.utils.data.OtherUserInfo;
 import com.mywaytec.myway.view.CommonSubscriber;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 /**
@@ -190,6 +192,14 @@ public class UserDynamicPresenter extends RxPresenter<UserDynamicView> {
                         });
                     }
                 });
+    }
+
+    //刷新单个item
+    public void refreshItem(DynamicListBean.ObjBean dynamic, int position){
+        Log.i("TAG", "-------UserDynamicPresenter刷新"+position + dynamic.getLikeNum());
+        List<DynamicListBean.ObjBean> objBeanList = dynamicAdapter.getDataList();
+        objBeanList.set(position, dynamic);
+        dynamicAdapter.notifyDataSetChanged();
     }
 
     //显示用户等级

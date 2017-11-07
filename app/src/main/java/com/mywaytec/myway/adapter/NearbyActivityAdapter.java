@@ -13,6 +13,7 @@ import com.mywaytec.myway.base.ListBaseAdapter;
 import com.mywaytec.myway.base.SuperViewHolder;
 import com.mywaytec.myway.model.bean.NearbyActivityBean;
 import com.mywaytec.myway.ui.huodongXiangqing.HuodongXiangqingActivity;
+import com.mywaytec.myway.ui.huodongyueban.HuodongYuebanActivity;
 
 import static com.mywaytec.myway.ui.huodongXiangqing.HuodongXiangqingActivity.ACTIVITY_INFO;
 
@@ -60,7 +61,8 @@ public class NearbyActivityAdapter extends ListBaseAdapter<NearbyActivityBean.Ob
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, HuodongXiangqingActivity.class);
                 intent.putExtra(ACTIVITY_INFO, mDataList.get(position));
-                mContext.startActivity(intent);
+                intent.putExtra("position", position);
+                ((HuodongYuebanActivity)mContext).startActivityForResult(intent, 0x141);
             }
         });
     }

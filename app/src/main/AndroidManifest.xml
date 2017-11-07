@@ -239,7 +239,8 @@
         <activity
             android:name=".ui.mydynamic.MyDynamicActivity"
             android:configChanges="locale"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true"/>
         <activity
             android:name=".ui.mytrack.MyTrackActivity"
             android:configChanges="locale"
@@ -284,7 +285,8 @@
         <activity
             android:name=".ui.userDynamic.UserDynamicActivity"
             android:configChanges="locale"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true"/>
         <activity
             android:name=".ui.gradeAndGold.GradeAndGoldActivity"
             android:configChanges="locale"

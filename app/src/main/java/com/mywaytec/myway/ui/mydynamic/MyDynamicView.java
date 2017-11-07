@@ -1,5 +1,7 @@
 package com.mywaytec.myway.ui.mydynamic;
 
+import android.content.Context;
+
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.mywaytec.myway.base.IBaseView;
 
@@ -8,6 +10,8 @@ import com.mywaytec.myway.base.IBaseView;
  */
 
 public interface MyDynamicView extends IBaseView {
+
+    Context getContext();
 
     LRecyclerView getDynamicList();
 

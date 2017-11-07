@@ -118,7 +118,7 @@ public class APP extends TinkerApplication {
         Glide.with(instance).load(url).error(R.mipmap.icon_default)
                 .placeholder(R.mipmap.icon_default)
                 .centerCrop()
-                .crossFade(500) // 可设置时长，默认“300ms”
+                .crossFade(300) // 可设置时长，默认“300ms”
                 .into(iv);
     }
 

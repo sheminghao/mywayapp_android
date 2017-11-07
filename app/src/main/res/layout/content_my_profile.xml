@@ -133,11 +133,6 @@
                     android:textColor="@color/black"
                     android:textSize="28px" />
 
-                <ImageView
-                    android:layout_width="28px"
-                    android:layout_height="28px"
-                    android:src="@mipmap/icon_right" />
-
             </com.zhy.autolayout.AutoLinearLayout>
 
             <View
@@ -171,11 +166,6 @@
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="28px" />
-
-                <ImageView
-                    android:layout_width="28px"
-                    android:layout_height="28px"
-                    android:src="@mipmap/icon_right" />
 
             </com.zhy.autolayout.AutoLinearLayout>
 
@@ -330,11 +320,6 @@
                     android:textColor="@color/black"
                     android:textSize="28px" />
 
-                <ImageView
-                    android:layout_width="28px"
-                    android:layout_height="28px"
-                    android:src="@mipmap/icon_right" />
-
             </com.zhy.autolayout.AutoLinearLayout>
 
             <View
@@ -408,11 +393,6 @@
                     android:textColor="@color/black"
                     android:textSize="28px" />
 
-                <ImageView
-                    android:layout_width="28px"
-                    android:layout_height="28px"
-                    android:src="@mipmap/icon_right" />
-
             </com.zhy.autolayout.AutoLinearLayout>
 
             <View
@@ -446,11 +426,6 @@
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="28px" />
-
-                <ImageView
-                    android:layout_width="28px"
-                    android:layout_height="28px"
-                    android:src="@mipmap/icon_right" />
 
             </com.zhy.autolayout.AutoLinearLayout>
 

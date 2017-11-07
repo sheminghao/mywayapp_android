@@ -17,6 +17,7 @@ import com.mywaytec.myway.model.http.RetrofitHelper;
 import com.mywaytec.myway.utils.PreferencesUtils;
 import com.mywaytec.myway.utils.RxUtil;
 import com.mywaytec.myway.view.CommonSubscriber;
+import com.mywaytec.myway.view.LoadingDialog;
 
 import javax.inject.Inject;
 
@@ -35,6 +36,7 @@ public class HuodongYuebanPresenter extends RxPresenter<HuodongYuebanView> {
     private BaiduMap baiduMap;
     LocationClient mLocationClient;
     BDAbstractLocationListener myListener = new MyLocationListener();
+    private LoadingDialog loadingDialog;
 
     @Inject
     public HuodongYuebanPresenter(RetrofitHelper retrofitHelper) {
@@ -49,6 +51,14 @@ public class HuodongYuebanPresenter extends RxPresenter<HuodongYuebanView> {
     public void attachView(HuodongYuebanView view) {
         super.attachView(view);
         mContext = mView.getContext();
+    }
+
+    public NearbyActivityAdapter getNearbyActivityAdapter(){
+        return nearbyActivityAdapter;
+    }
+
+    public NearbyActivityAdapter getWodeActivityAdapter(){
+        return wodeActivityAdapter;
     }
 
     //初始化附近的活动
@@ -79,7 +89,7 @@ public class HuodongYuebanPresenter extends RxPresenter<HuodongYuebanView> {
                 loadWode();
             }
         });
-        loadWode();
+//        loadWode();
     }
 
     //附近活动
@@ -91,6 +101,9 @@ public class HuodongYuebanPresenter extends RxPresenter<HuodongYuebanView> {
                 .subscribe(new CommonSubscriber<NearbyActivityBean>() {
                     @Override
                     public void onNext(NearbyActivityBean nearbyActivityBean) {
+                        if (null != loadingDialog) {
+                            loadingDialog.cancel();
+                        }
                         mView.getFujinRecyclerView().refreshComplete(0);
                         if (nearbyActivityBean.getCode() == 1){
                             nearbyActivityAdapter.setDataList(nearbyActivityBean.getObj());
@@ -100,12 +113,18 @@ public class HuodongYuebanPresenter extends RxPresenter<HuodongYuebanView> {
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
+                        if (null != loadingDialog) {
+                            loadingDialog.cancel();
+                        }
                         mView.getFujinRecyclerView().refreshComplete(0);
                     }
                 });
     }
 
-    private void loadWode(){
+    //我的活动
+    public void loadWode(){
+        loadingDialog = new LoadingDialog(mContext);
+        loadingDialog.show();
         String uid = PreferencesUtils.getLoginInfo().getObj().getUid();
         String token = PreferencesUtils.getLoginInfo().getObj().getToken();
         retrofitHelper.myActivity(uid, token)
@@ -113,6 +132,9 @@ public class HuodongYuebanPresenter extends RxPresenter<HuodongYuebanView> {
                 .subscribe(new CommonSubscriber<NearbyActivityBean>() {
                     @Override
                     public void onNext(NearbyActivityBean nearbyActivityBean) {
+                        if (null != loadingDialog) {
+                            loadingDialog.cancel();
+                        }
                         mView.getWodeRecyclerView().refreshComplete(0);
                         if (nearbyActivityBean.getCode() == 1){
                             wodeActivityAdapter.setDataList(nearbyActivityBean.getObj());
@@ -122,6 +144,9 @@ public class HuodongYuebanPresenter extends RxPresenter<HuodongYuebanView> {
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
+                        if (null != loadingDialog) {
+                            loadingDialog.cancel();
+                        }
                         mView.getWodeRecyclerView().refreshComplete(0);
                     }
                 });
@@ -130,6 +155,9 @@ public class HuodongYuebanPresenter extends RxPresenter<HuodongYuebanView> {
 
     //初始化地图
     public void initAMap(){
+        loadingDialog = new LoadingDialog(mContext);
+        loadingDialog.show();
+        isFirstLoc = true;
         baiduMap = mView.getMapView().getMap();
         //普通地图
         baiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);

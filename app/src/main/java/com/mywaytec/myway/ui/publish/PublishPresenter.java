@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
+import com.baidu.mapapi.map.Text;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.luck.picture.lib.model.FunctionConfig;
 import com.luck.picture.lib.model.FunctionOptions;
@@ -226,7 +227,7 @@ public class PublishPresenter extends RxPresenter<PublishView> {
 
     //发表动态
     public void piblish(String content, PoiInfo address){
-        if (TextUtils.isEmpty(content)){
+        if (TextUtils.isEmpty(content) && selectMedia.size() == 0){
             ToastUtils.showToast(R.string.说点什么吧);
             return;
         }
@@ -252,8 +253,10 @@ public class PublishPresenter extends RxPresenter<PublishView> {
         if (selectMedia.size()>0){
             include_img = true;
         }
-        //发表情
-        content = Base64_2.encode(content.getBytes());//Base64编码
+        if (!TextUtils.isEmpty(content)) {
+            //发表情
+            content = Base64_2.encode(content.getBytes());//Base64编码
+        }
         retrofitHelper.publishDynamic(uid, token, include_img, content, latitude, longitude, country,
                             province, city, district, street, streetnum, citycode, adcode, aoiname)
                 .compose(RxUtil.<PublishBean>rxSchedulerHelper())
@@ -279,6 +282,8 @@ public class PublishPresenter extends RxPresenter<PublishView> {
                         }else if(publishBean.getCode() == 233){//用户检验失败
                             loadingDialog.dismiss();
                             DialogUtils.reLoginDialog(mView.getContext());
+                        }else{//
+                            ToastUtils.showToast(publishBean.getMsg());
                         }
                     }
                     @Override

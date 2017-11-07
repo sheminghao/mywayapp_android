@@ -1,6 +1,6 @@
 package com.mywaytec.myway.ui.main;
 
-import android.util.Log;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -61,9 +61,11 @@ public class MainPresenter extends RxPresenter<MainView> {
                             if ("true".equals(otherMsgBean.getObj().getIsSign())){
                                 mView.getSigninImg().setImageResource(R.mipmap.cebianlan_qiandao_done);
                                 mView.getSigninTV().setText(R.string.signed_up_already_activity);
+                                mView.getSigninTV().setTextColor(Color.parseColor("#e0e0e0"));
                             }else {
                                 mView.getSigninImg().setImageResource(R.mipmap.cebianlan_qiandao);
                                 mView.getSigninTV().setText(R.string.sign_in);
+                                mView.getSigninTV().setTextColor(Color.parseColor("#ffffff"));
                             }
                         }else if (otherMsgBean.getCode() == 233){
                             DialogUtils.reLoginDialog(mView.getContext());
@@ -105,6 +107,7 @@ public class MainPresenter extends RxPresenter<MainView> {
                             ToastUtils.showToast(R.string.sign_up_successfully);
                             mView.getSigninImg().setImageResource(R.mipmap.cebianlan_qiandao_done);
                             mView.getSigninTV().setText(R.string.signed_up_already_activity);
+                            mView.getSigninTV().setTextColor(Color.parseColor("#e0e0e0"));
                         }else if(baseInfo.getCode() == -2){
                             ToastUtils.showToast(R.string.signed_up_already);
                         }
