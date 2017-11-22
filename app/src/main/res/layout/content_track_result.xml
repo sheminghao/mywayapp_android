@@ -5,10 +5,10 @@
     android:id="@+id/content_track_result"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.mywaytec.myway.ui.trackResult.TrackResultActivity"
-    tools:showIn="@layout/activity_track_result"
-    android:background="@mipmap/icon_bg">
+    tools:showIn="@layout/activity_track_result">
 
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
@@ -23,204 +23,106 @@
                 android:id="@+id/img_cover"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/white"
                 android:scaleType="centerCrop"
-                android:background="@color/white"/>
+                android:src="@mipmap/wanshanluxian_fengmian_bg" />
 
-            <com.zhy.autolayout.AutoLinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/tv_upload_cover"
+                android:layout_width="246px"
+                android:layout_height="71px"
                 android:layout_centerInParent="true"
+                android:background="@mipmap/wanshangluxian_fengmiantu"
                 android:gravity="center"
-                android:orientation="vertical">
-
-                <com.mywaytec.myway.view.CircleImageView
-                    android:id="@+id/img_head_portrait"
-                    android:layout_width="130px"
-                    android:layout_height="130px"
-                    android:scaleType="centerCrop" />
-
-                <TextView
-                    android:id="@+id/tv_nickname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textSize="16sp"
-                    android:textColor="@color/white"/>
-
-            </com.zhy.autolayout.AutoLinearLayout>
+                android:text="@string/upload_cover"
+                android:textColor="@color/white"
+                android:textSize="30px" />
 
         </com.zhy.autolayout.AutoRelativeLayout>
 
+        <EditText
+            android:id="@+id/et_route_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24px"
+            android:background="@color/transparency"
+            android:hint="@string/路线标题"
+            android:paddingBottom="30px"
+            android:paddingTop="30px"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textColorHint="#BCBCBC"
+            android:textSize="30px" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#EEEEEE" />
+
         <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20px"
             android:orientation="horizontal"
-            android:padding="20px">
+            android:padding="24px"
+            android:gravity="center_vertical" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/track_name"
-                android:textSize="34px"
-                android:textColor="@color/white"/>
+                android:text="@string/总分"
+                android:textColor="#666666"
+                android:textSize="32px" />
 
-            <EditText
-                android:id="@+id/et_route_name"
-                android:layout_width="match_parent"
+            <com.mywaytec.myway.view.CustomRatingBar
+                android:id="@+id/ratingBar_zongfen"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20px"
-                android:singleLine="true"
-                android:textSize="34px"
-                android:textColor="@color/white"
-                android:background="@color/transparency" />
+                app:stateResId="@drawable/comment_ratingbar_selector"
+                app:canEdit="true"
+                app:dividerWidth="5dp"
+                app:starCount="5"
+                app:widthAndHeight="25dp"
+                android:layout_marginLeft="60px"/>
+
+            <TextView
+                android:id="@+id/tv_zongfen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60px"
+                android:textSize="26px"
+                android:textColor="#333333"/>
 
         </com.zhy.autolayout.AutoLinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/whitesmoke"/>
+            android:background="@color/whitesmoke" />
 
-        <com.zhy.autolayout.AutoLinearLayout
+        <EditText
+            android:id="@+id/et_luxianjianjie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20px">
-
-            <com.zhy.autolayout.AutoLinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/scenery"
-                    android:textSize="34px"
-                    android:textColor="@color/white"/>
-
-                <RatingBar
-                    android:id="@+id/ratingBar_fengjing"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxHeight="39px"
-                    android:minHeight="39px"
-                    android:numStars="5"
-                    android:progressDrawable="@drawable/ratingbar_track_result"
-                    android:rating="5" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/track_result_mileage"
-                    android:textSize="34px"
-                    android:textColor="@color/white"
-                    android:layout_marginLeft="30px"/>
-
-                <TextView
-                    android:id="@+id/tv_total_distance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0.0"
-                    android:textSize="34px"
-                    android:textColor="@color/white"
-                    android:layout_marginLeft="20px"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="km"
-                    android:textSize="34px"
-                    android:textColor="@color/white"/>
-
-            </com.zhy.autolayout.AutoLinearLayout>
-
-            <com.zhy.autolayout.AutoLinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="20px">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/level"
-                    android:textSize="34px"
-                    android:textColor="@color/white"/>
-
-                <RatingBar
-                    android:id="@+id/ratingBar_nandu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxHeight="39px"
-                    android:minHeight="39px"
-                    android:numStars="5"
-                    android:progressDrawable="@drawable/ratingbar_track_result"
-                    android:rating="5" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/battery_rang_required"
-                    android:textSize="34px"
-                    android:textColor="@color/white"
-                    android:inputType="numberDecimal"
-                    android:layout_marginLeft="30px"/>
-
-                <EditText
-                    android:id="@+id/et_xuhangyaoqiu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="km"
-                    android:textColorHint="#aaaaaa"
-                    android:textSize="34px"
-                    android:textColor="@color/white"
-                    android:inputType="number"
-                    android:layout_marginLeft="20px"
-                    android:background="@color/transparency"/>
-
-            </com.zhy.autolayout.AutoLinearLayout>
-
-        </com.zhy.autolayout.AutoLinearLayout>
+            android:background="@color/transparency"
+            android:gravity="top"
+            android:minLines="5"
+            android:hint="@string/路线简介提示"
+            android:textColorHint="#BBBBBB"
+            android:textColor="@color/black"
+            android:textSize="28px"
+            android:padding="24px" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/whitesmoke"/>
-
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20px">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/track_description"
-                android:textSize="34px"
-                android:textColor="@color/white"/>
-
-            <EditText
-                android:id="@+id/et_luxianjianjie"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="34px"
-                android:textColor="@color/white"
-                android:background="@color/transparency"
-                android:minLines="4"
-                android:gravity="top"/>
-
-        </com.zhy.autolayout.AutoLinearLayout>
-
+            android:layout_height="20px"
+            android:background="#eeeeee" />
+        
         <com.baidu.mapapi.map.MapView
             android:id="@+id/mapview"
             android:layout_width="match_parent"
-            android:layout_height="400px"
-            android:overScrollMode="never">
+            android:layout_height="533px"
+            android:overScrollMode="never"
+            android:padding="24px" >
 
         </com.baidu.mapapi.map.MapView>
 
@@ -228,162 +130,133 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20px"
-            android:layout_marginTop="20px">
+            android:paddingLeft="24px"
+            android:paddingRight="24px" >
 
             <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="110px"
                 android:orientation="horizontal"
-                android:padding="10px">
+                android:gravity="center_vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/track_result_start"
-                    android:textSize="34px"
-                    android:textColor="@color/white"/>
+                    android:textColor="#333333"
+                    android:textSize="30px" />
 
                 <EditText
                     android:id="@+id/et_qishididian"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint=""
-                    android:textColorHint="#aaaaaa"
-                    android:textSize="34px"
-                    android:textColor="@color/white"
                     android:layout_marginLeft="20px"
-                    android:background="@color/transparency"/>
+                    android:gravity="center_vertical"
+                    android:background="@color/transparency"
+                    android:hint="@string/请输入真实详细起点"
+                    android:textColor="#333333"
+                    android:textColorHint="#BFBFBF"
+                    android:textSize="30px" />
 
             </com.zhy.autolayout.AutoLinearLayout>
 
-            <com.zhy.autolayout.AutoLinearLayout
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10px">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/start_bus_station"
-                    android:textSize="34px"
-                    android:textColor="@color/white"/>
-
-                <EditText
-                    android:id="@+id/et_qishigongjiao"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint=""
-                    android:textColorHint="#aaaaaa"
-                    android:textSize="34px"
-                    android:textColor="@color/white"
-                    android:layout_marginLeft="20px"
-                    android:background="@color/transparency"/>
-
-            </com.zhy.autolayout.AutoLinearLayout>
+                android:layout_height="1px"
+                android:background="#eeeeee" />
 
             <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="110px"
                 android:orientation="horizontal"
-                android:padding="10px">
+                android:gravity="center_vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/track_result_end"
-                    android:textSize="34px"
-                    android:textColor="@color/white"/>
+                    android:textColor="#333333"
+                    android:textSize="30px" />
 
                 <EditText
                     android:id="@+id/et_jieshudidian"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint=""
-                    android:textColorHint="#aaaaaa"
-                    android:textSize="34px"
-                    android:textColor="@color/white"
                     android:layout_marginLeft="20px"
-                    android:background="@color/transparency"/>
-
-            </com.zhy.autolayout.AutoLinearLayout>
-
-            <com.zhy.autolayout.AutoLinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10px">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/end_bus_station"
-                    android:textSize="34px"
-                    android:textColor="@color/white"/>
-
-                <EditText
-                    android:id="@+id/et_jieshugongjiao"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint=""
-                    android:textColorHint="#aaaaaa"
-                    android:textSize="34px"
-                    android:textColor="@color/white"
-                    android:layout_marginLeft="20px"
-                    android:background="@color/transparency"/>
+                    android:gravity="center_vertical"
+                    android:background="@color/transparency"
+                    android:hint="@string/请输入真实详细终点"
+                    android:textColor="#333333"
+                    android:textColorHint="#BFBFBF"
+                    android:textSize="30px" />
 
             </com.zhy.autolayout.AutoLinearLayout>
 
         </com.zhy.autolayout.AutoLinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </android.support.v7.widget.RecyclerView>
+            android:layout_height="20px"
+            android:background="#eeeeee" />
 
         <com.zhy.autolayout.AutoLinearLayout
-            android:id="@+id/layout_upload_photo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center"
-            android:padding="20px"
-            android:layout_marginTop="10px">
+            android:padding="24px">
 
-            <ImageView
-                android:layout_width="50px"
-                android:layout_height="50px"
-                android:src="@mipmap/wanshanxinxi_icon_zhaopian"/>
-
-            <TextView
+            <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/uload_photos"
-                android:textSize="28px"
-                android:textColor="@color/white"/>
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="20px">
+
+                <View
+                    android:layout_width="40px"
+                    android:layout_height="1px"
+                    android:background="#dddddd" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20px"
+                    android:layout_marginRight="20px"
+                    android:text="@string/scenery_photo" />
+
+                <View
+                    android:layout_width="40px"
+                    android:layout_height="1px"
+                    android:background="#dddddd" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never">
+
+            </android.support.v7.widget.RecyclerView>
 
         </com.zhy.autolayout.AutoLinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/whitesmoke"/>
+            android:background="#F0F0F0" />
 
         <TextView
             android:id="@+id/tv_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="82px"
-            android:layout_marginRight="82px"
-            android:text="@string/submit"
-            android:textSize="36px"
-            android:textColor="@color/black"
+            android:layout_margin="24px"
+            android:background="@mipmap/wanshanluxian_fabu"
             android:gravity="center"
-            android:layout_marginTop="32px"
-            android:background="@mipmap/login_btn_denglu"/>
+            android:text="@string/submit"
+            android:textColor="@color/black"
+            android:textSize="36px" />
 
     </com.zhy.autolayout.AutoLinearLayout>
 

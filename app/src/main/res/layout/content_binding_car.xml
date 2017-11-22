@@ -29,7 +29,7 @@
             android:textSize="32px"
             android:hint="@string/input_vehicle_sn_number_or_click_inquiry_button"
             android:textColorHint="#999999"
-            android:textColor="#999999"
+            android:textColor="#000000"
             android:gravity="center"
             android:singleLine="true" />
 

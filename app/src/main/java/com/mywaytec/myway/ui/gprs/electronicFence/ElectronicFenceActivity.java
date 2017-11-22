@@ -160,6 +160,7 @@ public class ElectronicFenceActivity extends BaseActivity<ElectronicFencePresent
                 slidingDrawer.close();
                 layoutSelectDianziweilan.setVisibility(View.VISIBLE);
                 rbYuan.setChecked(true);
+                mPresenter.setWeilanType(-1);//清空地图
                 mPresenter.setWeilanType(0);//添加围栏默认为圆形
                 break;
             case R.id.tv_dianziwei_queding://发送电子围栏

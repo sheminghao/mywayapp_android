@@ -1,8 +1,6 @@
 package com.mywaytec.myway.model.http;
 
 
-import android.util.Log;
-
 import com.mywaytec.myway.model.BaseInfo;
 import com.mywaytec.myway.model.bean.AllBindingCarBean;
 import com.mywaytec.myway.model.bean.AllPeopleBean;
@@ -21,6 +19,8 @@ import com.mywaytec.myway.model.bean.LoginInfo;
 import com.mywaytec.myway.model.bean.MessageBean;
 import com.mywaytec.myway.model.bean.NearbyActivityBean;
 import com.mywaytec.myway.model.bean.NearbyBean;
+import com.mywaytec.myway.model.bean.ObjBooleanBean;
+import com.mywaytec.myway.model.bean.ObjIntBean;
 import com.mywaytec.myway.model.bean.ObjStringBean;
 import com.mywaytec.myway.model.bean.OtherMsgBean;
 import com.mywaytec.myway.model.bean.PraiseBean;
@@ -42,7 +42,6 @@ import com.mywaytec.myway.model.http.api.MywayApis;
 import java.util.Map;
 
 import okhttp3.RequestBody;
-import retrofit2.http.Part;
 import rx.Observable;
 
 /**
@@ -330,7 +329,7 @@ public class RetrofitHelper {
      * 获取未读消息数目
      * @return
      */
-    public Observable<ObjStringBean> getUnreadCount(String uid){
+    public Observable<ObjIntBean> getUnreadCount(String uid){
         return mywayService.getUnreadCount(uid);
     }
 
@@ -684,6 +683,20 @@ public class RetrofitHelper {
     }
 
     /**
+     * 保存路线
+     * @return
+     */
+    public Observable<UploadRouteBean> saveRoute(Map<String, RequestBody> bodyMap, int scenery_star,
+                                                 int difficulty_star,
+                                                 int legend,
+                                                 int endurance_claim,
+                                                 int score,
+                                                 int route_id){
+        return mywayService.saveRoute(bodyMap, scenery_star, difficulty_star, legend, endurance_claim,
+        score, route_id);
+    }
+
+    /**
      * 发布轨迹
      * @return
      */
@@ -695,6 +708,30 @@ public class RetrofitHelper {
                                                              int route_id){
         return mywayService.publicRoutePaths(bodyMap, scenery_star, difficulty_star, legend, endurance_claim,
                     score,route_id);
+    }
+
+    /**
+     * 判断车主
+     * @return
+     */
+    public Observable<ObjStringBean> vehicleUserOwner(String uid, String sn_code){
+        return mywayService.vehicleUserOwner(uid, sn_code);
+    }
+
+    /**
+     * 验证用户是否已经注册过
+     * @return
+     */
+    public Observable<ObjBooleanBean> userRepeatabilityVerify(String phoneNumber){
+        return mywayService.userRepeatabilityVerify(phoneNumber);
+    }
+
+    /**
+     * 一键阅读所有消息
+     * @return
+     */
+    public Observable<BaseInfo> readAllMessage(String uid, String token){
+        return mywayService.readAllMessage(uid, token);
     }
 
 }

@@ -15,6 +15,7 @@ import com.mywaytec.myway.model.BaseInfo;
 import com.mywaytec.myway.model.bean.MessageBean;
 import com.mywaytec.myway.model.http.RetrofitHelper;
 import com.mywaytec.myway.ui.messageDetail.MessageDetailActivity;
+import com.mywaytec.myway.utils.DialogUtils;
 import com.mywaytec.myway.utils.PreferencesUtils;
 import com.mywaytec.myway.utils.RxUtil;
 import com.mywaytec.myway.utils.ToastUtils;
@@ -86,12 +87,33 @@ public class MessagePresenter extends RxPresenter<MessageView> {
                         if (messageBean.getCode() == 350){
                             if (null != messageBean.getObj() && messageBean.getObj().size() > 0){
                                 mView.getNoneTV().setVisibility(View.GONE);
+                                mView.getRightImg().setEnabled(true);
                             }else {
                                 mView.getNoneTV().setVisibility(View.VISIBLE);
+                                mView.getRightImg().setEnabled(false);
                             }
                             messageAdapter.setDataList(messageBean.getObj());
                         }else{
                             ToastUtils.showToast(messageBean.getMsg());
+                        }
+                    }
+                });
+    }
+
+    //一键读取
+    public void yijianduqu(){
+        String uid = PreferencesUtils.getLoginInfo().getObj().getUid();
+        String token = PreferencesUtils.getLoginInfo().getObj().getToken();
+        retrofitHelper.readAllMessage(uid, token)
+                .compose(RxUtil.<BaseInfo>rxSchedulerHelper())
+                .subscribe(new CommonSubscriber<BaseInfo>() {
+                    @Override
+                    public void onNext(BaseInfo baseInfo) {
+                        if (baseInfo.getCode() == 1){
+                            messageAdapter.clear();
+                            mView.getRightImg().setEnabled(false);
+                        }else if (baseInfo.getCode() == 19){
+                            DialogUtils.reLoginDialog(mContext);
                         }
                     }
                 });

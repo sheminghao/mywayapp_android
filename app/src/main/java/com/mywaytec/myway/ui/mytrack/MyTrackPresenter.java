@@ -7,7 +7,6 @@ import android.util.Log;
 
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
-import com.mywaytec.myway.APP;
 import com.mywaytec.myway.DaoSession;
 import com.mywaytec.myway.MyTrackDao;
 import com.mywaytec.myway.adapter.MyTrackAdapter;
@@ -20,7 +19,6 @@ import com.mywaytec.myway.ui.trackResult.TrackResultActivity;
 import com.mywaytec.myway.utils.DialogUtils;
 import com.mywaytec.myway.utils.PreferencesUtils;
 import com.mywaytec.myway.utils.RxUtil;
-import com.mywaytec.myway.utils.SystemUtil;
 import com.mywaytec.myway.view.CommonSubscriber;
 
 import java.util.List;
@@ -69,7 +67,7 @@ public class MyTrackPresenter extends RxPresenter<MytrackView> {
 //                Long trackkey = myTrackAdapter.getDataList().get(position).getId();
                 Intent intent = new Intent(mView.getContext(), TrackResultActivity.class);
                 intent.putExtra("save_route_id", myTrackAdapter.getDataList().get(position).getId());
-                intent.putExtra("save_route_name", myTrackAdapter.getDataList().get(position).getName());
+                intent.putExtra("save_route", myTrackAdapter.getDataList().get(position));
                 float total = myTrackAdapter.getDataList().get(position).getLegend();
                 intent.putExtra("total", total);
                 mView.getContext().startActivity(intent);

@@ -1,6 +1,7 @@
 package com.mywaytec.myway.ui.forgetPassword;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
 import android.text.TextUtils;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.BaseActivity;
+import com.mywaytec.myway.ui.selectCountry.SelectCountryActivity;
 import com.mywaytec.myway.utils.AppUtils;
 import com.mywaytec.myway.utils.CodeUtil;
 import com.mywaytec.myway.utils.ToastUtils;
@@ -36,6 +38,8 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordPresenter
     TextView tvGetAuthCode;
     @BindView(R.id.layout_forget_password)
     CoordinatorLayout layoutForgetPassword;
+    @BindView(R.id.tv_select_country)
+    TextView tvSelectCountry;
 
     private CodeUtil codeUtil;
 
@@ -119,7 +123,7 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordPresenter
         }
     };
 
-    @OnClick({R.id.tv_get_auth_code, R.id.tv_confirm})
+    @OnClick({R.id.tv_get_auth_code, R.id.tv_confirm, R.id.tv_select_country})
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_get_auth_code://获取验证码
@@ -132,10 +136,18 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordPresenter
                     return;
                 }
                 codeUtil.start();
-                SMSSDK.getVerificationCode("86", getPhoneNumber());
+                String countryCode = "86";//手机区号默认为中国
+                if (tvSelectCountry.getText().toString().length() > 0) {
+                    countryCode = tvSelectCountry.getText().toString().substring(1);
+                }
+                SMSSDK.getVerificationCode(countryCode, getPhoneNumber());
                 break;
             case R.id.tv_confirm://确定
                 mPresenter.resetPassword();
+                break;
+            case R.id.tv_select_country://国家区号
+                Intent intent = new Intent(this, SelectCountryActivity.class);
+                startActivityForResult(intent, SelectCountryActivity.SELCET_COUNTRY);
                 break;
         }
     }
@@ -166,8 +178,22 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordPresenter
     }
 
     @Override
+    public TextView getSelectCountryTV() {
+        return tvSelectCountry;
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         SMSSDK.unregisterEventHandler(eh);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SelectCountryActivity.SELCET_COUNTRY && resultCode == RESULT_OK){
+            String code = data.getStringExtra("code");
+            tvSelectCountry.setText("+"+code);
+        }
     }
 }

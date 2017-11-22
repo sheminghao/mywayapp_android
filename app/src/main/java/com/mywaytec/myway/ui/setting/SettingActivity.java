@@ -19,6 +19,7 @@ import com.mywaytec.myway.ui.switchLanguage.SwitchLanguageActivity;
 import com.mywaytec.myway.ui.switchUnit.SwitchUnitActivity;
 import com.mywaytec.myway.utils.CleanMessageUtil;
 import com.mywaytec.myway.utils.PreferencesUtils;
+import com.mywaytec.myway.utils.data.BleInfo;
 import com.mywaytec.myway.utils.data.IsLogin;
 
 import butterknife.BindView;
@@ -93,6 +94,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                 tvClearCache.setText(CleanMessageUtil.getTotalCacheSize(this)+"");
                 break;
             case R.id.tv_login_out://退出登录
+                CleanMessageUtil.clearAllCache(this);//清除缓存
+                BleInfo.clearBleInfo();//清除蓝牙缓存信息
                 startActivity(new Intent(this, LoginActivity.class));
                 IsLogin.saveDynamicData(false);
                 AppManager.getAppManager().finishAllActivity();

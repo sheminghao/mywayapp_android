@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.activity.TermsAndPrivacyActivity;
 import com.mywaytec.myway.base.BaseActivity;
+import com.mywaytec.myway.ui.selectCountry.SelectCountryActivity;
 import com.mywaytec.myway.utils.AppUtils;
 import com.mywaytec.myway.utils.CodeUtil;
 import com.mywaytec.myway.utils.ToastUtils;
@@ -38,6 +39,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     TextView tvGetAuthCode;
     @BindView(R.id.layout_regisyer)
     CoordinatorLayout layoutRegister;
+    @BindView(R.id.tv_select_country)
+    TextView tvSelectCountry;
 
     private CodeUtil codeUtil;
 
@@ -124,7 +127,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         }
     };
 
-    @OnClick({R.id.tv_get_auth_code, R.id.tv_register, R.id.tv_agreement})
+    @OnClick({R.id.tv_get_auth_code, R.id.tv_register, R.id.tv_agreement, R.id.tv_select_country})
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_get_auth_code://获取验证码
@@ -157,6 +160,10 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
             case R.id.tv_agreement://条款协议
                 startActivity(new Intent(this, TermsAndPrivacyActivity.class));
                 break;
+            case R.id.tv_select_country://国家区号
+                Intent intent = new Intent(this, SelectCountryActivity.class);
+                startActivityForResult(intent, SelectCountryActivity.SELCET_COUNTRY);
+                break;
         }
     }
 
@@ -181,6 +188,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     }
 
     @Override
+    public TextView getSelectCountryTV() {
+        return tvSelectCountry;
+    }
+
+    @Override
     public Context getContext() {
         return this;
     }
@@ -194,5 +206,14 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     protected void onDestroy() {
         super.onDestroy();
         SMSSDK.unregisterEventHandler(eh);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SelectCountryActivity.SELCET_COUNTRY && resultCode == RESULT_OK){
+            String code = data.getStringExtra("code");
+            tvSelectCountry.setText("+"+code);
+        }
     }
 }

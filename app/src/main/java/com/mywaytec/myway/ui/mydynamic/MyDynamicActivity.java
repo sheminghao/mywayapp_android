@@ -3,29 +3,23 @@ package com.mywaytec.myway.ui.mydynamic;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.location.LocationManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.BaseActivity;
 import com.mywaytec.myway.model.bean.DynamicListBean;
 import com.mywaytec.myway.ui.blacklist.BlacklistActivity;
-import com.mywaytec.myway.ui.track.TrackRecordActivity;
-import com.mywaytec.myway.utils.PreferencesUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.mywaytec.myway.fragment.dynamic.DynamicFragment.PUBLISH;
-import static com.mywaytec.myway.ui.myprofile.MyProfileActivity.MYPROFILE_CODE;
-
 public class MyDynamicActivity extends BaseActivity<MyDynamicPresenter> implements MyDynamicView {
 
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
     @BindView(R.id.dynamic_recyclerview)
     LRecyclerView dynamicRecyclerview;
     @BindView(R.id.way_recyclerview)
@@ -34,6 +28,10 @@ public class MyDynamicActivity extends BaseActivity<MyDynamicPresenter> implemen
     TextView tvDongtai;
     @BindView(R.id.tv_luxian)
     TextView tvLuxian;
+    @BindView(R.id.view_dongtai)
+    View viewDongtai;
+    @BindView(R.id.view_luxian)
+    View viewLuxian;
     @BindView(R.id.img_right)
     ImageView imgRight;
 
@@ -49,6 +47,7 @@ public class MyDynamicActivity extends BaseActivity<MyDynamicPresenter> implemen
 
     @Override
     protected void initViews() {
+        tvTitle.setText(R.string.i_release);
         mPresenter.initDynamicList(this);
         mPresenter.initWayList(this);
     }
@@ -73,20 +72,24 @@ public class MyDynamicActivity extends BaseActivity<MyDynamicPresenter> implemen
         return wayRecyclerview;
     }
 
-    @OnClick({R.id.tv_dongtai, R.id.tv_luxian, R.id.img_right})
+    @OnClick({R.id.layout_dongtai, R.id.layout_luxian, R.id.img_right})
     public void onClick(View v){
         switch (v.getId()){
-            case R.id.tv_dongtai://动态
+            case R.id.layout_dongtai://动态
                 dynamicRecyclerview.setVisibility(View.VISIBLE);
                 wayRecyclerview.setVisibility(View.GONE);
-                tvDongtai.setTextColor(Color.parseColor("#ffffff"));
-                tvLuxian.setTextColor(Color.parseColor("#B7B7B7"));
+                tvDongtai.setTextColor(Color.parseColor("#000000"));
+                tvLuxian.setTextColor(Color.parseColor("#666666"));
+                viewDongtai.setVisibility(View.VISIBLE);
+                viewLuxian.setVisibility(View.INVISIBLE);
                 break;
-            case R.id.tv_luxian://路线
+            case R.id.layout_luxian://路线
                 dynamicRecyclerview.setVisibility(View.GONE);
                 wayRecyclerview.setVisibility(View.VISIBLE);
-                tvDongtai.setTextColor(Color.parseColor("#B7B7B7"));
-                tvLuxian.setTextColor(Color.parseColor("#ffffff"));
+                tvDongtai.setTextColor(Color.parseColor("#666666"));
+                tvLuxian.setTextColor(Color.parseColor("#000000"));
+                viewDongtai.setVisibility(View.INVISIBLE);
+                viewLuxian.setVisibility(View.VISIBLE);
                 break;
             case R.id.img_right://黑名单
                 startActivity(new Intent(MyDynamicActivity.this, BlacklistActivity.class));

@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.mywaytec.myway.APP;
+import com.mywaytec.myway.base.Constant;
 import com.mywaytec.myway.model.bean.BleInfoBean;
 import com.mywaytec.myway.model.bean.DynamicListBean;
 import com.mywaytec.myway.utils.PreferencesUtils;
@@ -33,5 +34,4 @@ public class BleInfo {
     public static void clearBleInfo(){
         PreferencesUtils.removeValue(APP.getInstance(), "bleInfo");
     }
-
 }

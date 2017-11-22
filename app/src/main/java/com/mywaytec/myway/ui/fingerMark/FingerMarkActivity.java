@@ -28,7 +28,6 @@ import butterknife.OnClick;
 import static com.inuker.bluetooth.library.Constants.STATUS_CONNECTED;
 import static com.inuker.bluetooth.library.Constants.STATUS_DISCONNECTED;
 
-
 /**
  * 指纹验证界面
  * 连接车辆，录制指纹等操作
@@ -85,10 +84,8 @@ public class FingerMarkActivity extends BaseActivity<FingerMarkPresenter> implem
                 public void onNotify(UUID service, UUID character, byte[] value) {
                     mPresenter.displayData(value);
                 }
-
                 @Override
                 public void onResponse(int code) {
-
                 }
             });
         } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
@@ -97,10 +94,8 @@ public class FingerMarkActivity extends BaseActivity<FingerMarkPresenter> implem
                 public void onNotify(UUID service, UUID character, byte[] value) {
                     mPresenter.displayData(value);
                 }
-
                 @Override
                 public void onResponse(int code) {
-
                 }
             });
         }
@@ -109,7 +104,6 @@ public class FingerMarkActivity extends BaseActivity<FingerMarkPresenter> implem
 
     @Override
     protected void updateViews() {
-
     }
 
     @OnClick({R.id.tv_add_finger, R.id.tv_delete_all_finger, R.id.tv_cancel})
@@ -119,15 +113,11 @@ public class FingerMarkActivity extends BaseActivity<FingerMarkPresenter> implem
                 mPresenter.hint1();
                 break;
             case R.id.tv_delete_all_finger://删除所有指纹
-                BleKitUtils.writeP(mDeviceAddress, Constant.BLE.DETELE_ALL_FINGER_WARK, new BleWriteResponse() {
-                    @Override
-                    public void onResponse(int code) {
-
-                    }
-                });
+                mPresenter.deteleAllFinger();
                 break;
-            case R.id.tv_cancel://取消
-                slideUp.hide();
+            case R.id.tv_cancel://完成
+//                slideUp.hide();
+                finish();
                 break;
         }
     }
@@ -175,7 +165,7 @@ public class FingerMarkActivity extends BaseActivity<FingerMarkPresenter> implem
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("TAG", "-------MoreCarInfo OnResume");
+        Log.i("TAG", "-------FingerMarkActivity OnResume");
         BleKitUtils.getBluetoothClient().registerConnectStatusListener(mDeviceAddress, mBleConnectStatusListener);
     }
 
@@ -191,7 +181,16 @@ public class FingerMarkActivity extends BaseActivity<FingerMarkPresenter> implem
         public void onConnectStatusChanged(String mac, int status) {
             if (status == STATUS_CONNECTED) {
             } else if (status == STATUS_DISCONNECTED) {
-                finish();
+                if (tvCancel.getVisibility() == View.VISIBLE) {
+                    tvCancel.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                    }, 3000);
+                }else {
+                    finish();
+                }
             }
         }
     };

@@ -3,34 +3,38 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
-    android:paddingBottom="1dp">
+    android:paddingTop="15dp">
 
     <com.zhy.autolayout.AutoLinearLayout
         android:id="@+id/swipe_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="20px"
+        android:paddingRight="20px">
 
         <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@mipmap/bg_my_track"
-            android:orientation="vertical"
-            android:padding="20px">
+            android:background="@drawable/shape_my_track"
+            android:orientation="horizontal"
+            android:padding="20px" >
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
 
                 <TextView
                     android:id="@+id/tv_trackname"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text=""
-                    android:textColor="@color/white"
-                    android:textSize="36px" />
+                    android:textColor="#bbbcc3"
+                    android:textSize="32px"
+                    android:singleLine="true"/>
 
                 <TextView
                     android:id="@+id/tv_publish_time"
@@ -38,54 +42,90 @@
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textColor="@color/white"
-                    android:textSize="28px" />
+                    android:textSize="30px"
+                    android:layout_marginTop="25px"/>
 
-            </LinearLayout>
+            </com.zhy.autolayout.AutoLinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20px"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="36px"
-                    android:layout_height="36px"
-                    android:src="@mipmap/jiluguiji_icon_gongli" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_licheng"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10px"
-                    android:text=""
-                    android:textColor="#cccccc"
-                    android:textSize="28px" />
+                    android:text="@string/time"
+                    android:textColor="#bbbcc3"
+                    android:textSize="32px"/>
 
-                <ImageView
-                    android:layout_width="36px"
-                    android:layout_height="36px"
-                    android:layout_marginLeft="48px"
-                    android:src="@mipmap/jiluguiji_icon_shichang" />
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="25px"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="23px"
+                        android:layout_height="23px"
+                        android:src="@mipmap/wodeguiji_shichang" />
+
+                    <TextView
+                        android:id="@+id/tv_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10px"
+                        android:text=""
+                        android:textColor="@color/white"
+                        android:textSize="30px" />
+
+                </com.zhy.autolayout.AutoLinearLayout>
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10px"
-                    android:text=""
-                    android:textColor="#cccccc"
-                    android:textSize="28px" />
+                    android:text="@string/mileage"
+                    android:textColor="#bbbcc3"
+                    android:textSize="32px"/>
 
-            </LinearLayout>
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="25px"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="23px"
+                        android:layout_height="23px"
+                        android:src="@mipmap/wodeguiji_xingcheng" />
+
+                    <TextView
+                        android:id="@+id/tv_licheng"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10px"
+                        android:text=""
+                        android:textColor="@color/white"
+                        android:textSize="30px" />
+
+                </com.zhy.autolayout.AutoLinearLayout>
+
+            </com.zhy.autolayout.AutoLinearLayout>
 
         </com.zhy.autolayout.AutoLinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="6px"
-            android:background="@color/transparency" />
 
     </com.zhy.autolayout.AutoLinearLayout>
 
@@ -94,8 +134,7 @@
         android:layout_width="60dp"
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark"
-        android:text="删除"
-        android:textColor="@android:color/white"
-        android:layout_marginBottom="6px"/>
+        android:text="@string/delete"
+        android:textColor="@android:color/white" />
 
 </com.mywaytec.myway.view.SwipeMenuView>

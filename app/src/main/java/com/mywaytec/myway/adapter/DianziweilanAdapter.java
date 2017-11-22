@@ -2,6 +2,7 @@ package com.mywaytec.myway.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -69,6 +70,7 @@ public class DianziweilanAdapter extends ListBaseAdapter<DianziweilanBean.ObjBea
             @Override
             public void onClick(View v) {
                 if (checkBox.isChecked()){
+                    onSelectListener.onSelect(position);
                     retrofitHelper.openVehicleFence(mDataList.get(position).getId())
                             .compose(RxUtil.<BaseInfo>rxSchedulerHelper())
                             .subscribe(new CommonSubscriber<BaseInfo>() {
@@ -108,5 +110,15 @@ public class DianziweilanAdapter extends ListBaseAdapter<DianziweilanBean.ObjBea
                 ((ElectronicFenceActivity) mContext).startActivityForResult(intent, DIANZIWEILAN_REQUESTCODE);
             }
         });
+    }
+
+    private OnSelectListener onSelectListener;
+
+    public void setOnSelectListener(OnSelectListener onSelectListener){
+        this.onSelectListener = onSelectListener;
+    }
+
+    public interface OnSelectListener{
+        void onSelect(int position);
     }
 }

@@ -73,7 +73,7 @@
             android:process=":remote" />
 
         <!-- MQTT -->
-        <service android:name=".base.MqttService"></service>
+        <service android:name=".base.MqttService" />
 
         <!-- 适配android7.0拍照问题 -->
         <provider
@@ -125,13 +125,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="mywaytec.cn"
                     android:path="/mywayapp"
-                    android:scheme="myway"/>
+                    android:scheme="myway" />
             </intent-filter>
         </activity>
         <activity
@@ -145,8 +147,8 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|locale"
-            android:screenOrientation="portrait"
-            android:hardwareAccelerated="true" />
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.bluetooth.BluetoothActivity"
             android:configChanges="locale"
@@ -167,9 +169,9 @@
         <activity
             android:name=".ui.dynamicDetail.DynamicDetailActivity"
             android:configChanges="locale"
+            android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            android:hardwareAccelerated="true" />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".ui.messageDetail.MessageDetailActivity"
             android:configChanges="locale"
@@ -239,8 +241,8 @@
         <activity
             android:name=".ui.mydynamic.MyDynamicActivity"
             android:configChanges="locale"
-            android:screenOrientation="portrait"
-            android:hardwareAccelerated="true"/>
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.mytrack.MyTrackActivity"
             android:configChanges="locale"
@@ -285,8 +287,8 @@
         <activity
             android:name=".ui.userDynamic.UserDynamicActivity"
             android:configChanges="locale"
-            android:screenOrientation="portrait"
-            android:hardwareAccelerated="true"/>
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.gradeAndGold.GradeAndGoldActivity"
             android:configChanges="locale"
@@ -357,7 +359,11 @@
             android:name=".activity.GongnengJieshaoActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.TermsAndPrivacyActivity"></activity>
+        <activity android:name=".activity.TermsAndPrivacyActivity" />
+        <activity
+            android:name=".ui.selectCountry.SelectCountryActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

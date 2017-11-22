@@ -23,7 +23,6 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.PolylineOptions;
-import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.utils.DistanceUtil;
@@ -58,22 +57,14 @@ public class WayDetailActivity extends BaseActivity<WayDetailPresenter> implemen
     CircleImageView imgHeadPortrait;
     @BindView(R.id.tv_route_name)
     TextView tvRouteName;
-    @BindView(R.id.tv_xunhang)
-    TextView tvXunhang;
     @BindView(R.id.ratingBar)
     RatingBar ratingBar;
-    @BindView(R.id.tv_scenery_star)
-    TextView tvSceneryStar;
     @BindView(R.id.tv_intro)
     TextView tvIntro;
     @BindView(R.id.tv_origin)
     TextView tvOrigin;
-    @BindView(R.id.tv_originBus)
-    TextView tvOriginBus;
     @BindView(R.id.tv_destination)
     TextView tvDestination;
-    @BindView(R.id.tv_destination_bus)
-    TextView tvDestinationBus;
     @BindView(R.id.mapview)
     MapView mMapView;
     @BindView(R.id.content_way_detail)
@@ -90,8 +81,6 @@ public class WayDetailActivity extends BaseActivity<WayDetailPresenter> implemen
     LinearLayout layoutWayDetail;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    @BindView(R.id.tv_degree_of_difficulty)
-    TextView tvDegreeOfDifficulty;
 
     private BaiduMap baiduMap;
     private RouteListBean.ObjBean routeData;
@@ -158,17 +147,11 @@ public class WayDetailActivity extends BaseActivity<WayDetailPresenter> implemen
         }
         tvZonglicheng.setText(df.format(routeDetail.getLegend()/1000.0));
         tvRouteName.setText(routeDetail.getName());
-        tvXunhang.setText(routeDetail.getEnduranceClaim()+"");
-        tvSceneryStar.setText(routeDetail.getSceneryStar()+"");
-        tvDegreeOfDifficulty.setText(routeDetail.getDifficultyStar()+"");
-//        ratingBar.setProgress(routeDetail.getSceneryStar());
         Log.i("TAG", "------SceneryStar,"+routeDetail.getSceneryStar());
         ratingBar.setRating(routeDetail.getSceneryStar());
         tvIntro.setText(routeDetail.getIntro());
         tvOrigin.setText(routeDetail.getOrigin());
-        tvOriginBus.setText(routeDetail.getOriginBus());
         tvDestination.setText(routeDetail.getDestination());
-        tvDestinationBus.setText(routeDetail.getDestinationBus());
 
         List<String> photoList = routeDetail.getPhotos();
 

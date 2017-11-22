@@ -42,46 +42,37 @@
                 android:layout_width="586px"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:paddingBottom="20px"
+                android:paddingTop="20px" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="150px"
-                    android:paddingBottom="20px"
-                    android:paddingTop="20px"
-                    android:text="@string/account"
-                    android:textColor="#BCBCBF"
-                    android:textSize="34px" />
-
-                <com.zhy.autolayout.AutoRelativeLayout
+                <com.zhy.autolayout.AutoLinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="20px"
-                    android:paddingTop="20px"
-                    android:layout_marginLeft="30px">
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_select_country"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+86"
+                        android:textColor="@color/white"
+                        android:textSize="32px"
+                        android:paddingRight="20px"/>
 
                     <EditText
                         android:id="@+id/et_account"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:background="@color/transparency"
                         android:singleLine="true"
                         android:textColor="@color/white"
-                        android:textColorHint="@color/white"
-                        android:textSize="34px"
-                        android:text=""/>
+                        android:textColorHint="#A5A7B7"
+                        android:hint="@string/account"
+                        android:textSize="32px" />
 
-                    <ImageView
-                        android:id="@+id/img_account_clear"
-                        android:layout_width="30px"
-                        android:layout_height="30px"
-                        android:layout_alignParentRight="true"
-                        android:src="@mipmap/ic_launcher"
-                        android:visibility="gone" />
-
-                </com.zhy.autolayout.AutoRelativeLayout>
+                </com.zhy.autolayout.AutoLinearLayout>
 
             </com.zhy.autolayout.AutoLinearLayout>
 
@@ -106,15 +97,15 @@
                     android:paddingTop="20px"
                     android:text="@string/password"
                     android:textColor="#BCBCBF"
-                    android:textSize="34px" />
+                    android:textSize="34px"
+                    android:visibility="gone"/>
 
                 <com.zhy.autolayout.AutoRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:paddingBottom="20px"
-                    android:paddingTop="20px"
-                    android:layout_marginLeft="30px">
+                    android:paddingTop="20px" >
 
                     <EditText
                         android:id="@+id/et_password"
@@ -123,8 +114,9 @@
                         android:background="@color/transparency"
                         android:inputType="textPassword"
                         android:textColor="@color/white"
-                        android:textColorHint="@color/white"
-                        android:textSize="34px"
+                        android:textColorHint="#A5A7B7"
+                        android:hint="@string/password"
+                        android:textSize="32px"
                         android:text=""/>
 
                     <ImageView

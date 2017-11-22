@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_message"
@@ -7,22 +7,65 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.mywaytec.myway.ui.message.MessageActivity"
-    tools:showIn="@layout/activity_message">
+    tools:showIn="@layout/activity_message"
+    android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/tv_none"
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/layout_dynamic_top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="暂无消息"
-        android:layout_marginTop="150px"
-        android:gravity="center"
-        android:visibility="gone"/>
+        android:layout_height="45dp"
+        android:background="@color/colorPrimaryDark">
 
-    <com.github.jdsjlzx.recyclerview.LRecyclerView
-        android:id="@+id/lrecyclerview"
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@mipmap/icon_finish"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20px"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:text=""
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/img_right"
+            android:layout_width="68px"
+            android:layout_height="39px"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:layout_marginRight="20px"
+            android:src="@drawable/yijianduqu_enable" />
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.github.jdsjlzx.recyclerview.LRecyclerView>
+        <TextView
+            android:id="@+id/tv_none"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="暂无消息"
+            android:layout_marginTop="150px"
+            android:gravity="center"
+            android:visibility="gone"/>
 
-</com.zhy.autolayout.AutoRelativeLayout>
+        <com.github.jdsjlzx.recyclerview.LRecyclerView
+            android:id="@+id/lrecyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.github.jdsjlzx.recyclerview.LRecyclerView>
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+</com.zhy.autolayout.AutoLinearLayout>

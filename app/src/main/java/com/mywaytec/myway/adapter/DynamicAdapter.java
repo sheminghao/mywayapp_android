@@ -6,10 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.MediaMetadataRetriever;
-import android.media.ThumbnailUtils;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
@@ -30,7 +27,6 @@ import com.mywaytec.myway.base.ListBaseAdapter;
 import com.mywaytec.myway.base.SuperViewHolder;
 import com.mywaytec.myway.model.BaseInfo;
 import com.mywaytec.myway.model.bean.DynamicListBean;
-import com.mywaytec.myway.model.bean.PraiseBean;
 import com.mywaytec.myway.model.http.RetrofitHelper;
 import com.mywaytec.myway.ui.dynamicDetail.DynamicDetailActivity;
 import com.mywaytec.myway.ui.main.MainActivity;
@@ -50,6 +46,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import cn.jzvd.JZVideoPlayerStandard;
 import cn.sharesdk.framework.Platform;
@@ -138,6 +135,7 @@ public class DynamicAdapter extends ListBaseAdapter<DynamicListBean.ObjBean> imp
                 break;
         }
 
+        //头像
         imgHeadPortrait = holder.getView(R.id.img_head_portrait);
         if (mDataList.get(position).getUser().isGender()){
             Glide.with(mContext).load(mDataList.get(position).getUser().getImgeUrl())
@@ -149,6 +147,38 @@ public class DynamicAdapter extends ListBaseAdapter<DynamicListBean.ObjBean> imp
                     .error(R.mipmap.touxiang_girl_nor)
                     .centerCrop()
                     .into(imgHeadPortrait);
+        }
+
+        ImageView imgXiala = holder.getView(R.id.img_xiala);
+        imgXiala.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                xialacaidan(mDataList.get(position), position);
+            }
+        });
+
+        //头条
+        ImageView imgToutiao = holder.getView(R.id.img_toutiao);
+        if (mDataList.get(position).isHeadline()){
+            imgToutiao.setVisibility(View.VISIBLE);
+            imgXiala.setVisibility(View.GONE);
+            Locale locale = mContext.getResources().getConfiguration().locale;
+            String language = locale.getLanguage();
+            String languagePre = PreferencesUtils.getString(mContext, "language", "aotu");
+            if("zh".equals(languagePre)){
+                imgToutiao.setImageResource(R.mipmap.toutiao_ch);
+            }else if("en".equals(languagePre)){
+                imgToutiao.setImageResource(R.mipmap.toutiao_en);
+            }else {
+                if ("zh".equals(language)){
+                    imgToutiao.setImageResource(R.mipmap.toutiao_ch);
+                }else {
+                    imgToutiao.setImageResource(R.mipmap.toutiao_en);
+                }
+            }
+        }else {
+            imgToutiao.setVisibility(View.GONE);
+            imgXiala.setVisibility(View.VISIBLE);
         }
 
         TextView tvNickname = holder.getView(R.id.tv_nickname);
@@ -191,14 +221,6 @@ public class DynamicAdapter extends ListBaseAdapter<DynamicListBean.ObjBean> imp
             public void onClick(View v) {
                 if (null != onClickLike)
                 onClickLike.clickLick(tvPraise, imgPraise, position);
-            }
-        });
-
-        ImageView imgXiala = holder.getView(R.id.img_xiala);
-        imgXiala.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                xialacaidan(mDataList.get(position), position);
             }
         });
 

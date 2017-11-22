@@ -28,6 +28,7 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -39,6 +40,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
+
+import static android.bluetooth.BluetoothGatt.CONNECTION_PRIORITY_HIGH;
 
 /**
  * Service for managing connection and data communication with a GATT server hosted on a

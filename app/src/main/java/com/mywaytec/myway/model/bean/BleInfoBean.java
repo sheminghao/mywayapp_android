@@ -67,9 +67,48 @@ public class BleInfoBean {
     private String ruanjianCode;
 
     /**
+     * SN号
+     */
+    private String snCode;
+
+    /**
      * 车辆状态
      */
     private byte[] carState;
+
+    /**
+     * 是否是车主
+     */
+    private String isChezhu;
+
+    /**
+     * 程序运行位置， 引导程序中：01 ， 应用程序中：00 ；
+     */
+    private String programLocation;
+
+    public String getProgramLocation() {
+        return programLocation;
+    }
+
+    public void setProgramLocation(String programLocation) {
+        this.programLocation = programLocation;
+    }
+
+    public String getSnCode() {
+        return snCode;
+    }
+
+    public void setSnCode(String snCode) {
+        this.snCode = snCode;
+    }
+
+    public String getIsChezhu() {
+        return isChezhu;
+    }
+
+    public void setIsChezhu(String isChezhu) {
+        this.isChezhu = isChezhu;
+    }
 
     public String getMac() {
         return mac;

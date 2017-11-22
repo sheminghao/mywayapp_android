@@ -19,6 +19,7 @@ import com.luck.picture.lib.model.PictureConfig;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.adapter.FullyGridLayoutManager;
 import com.mywaytec.myway.adapter.GridImageAdapter;
+import com.mywaytec.myway.adapter.GridOnlyImageAdapter;
 import com.mywaytec.myway.base.RxPresenter;
 import com.mywaytec.myway.model.BaseInfo;
 import com.mywaytec.myway.model.http.RetrofitHelper;
@@ -52,7 +53,7 @@ public class FabuHuodongPresenter extends RxPresenter<FabuHuodongView> {
     RetrofitHelper retrofitHelper;
     private PackageInfo packageInfo;
     Context mContext;
-    private GridImageAdapter adapter;
+    private GridOnlyImageAdapter adapter;
     private List<LocalMedia> selectMedia = new ArrayList<>();
 
     @Inject
@@ -191,10 +192,10 @@ public class FabuHuodongPresenter extends RxPresenter<FabuHuodongView> {
     public void selectPicture(){
         FullyGridLayoutManager manager = new FullyGridLayoutManager(mContext, 4, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
-        adapter = new GridImageAdapter(mContext, onAddPicClickListener);
+        adapter = new GridOnlyImageAdapter(mContext, onAddPicClickListener);
         adapter.setSelectMax(4);
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(new GridImageAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new GridOnlyImageAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, View v) {
                 // 这里可预览图片
@@ -206,7 +207,7 @@ public class FabuHuodongPresenter extends RxPresenter<FabuHuodongView> {
     /**
      * 图片回调接口
      */
-    private GridImageAdapter.onAddPicClickListener onAddPicClickListener = new GridImageAdapter.onAddPicClickListener() {
+    private GridOnlyImageAdapter.onAddPicClickListener onAddPicClickListener = new GridOnlyImageAdapter.onAddPicClickListener() {
         @Override
         public void onAddPicClick(int type, int position) {
             switch (type) {

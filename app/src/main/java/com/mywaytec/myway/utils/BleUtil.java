@@ -1,9 +1,15 @@
 package com.mywaytec.myway.utils;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.mywaytec.myway.APP;
 import com.mywaytec.myway.base.Constant;
+import com.mywaytec.myway.model.bean.BleInfoBean;
+import com.mywaytec.myway.model.bean.ObjStringBean;
+import com.mywaytec.myway.model.http.RetrofitHelper;
+import com.mywaytec.myway.utils.data.BleInfo;
+import com.mywaytec.myway.view.CommonSubscriber;
 
 import java.util.HashMap;
 
@@ -211,6 +217,47 @@ public class BleUtil {
         System.arraycopy(speedByte, 0, newByte, Constant.BLE.VEHICLE_PASSWORD_SETTING.length, speedByte.length);
         Log.i("TAG", "------VEHICLE_PASSWORD_SETTING,"+ConversionUtil.byte2HexStr(getAllCmd(newByte)));
         return getAllCmd(newByte);
+    }
+
+    /**
+     * 判断是否是车主,只有车主才有权限操作相关功能
+     * @return
+     */
+    public static boolean isChezhu(final RetrofitHelper retrofitHelper){
+        BleInfoBean bleInfoBean = BleInfo.getBleInfo();
+        String snCode = bleInfoBean.getSnCode();
+        if (!TextUtils.isEmpty(bleInfoBean.getIsChezhu())){
+            //是车主
+            if ("true".equals(bleInfoBean.getIsChezhu())){
+                return true;
+            }else if ("false".equals(bleInfoBean.getIsChezhu())){
+                return false;
+            }
+        }else {
+            if (SystemUtil.isNetworkConnected()){
+                String uid = PreferencesUtils.getLoginInfo().getObj().getUid();
+                retrofitHelper.vehicleUserOwner(uid, snCode)
+                        .compose(RxUtil.<ObjStringBean>rxSchedulerHelper())
+                        .subscribe(new CommonSubscriber<ObjStringBean>() {
+                            @Override
+                            public void onNext(ObjStringBean objStringBean) {
+                                if (objStringBean.getCode() == 1){
+                                    BleInfoBean bleInfoBean = BleInfo.getBleInfo();
+                                    if ("true".equals(objStringBean.getObj())){
+                                        bleInfoBean.setIsChezhu("true");
+                                    }else if ("false".equals(objStringBean.getObj())){
+                                        bleInfoBean.setIsChezhu("false");
+                                    }
+                                    BleInfo.saveBleInfo(bleInfoBean);
+                                    isChezhu(retrofitHelper);
+                                }
+                            }
+                        });
+            }else {
+                return false;
+            }
+        }
+        return false;
     }
 
 }

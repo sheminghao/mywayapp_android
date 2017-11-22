@@ -24,14 +24,18 @@ import com.mywaytec.myway.base.BluetoothLeService;
 import com.mywaytec.myway.base.Constant;
 import com.mywaytec.myway.base.RxPresenter;
 import com.mywaytec.myway.model.bean.BleInfoBean;
+import com.mywaytec.myway.model.bean.ObjStringBean;
 import com.mywaytec.myway.model.http.RetrofitHelper;
 import com.mywaytec.myway.utils.BleKitUtils;
 import com.mywaytec.myway.utils.BleUtil;
 import com.mywaytec.myway.utils.ConversionUtil;
 import com.mywaytec.myway.utils.PreferencesUtils;
 import com.mywaytec.myway.utils.RxCountDown;
+import com.mywaytec.myway.utils.RxUtil;
+import com.mywaytec.myway.utils.SystemUtil;
 import com.mywaytec.myway.utils.ToastUtils;
 import com.mywaytec.myway.utils.data.BleInfo;
+import com.mywaytec.myway.view.CommonSubscriber;
 
 import javax.inject.Inject;
 
@@ -61,6 +65,19 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
         super.attachView(view);
         this.mContext = mView.getContext();
         currentMode = BleInfo.getBleInfo().getDengdaimoshi();
+        if (currentMode == 1) {//全彩流水
+            mView.getDengdaiTV().setText(R.string.flowing);
+        } else if (currentMode == 2) {//全彩呼吸
+            mView.getDengdaiTV().setText(R.string.breathing);
+        } else if (currentMode == 3) {//炫彩霓虹
+            mView.getDengdaiTV().setText(R.string.neon);
+        } else if (currentMode == 4) {//照明模式
+            mView.getDengdaiTV().setText(R.string.lighting);
+        } else if (currentMode == 5) {//
+            mView.getDengdaiTV().setText(R.string.warning);
+        } else if (currentMode == 0){//关闭
+            mView.getDengdaiTV().setText(R.string.close);
+        }
     }
 
     public RetrofitHelper getRetrofitHelper(){
@@ -263,6 +280,8 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
         setBackgroundAlpha(1);
     }
 
+    StringBuilder snCode1;
+    StringBuilder snCode2;
     /**
      * 蓝牙应答信息
      */
@@ -333,6 +352,43 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
             }
             //设置灯带模式
             else if ("04".equals(infos[2]) && "02".equals(infos[3]) && "11".equals(infos[4])){
+                if ("01".equals(infos[6])) {//全彩流水
+                    currentMode = 1;
+                    mView.getDengdaiTV().setText(R.string.flowing);
+                    bleInfoBean = BleInfo.getBleInfo();
+                    bleInfoBean.setDengdaimoshi(currentMode);
+                    BleInfo.saveBleInfo(bleInfoBean);
+                } else if ("02".equals(infos[6])) {//全彩呼吸
+                    currentMode = 2;
+                    mView.getDengdaiTV().setText(R.string.breathing);
+                    bleInfoBean = BleInfo.getBleInfo();
+                    bleInfoBean.setDengdaimoshi(currentMode);
+                    BleInfo.saveBleInfo(bleInfoBean);
+                } else if ("03".equals(infos[6])) {//炫彩霓虹
+                    currentMode = 3;
+                    mView.getDengdaiTV().setText(R.string.neon);
+                    bleInfoBean = BleInfo.getBleInfo();
+                    bleInfoBean.setDengdaimoshi(currentMode);
+                    BleInfo.saveBleInfo(bleInfoBean);
+                } else if ("04".equals(infos[6])) {//照明模式
+                    currentMode = 4;
+                    mView.getDengdaiTV().setText(R.string.lighting);
+                    bleInfoBean = BleInfo.getBleInfo();
+                    bleInfoBean.setDengdaimoshi(currentMode);
+                    BleInfo.saveBleInfo(bleInfoBean);
+                } else if ("05".equals(infos[6])) {//
+                    currentMode = 5;
+                    mView.getDengdaiTV().setText(R.string.warning);
+                    bleInfoBean = BleInfo.getBleInfo();
+                    bleInfoBean.setDengdaimoshi(currentMode);
+                    BleInfo.saveBleInfo(bleInfoBean);
+                } else if ("FF".equals(infos[6])){//关闭
+                    currentMode = 0;
+                    mView.getDengdaiTV().setText(R.string.close);
+                    bleInfoBean = BleInfo.getBleInfo();
+                    bleInfoBean.setDengdaimoshi(currentMode);
+                    BleInfo.saveBleInfo(bleInfoBean);
+                }
                 if (null != dengdaiPopupWindow && dengdaiPopupWindow.isShowing()) {
                     if (null != imgRight1 && null != imgRight2 && null != imgRight3
                             && null != imgRight4 && null != imgRight5) {
@@ -412,14 +468,127 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
                         null != imgRight4 && null != imgRight5) {
                     if (currentMode == 1) {
                         imgRight1.setVisibility(View.VISIBLE);
+                        mView.getDengdaiTV().setText(R.string.flowing);
                     } else if (currentMode == 2) {
                         imgRight2.setVisibility(View.VISIBLE);
+                        mView.getDengdaiTV().setText(R.string.breathing);
                     } else if (currentMode == 3) {
                         imgRight3.setVisibility(View.VISIBLE);
+                        mView.getDengdaiTV().setText(R.string.neon);
                     } else if (currentMode == 4) {
                         imgRight4.setVisibility(View.VISIBLE);
+                        mView.getDengdaiTV().setText(R.string.lighting);
                     } else if (currentMode == 5) {
                         imgRight5.setVisibility(View.VISIBLE);
+                        mView.getDengdaiTV().setText(R.string.warning);
+                    }
+                }
+            }
+            //硬件版本号
+            else if ("04".equals(infos[2]) && "01".equals(infos[3]) && "06".equals(infos[4])) {
+                StringBuilder code = new StringBuilder();
+                char code1 = (char) Integer.parseInt(infos[13], 16);
+                code.append(code1);
+                char code2 = (char) Integer.parseInt(infos[12], 16);
+                code.append(code2);
+                char code3 = (char) Integer.parseInt(infos[11], 16);
+                code.append(code3);
+                char code4 = (char) Integer.parseInt(infos[10], 16);
+                code.append(code4);
+                char code5 = (char) Integer.parseInt(infos[9], 16);
+                code.append(code5);
+                char code6 = (char) Integer.parseInt(infos[8], 16);
+                code.append(code6);
+                char code7 = (char) Integer.parseInt(infos[7], 16);
+                code.append(code7);
+                char code8 = (char) Integer.parseInt(infos[6], 16);
+                code.append(code8);
+                String hardwareCode = code.toString();
+                Log.i("TAG", "------硬件版本号," + hardwareCode);
+                BleInfoBean bleInfoBean = BleInfo.getBleInfo();
+                bleInfoBean.setYingjianCode(hardwareCode);
+                BleInfo.saveBleInfo(bleInfoBean);
+            }
+            //车辆SN码
+            else if ("04".equals(infos[2]) && "01".equals(infos[3]) && "03".equals(infos[4])
+                    || !("4D".equals(infos[0]) && "57".equals(infos[1]))) {
+                Log.i("TAG", "-----车辆SN码" + info);
+                if (infos.length == 20) {
+                    snCode1 = new StringBuilder();
+                    String code1 = infos[19].substring(1);
+                    snCode1.append(code1);
+                    String code2 = infos[18].substring(1);
+                    snCode1.append(code2);
+                    String code3 = infos[17].substring(1);
+                    snCode1.append(code3);
+                    String code4 = infos[16].substring(1);
+                    snCode1.append(code4);
+                    String code5 = infos[15].substring(1);
+                    snCode1.append(code5);
+                    String code6 = infos[14].substring(1);
+                    snCode1.append(code6);
+                    String code7 = infos[13].substring(1);
+                    snCode1.append(code7);
+                    String code8 = infos[12].substring(1);
+                    snCode1.append(code8);
+                    String code9 = infos[11].substring(1);
+                    snCode1.append(code9);
+                    String code10 = infos[10].substring(1);
+                    snCode1.append(code10);
+                    String code11 = infos[9].substring(1);
+                    snCode1.append(code11);
+                    String code12 = infos[8].substring(1);
+                    snCode1.append(code12);
+                    String code13 = infos[7].substring(1);
+                    snCode1.append(code13);
+                    String code14 = infos[6].substring(1);
+                    snCode1.append(code14);
+                }else {
+                    snCode2 = new StringBuilder();
+                    String code1 = infos[9].substring(1);
+                    snCode2.append(code1);
+                    String code2 = infos[8].substring(1);
+                    snCode2.append(code2);
+                    String code3 = infos[7].substring(1);
+                    snCode2.append(code3);
+                    String code4 = infos[6].substring(1);
+                    snCode2.append(code4);
+                    String code5 = infos[5].substring(1);
+                    snCode2.append(code5);
+                    String code6 = infos[4].substring(1);
+                    snCode2.append(code6);
+                    String code7 = infos[3].substring(1);
+                    snCode2.append(code7);
+                    String code8 = infos[2].substring(1);
+                    snCode2.append(code8);
+                    String code9 = infos[1].substring(1);
+                    snCode2.append(code9);
+                    String code10 = infos[0].substring(1);
+                    snCode2.append(code10);
+                }
+
+                String snCodeStr = snCode1.toString() + snCode2.toString();
+                if (snCodeStr.length() == 24) {
+                    BleInfoBean bleInfoBean = BleInfo.getBleInfo();
+                    bleInfoBean.setSnCode(snCodeStr);
+                    BleInfo.saveBleInfo(bleInfoBean);
+                    if (SystemUtil.isNetworkConnected()) {
+                        Log.i("TAG", "------判断车主，" + snCodeStr);
+                        String uid = PreferencesUtils.getLoginInfo().getObj().getUid();
+                        mRetrofitHelper.vehicleUserOwner(uid, snCodeStr)
+                                .compose(RxUtil.<ObjStringBean>rxSchedulerHelper())
+                                .subscribe(new CommonSubscriber<ObjStringBean>() {
+                                    @Override
+                                    public void onNext(ObjStringBean objStringBean) {
+                                        Log.i("TAG", "------ObjStringBean," + objStringBean.getObj());
+                                        if (objStringBean.getCode() == 1) {
+                                            BleInfoBean bleInfoBean = BleInfo.getBleInfo();
+                                            bleInfoBean.setIsChezhu(objStringBean.getObj());
+                                            BleInfo.saveBleInfo(bleInfoBean);
+                                        }
+                                    }
+                                });
+                    } else {
                     }
                 }
             }

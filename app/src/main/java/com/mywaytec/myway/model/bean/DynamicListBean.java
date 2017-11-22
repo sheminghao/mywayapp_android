@@ -44,6 +44,7 @@ public class DynamicListBean extends BaseInfo implements Serializable{
         private String createTime;
         private String uid;
         private boolean isSuccess;
+        private boolean isHeadline;
         private LocationBean location;
         private int likeNum;
         private UserBean user;
@@ -98,6 +99,14 @@ public class DynamicListBean extends BaseInfo implements Serializable{
 
         public void setIsSuccess(boolean isSuccess) {
             this.isSuccess = isSuccess;
+        }
+
+        public boolean isHeadline() {
+            return isHeadline;
+        }
+
+        public void setHeadline(boolean headline) {
+            isHeadline = headline;
         }
 
         public LocationBean getLocation() {

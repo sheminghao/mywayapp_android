@@ -18,6 +18,7 @@ import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.BaseActivity;
 import com.mywaytec.myway.ui.forgetPassword.ForgetPasswordActivity;
 import com.mywaytec.myway.ui.register.RegisterActivity;
+import com.mywaytec.myway.ui.selectCountry.SelectCountryActivity;
 import com.mywaytec.myway.utils.AppUtils;
 import com.mywaytec.myway.utils.PreferencesUtils;
 import com.mywaytec.myway.utils.data.LoginStyle;
@@ -45,8 +46,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     EditText etAccount;
     @BindView(R.id.et_password)
     EditText etPassword;
-    @BindView(R.id.img_account_clear)
-    ImageView imgAccountClear;
     @BindView(R.id.img_pwd_clear)
     ImageView imgPwdClear;
     @BindView(R.id.tv_register)
@@ -59,6 +58,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     ImageView imgQqLogin;
     @BindView(R.id.layout_login_logo)
     AutoRelativeLayout layoutLoginLogo;
+    @BindView(R.id.tv_select_country)
+    TextView tvSelectCountry;
 
     @Override
     protected int attachLayoutRes() {
@@ -91,8 +92,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     protected void updateViews() {
     }
 
-    @OnClick({R.id.tv_login, R.id.img_account_clear, R.id.img_pwd_clear, R.id.tv_register,
-            R.id.tv_forget_password, R.id.img_weixin_login, R.id.img_qq_login})
+    @OnClick({R.id.tv_login, R.id.img_pwd_clear, R.id.tv_register,
+            R.id.tv_forget_password, R.id.img_weixin_login, R.id.img_qq_login,
+            R.id.tv_select_country})
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_login://登陆
@@ -100,9 +102,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 LoginStyle.saveLoginStyle(LoginStyle.PHONE);
 //                startActivity(new Intent(LoginActivity.this, MainActivity.class));
 //                finish();
-                break;
-            case R.id.img_account_clear://清除账户
-                etAccount.setText("");
                 break;
             case R.id.img_pwd_clear://清除密码
                 etPassword.setText("");
@@ -120,6 +119,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             case R.id.img_qq_login://QQ登录
                 mPresenter.qqLogin();
                 LoginStyle.saveLoginStyle(LoginStyle.QQLOGIN);
+                break;
+            case R.id.tv_select_country://国家区号
+                Intent intent = new Intent(this, SelectCountryActivity.class);
+                startActivityForResult(intent, SelectCountryActivity.SELCET_COUNTRY);
                 break;
         }
     }
@@ -142,7 +145,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             }
         }else {
             if (TextUtils.isEmpty(etAccount.getText().toString())){
-                imgAccountClear.setVisibility(View.GONE);
             }else if(TextUtils.isEmpty(etPassword.getText().toString())){
                 imgPwdClear.setVisibility(View.GONE);
             }
@@ -184,5 +186,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SelectCountryActivity.SELCET_COUNTRY && resultCode == RESULT_OK){
+            String code = data.getStringExtra("code");
+            tvSelectCountry.setText("+"+code);
+        }
     }
 }

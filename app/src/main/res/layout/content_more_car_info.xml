@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <RelativeLayout
+                <com.zhy.autolayout.AutoRelativeLayout
                     android:layout_width="370px"
                     android:layout_height="140px">
 
@@ -146,7 +146,7 @@
                     </com.zhy.autolayout.AutoLinearLayout>
 
 
-                </RelativeLayout>
+                </com.zhy.autolayout.AutoRelativeLayout>
 
                 <com.zhy.autolayout.AutoLinearLayout
                     android:id="@+id/layout_finger_mark"
@@ -231,11 +231,11 @@
                     android:textColor="@color/white"
                     android:textSize="36px" />
 
-                <CheckBox
-                    android:id="@+id/cb_qianteng"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/check_box_more_setting" />
+                <ImageView
+                    android:id="@+id/img_qiandeng"
+                    android:layout_width="120px"
+                    android:layout_height="60px"
+                    android:src="@mipmap/gengduo_btn_qixuao" />
 
             </com.zhy.autolayout.AutoLinearLayout>
 
@@ -263,11 +263,11 @@
                 android:textColor="@color/white"
                 android:textSize="36px" />
 
-            <CheckBox
-                android:id="@+id/cb_houdeng"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@drawable/check_box_more_setting" />
+            <ImageView
+                android:id="@+id/img_weideng"
+                android:layout_width="120px"
+                android:layout_height="60px"
+                android:src="@mipmap/gengduo_btn_qixuao" />
 
         </com.zhy.autolayout.AutoLinearLayout>
 
@@ -299,11 +299,11 @@
                     android:textColor="@color/white"
                     android:textSize="36px" />
 
-                <CheckBox
-                    android:id="@+id/cb_huaxing"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/check_box_more_setting" />
+                <ImageView
+                    android:id="@+id/img_huaxing"
+                    android:layout_width="120px"
+                    android:layout_height="60px"
+                    android:src="@mipmap/gengduo_btn_qixuao" />
 
             </com.zhy.autolayout.AutoLinearLayout>
 
@@ -329,11 +329,11 @@
                     android:textColor="@color/white"
                     android:textSize="36px" />
 
-                <CheckBox
-                    android:id="@+id/cb_dingsuxunhang"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/check_box_more_setting" />
+                <ImageView
+                    android:id="@+id/img_dingsuxunhang"
+                    android:layout_width="120px"
+                    android:layout_height="60px"
+                    android:src="@mipmap/gengduo_btn_qixuao" />
 
             </com.zhy.autolayout.AutoLinearLayout>
 

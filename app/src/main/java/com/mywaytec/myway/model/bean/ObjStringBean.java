@@ -13,13 +13,13 @@ public class ObjStringBean extends BaseInfo {
      * obj : 8
      */
 
-    private int obj;
+    private String obj;
 
-    public int getObj() {
+    public String getObj() {
         return obj;
     }
 
-    public void setObj(int obj) {
+    public void setObj(String obj) {
         this.obj = obj;
     }
 }

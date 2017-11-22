@@ -9,7 +9,6 @@ import android.content.IntentFilter;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.os.SystemClock;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +18,7 @@ import android.widget.TextView;
 import com.inuker.bluetooth.library.connect.listener.BleConnectStatusListener;
 import com.inuker.bluetooth.library.connect.response.BleConnectResponse;
 import com.inuker.bluetooth.library.connect.response.BleNotifyResponse;
+import com.inuker.bluetooth.library.connect.response.BleUnnotifyResponse;
 import com.inuker.bluetooth.library.connect.response.BleWriteResponse;
 import com.inuker.bluetooth.library.model.BleGattProfile;
 import com.inuker.bluetooth.library.model.BleGattService;
@@ -27,6 +27,7 @@ import com.mywaytec.myway.base.BaseFragment;
 import com.mywaytec.myway.base.Constant;
 import com.mywaytec.myway.base.MqttService;
 import com.mywaytec.myway.model.bean.BleInfoBean;
+import com.mywaytec.myway.model.bean.ObjStringBean;
 import com.mywaytec.myway.ui.bluetooth.BluetoothActivity;
 import com.mywaytec.myway.ui.firmwareUpdate.FirmwareUpdateActivity;
 import com.mywaytec.myway.ui.moreCarInfo.MoreCarInfoActivity;
@@ -35,13 +36,14 @@ import com.mywaytec.myway.utils.BleKitUtils;
 import com.mywaytec.myway.utils.BleUtil;
 import com.mywaytec.myway.utils.ConversionUtil;
 import com.mywaytec.myway.utils.PreferencesUtils;
+import com.mywaytec.myway.utils.RxUtil;
+import com.mywaytec.myway.utils.SystemUtil;
 import com.mywaytec.myway.utils.ToastUtils;
 import com.mywaytec.myway.utils.data.BleInfo;
+import com.mywaytec.myway.view.CommonSubscriber;
 import com.mywaytec.myway.view.EmptyLayout;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.UUID;
 
 import butterknife.BindView;
@@ -56,6 +58,11 @@ import static com.inuker.bluetooth.library.Constants.STATUS_DISCONNECTED;
 
 /**
  * 车辆模块
+ *
+ * 首先在该页面获取车辆所有状态，如果由于蓝牙通信质量未获取到，跳转到更多设置界面再次获取；
+ * 获取车辆SN码后，判断是否为车主，若不是车主，不能进行一下操作：重置蓝牙密码、指纹录制、更改蓝牙密码、油门校准或水平校准、固件升级；
+ *
+ *
  * Created by shemh on 2017/2/20.
  */
 
@@ -80,10 +87,6 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
      * 是否锁车
      */
     private boolean isLock;
-    /**
-     * 是否是第一次连接
-     */
-    private boolean isFirstConn = true;
     /**
      * 设备名称
      */
@@ -135,10 +138,8 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
                 public void onNotify(UUID service, UUID character, byte[] value) {
                     displayData(value);
                 }
-
                 @Override
                 public void onResponse(int code) {
-
                 }
             });
         } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
@@ -147,71 +148,13 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
                 public void onNotify(UUID service, UUID character, byte[] value) {
                     displayData(value);
                 }
-
                 @Override
                 public void onResponse(int code) {
-
                 }
             });
         }
 
-        SystemClock.sleep(100);
-        //查询车辆sn码
-        String uuid = PreferencesUtils.getString(getActivity(), "uuid");
-        if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-            BleKitUtils.writeP(mDeviceAddress, Constant.BLE.SN_CODE, new BleWriteResponse() {
-                @Override
-                public void onResponse(int code) {
-
-                }
-            });
-        } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
-            BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.SN_CODE, new BleWriteResponse() {
-                @Override
-                public void onResponse(int code) {
-
-                }
-            });
-        }
-
-        SystemClock.sleep(100);
-        //车辆状态
-        if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-            BleKitUtils.writeP(mDeviceAddress, Constant.BLE.CAR_STATE, new BleWriteResponse() {
-                @Override
-                public void onResponse(int code) {
-
-                }
-            });
-        } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
-            BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.CAR_STATE, new BleWriteResponse() {
-                @Override
-                public void onResponse(int code) {
-
-                }
-            });
-        }
-
-        SystemClock.sleep(100);
-
-        if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-            BleKitUtils.writeP(mDeviceAddress, Constant.BLE.PROGRAM_LOCATION, new BleWriteResponse() {
-                @Override
-                public void onResponse(int code) {
-
-                }
-            });
-        } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
-            BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.PROGRAM_LOCATION, new BleWriteResponse() {
-                @Override
-                public void onResponse(int code) {
-
-                }
-            });
-        }
-
-        //发送速度请求指令
-        sendSpeedRequest();
+        mPresenter.sendZhiling();
     }
 
     @Override
@@ -259,59 +202,15 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
     protected void updateViews() {
     }
 
-
-    private Timer timer;
-    private TimerTask timerTask;
-
-    //发送速度请求指令，1秒发送8次
-    private void sendSpeedRequest() {
-        timer = new Timer();
-        timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                if (!isOther) {
-                    if (null != BleUtil.getSpeedAndPower() || BleUtil.getSpeedAndPower().length > 0) {
-                        if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-                            BleKitUtils.writeP(mDeviceAddress, BleUtil.getSpeedAndPower(), new BleWriteResponse() {
-                                @Override
-                                public void onResponse(int code) {
-                                }
-                            });
-                        } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
-//                            Log.i("TAG", "-------泰斗发送指令");
-                            BleKitUtils.writeTaiTou(mDeviceAddress, BleUtil.getSpeedAndPower(), new BleWriteResponse() {
-                                @Override
-                                public void onResponse(int code) {
-                                }
-                            });
-                        }
-                    }
-                }
-            }
-        };
-        timer.schedule(timerTask, 0, 125);
-    }
-
-    //停止发送速度请求指令
-    private void stopSendSpeedRequest() {
-        if (null != timerTask) {
-            timerTask.cancel();
-            timerTask = null;
-        }
-        if (null != timer) {
-            timer.cancel();
-            timer = null;
-        }
-    }
-
     int zongLicheng;
-
+    StringBuilder snCode1;
+    StringBuilder snCode2;
     //处理蓝牙设备反馈指令
     private void displayData(byte[] data) {
         if (data != null) {
-            if (!BleUtil.receiveDataCRCCheck(data)) {
-                return;
-            }
+//            if (!BleUtil.receiveDataCRCCheck(data)) {
+//                return;
+//            }
             mPresenter.displayData(data);
             String info = ConversionUtil.byte2HexStr(data);
 //            Log.i("TAG", "-----info" + info);
@@ -328,7 +227,7 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
                     tvDianliang.setText(power + "");
                     tvLicheng.setText(licheng / 10.0 + "");
                     tvZonglicheng.setText(zongLicheng / 10.0 + "");
-                    Log.i("TAG", "-----info" + speed + "," + power + "," + licheng + "," + zongLicheng);
+//                    Log.i("TAG", "-----info" + speed + "," + power + "," + licheng + "," + zongLicheng);
                 } else if ("04".equals(infos[2]) && "01".equals(infos[3]) && "02".equals(infos[4])) {
                     String info1 = ConversionUtil.byte2HexStr(data);
                     Log.i("TAG", "-----车辆状态," + info1);
@@ -360,43 +259,97 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
                     }
                 }
                 //车辆SN码
-                else if ("04".equals(infos[2]) && "01".equals(infos[3]) && "03".equals(infos[4])) {
+                else if ("04".equals(infos[2]) && "01".equals(infos[3]) && "03".equals(infos[4])
+                        || !("4D".equals(infos[0]) && "57".equals(infos[1]))) {
                     Log.i("TAG", "-----车辆SN码" + info);
-                    StringBuilder snCode = new StringBuilder();
-                    if (info.length() > 17) {
-                        char code1 = (char) Integer.parseInt(infos[17], 16);
-                        snCode.append(code1);
-                        char code2 = (char) Integer.parseInt(infos[16], 16);
-                        snCode.append(code2);
-                        char code3 = (char) Integer.parseInt(infos[15], 16);
-                        snCode.append(code3);
-                        char code4 = (char) Integer.parseInt(infos[14], 16);
-                        snCode.append(code4);
-                        char code5 = (char) Integer.parseInt(infos[13], 16);
-                        snCode.append(code5);
-                        char code6 = (char) Integer.parseInt(infos[12], 16);
-                        snCode.append(code6);
-                        char code7 = (char) Integer.parseInt(infos[11], 16);
-                        snCode.append(code7);
-                        char code8 = (char) Integer.parseInt(infos[10], 16);
-                        snCode.append(code8);
-                        char code9 = (char) Integer.parseInt(infos[9], 16);
-                        snCode.append(code9);
-                        char code10 = (char) Integer.parseInt(infos[8], 16);
-                        snCode.append(code10);
-                        char code11 = (char) Integer.parseInt(infos[7], 16);
-                        snCode.append(code11);
-                        char code12 = (char) Integer.parseInt(infos[6], 16);
-                        snCode.append(code12);
+                    if (infos.length == 20) {
+                        snCode1 = new StringBuilder();
+                        String code1 = infos[19].substring(1);
+                        snCode1.append(code1);
+                        String code2 = infos[18].substring(1);
+                        snCode1.append(code2);
+                        String code3 = infos[17].substring(1);
+                        snCode1.append(code3);
+                        String code4 = infos[16].substring(1);
+                        snCode1.append(code4);
+                        String code5 = infos[15].substring(1);
+                        snCode1.append(code5);
+                        String code6 = infos[14].substring(1);
+                        snCode1.append(code6);
+                        String code7 = infos[13].substring(1);
+                        snCode1.append(code7);
+                        String code8 = infos[12].substring(1);
+                        snCode1.append(code8);
+                        String code9 = infos[11].substring(1);
+                        snCode1.append(code9);
+                        String code10 = infos[10].substring(1);
+                        snCode1.append(code10);
+                        String code11 = infos[9].substring(1);
+                        snCode1.append(code11);
+                        String code12 = infos[8].substring(1);
+                        snCode1.append(code12);
+                        String code13 = infos[7].substring(1);
+                        snCode1.append(code13);
+                        String code14 = infos[6].substring(1);
+                        snCode1.append(code14);
+                    }else {
+                        snCode2 = new StringBuilder();
+                        String code1 = infos[9].substring(1);
+                        snCode2.append(code1);
+                        String code2 = infos[8].substring(1);
+                        snCode2.append(code2);
+                        String code3 = infos[7].substring(1);
+                        snCode2.append(code3);
+                        String code4 = infos[6].substring(1);
+                        snCode2.append(code4);
+                        String code5 = infos[5].substring(1);
+                        snCode2.append(code5);
+                        String code6 = infos[4].substring(1);
+                        snCode2.append(code6);
+                        String code7 = infos[3].substring(1);
+                        snCode2.append(code7);
+                        String code8 = infos[2].substring(1);
+                        snCode2.append(code8);
+                        String code9 = infos[1].substring(1);
+                        snCode2.append(code9);
+                        String code10 = infos[0].substring(1);
+                        snCode2.append(code10);
                     }
-                    String snCodeStr = snCode.toString();
-                    PreferencesUtils.putString(getActivity(), "snCode", snCodeStr);
-                    mPresenter.useCar(snCodeStr, zongLicheng * 100);
+
+                    if (!TextUtils.isEmpty(snCode1) && !TextUtils.isEmpty(snCode2)) {
+                        String snCodeStr = snCode1.toString() + snCode2.toString();
+                        if (snCodeStr.length() == 24) {
+                            BleInfoBean bleInfoBean = BleInfo.getBleInfo();
+                            bleInfoBean.setSnCode(snCodeStr);
+                            BleInfo.saveBleInfo(bleInfoBean);
+                            mPresenter.useCar(snCodeStr, zongLicheng * 100);
+                            if (SystemUtil.isNetworkConnected()) {
+                                Log.i("TAG", "------判断车主，" + snCodeStr);
+                                String uid = PreferencesUtils.getLoginInfo().getObj().getUid();
+                                mPresenter.getRetrofitHelper().vehicleUserOwner(uid, snCodeStr)
+                                        .compose(RxUtil.<ObjStringBean>rxSchedulerHelper())
+                                        .subscribe(new CommonSubscriber<ObjStringBean>() {
+                                            @Override
+                                            public void onNext(ObjStringBean objStringBean) {
+                                                Log.i("TAG", "------ObjStringBean," + objStringBean.getObj());
+                                                if (objStringBean.getCode() == 1) {
+                                                    BleInfoBean bleInfoBean = BleInfo.getBleInfo();
+                                                    bleInfoBean.setIsChezhu(objStringBean.getObj());
+                                                    BleInfo.saveBleInfo(bleInfoBean);
+                                                }
+                                            }
+                                        });
+                            } else {
+                            }
+                        }
+                    }
                 }
                 //查询车辆是否在引导程序中
                 else if ("04".equals(infos[2]) && "01".equals(infos[3]) && "07".equals(infos[4])) {
+                    Log.i("TAG", "------是否在引导程序," + infos[6]);
+                    BleInfoBean bleInfoBean = BleInfo.getBleInfo();
                     if ("01".equals(infos[6])) {//引导程序中
-                        PreferencesUtils.putString(getActivity(), "programLocation", "01");
+                        bleInfoBean.setProgramLocation("01");
                         if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
                             Intent intent = new Intent(getActivity(), ScFirmwareUpdateActivity.class);
 //                            intent.putExtra("firmwareCode", fi);
@@ -411,8 +364,9 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
                             startActivity(intent);
                         }
                     } else if ("00".equals(infos[6])) {//应用程序中
-                        PreferencesUtils.putString(getActivity(), "programLocation", "00");
+                        bleInfoBean.setProgramLocation("00");
                     }
+                    BleInfo.saveBleInfo(bleInfoBean);
                 }
                 //车辆密码验证
                 else if ("04".equals(infos[2]) && "02".equals(infos[3]) && "12".equals(infos[4])) {
@@ -452,6 +406,7 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
             });
         } else if (requestCode == 0x01) {//选择设备返回
             mDeviceAddress = BleUtil.getBleAddress();
+            //如果设备不为null，显示设备名称，若为null，显示MYWAY
             if (null != BleUtil.getBleName()) {
                 if (BleUtil.getBleName().length() > 3 && "RA".equals(BleUtil.getBleName().substring(0, 2))
                         || "SC".equals(BleUtil.getBleName().substring(0, 2))) {
@@ -507,23 +462,64 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
 
         if (BleKitUtils.getBluetoothClient().getConnectStatus(mDeviceAddress) == STATUS_DEVICE_CONNECTED) {
             tvConnection.setText(R.string.disconnect);
-            sendSpeedRequest();
+            mPresenter.sendSpeedRequest();
         } else {
             tvConnection.setText(R.string.connected);
-            tvSpeed.setText("0.0");
-            tvLicheng.setText("0.0");
-            tvDianliang.setText("0");
-            tvZonglicheng.setText("0.0");
-            stopSendSpeedRequest();
+//            tvSpeed.setText("0.0");
+//            tvLicheng.setText("0.0");
+//            tvDianliang.setText("0");
+//            tvZonglicheng.setText("0.0");
+            mPresenter.stopSendSpeedRequest();
+            BleInfoBean bleInfoBean = BleInfo.getBleInfo();
+            bleInfoBean.setProgramLocation("");
+            BleInfo.saveBleInfo(bleInfoBean);
+        }
+
+        if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.notifyP(mDeviceAddress, new BleNotifyResponse() {
+                @Override
+                public void onNotify(UUID service, UUID character, byte[] value) {
+                    displayData(value);
+                }
+
+                @Override
+                public void onResponse(int code) {
+
+                }
+            });
+        } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.notifyTaiTou(mDeviceAddress, new BleNotifyResponse() {
+                @Override
+                public void onNotify(UUID service, UUID character, byte[] value) {
+                    displayData(value);
+                }
+
+                @Override
+                public void onResponse(int code) {
+                }
+            });
         }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        stopSendSpeedRequest();
+        mPresenter.stopSendSpeedRequest();
         getActivity().unregisterReceiver(mMqttUpdateReceiver);
         BleKitUtils.getBluetoothClient().unregisterConnectStatusListener(mDeviceAddress, mBleConnectStatusListener);
+        if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.unnotifyP(mDeviceAddress, new BleUnnotifyResponse() {
+                @Override
+                public void onResponse(int code) {
+                }
+            });
+        } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.unnotifyTaiTou(mDeviceAddress, new BleUnnotifyResponse() {
+                @Override
+                public void onResponse(int code) {
+                }
+            });
+        }
     }
 
     private final BleConnectStatusListener mBleConnectStatusListener = new BleConnectStatusListener() {
@@ -531,21 +527,15 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
         @Override
         public void onConnectStatusChanged(String mac, int status) {
             if (status == STATUS_CONNECTED) {
-                //如果更新连接车辆，将车辆缓存信息清空
-                if (!mac.equals(BleInfo.getBleInfo().getMac())){
-                    BleInfo.clearBleInfo();
-                    BleInfoBean bleInfoBean = BleInfo.getBleInfo();
-                    bleInfoBean.setMac(mac);
-                    BleInfo.saveBleInfo(bleInfoBean);
-                }
                 tvConnection.setText(R.string.disconnect);
             } else if (status == STATUS_DISCONNECTED) {
                 tvConnection.setText(R.string.connected);
-                tvSpeed.setText("0.0");
-                tvLicheng.setText("0.0");
-                tvDianliang.setText("0");
-                tvZonglicheng.setText("0.0");
-                stopSendSpeedRequest();
+//                tvSpeed.setText("0.0");
+//                tvLicheng.setText("0.0");
+//                tvDianliang.setText("0");
+//                tvZonglicheng.setText("0.0");
+                mPresenter.stopSendSpeedRequest();
+//                BleKitUtils.getBluetoothClient().
             }
         }
     };
@@ -572,6 +562,14 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
                             @Override
                             public void onResponse(int code, BleGattProfile data) {
                                 if (code == REQUEST_SUCCESS) {
+                                    //如果更新连接车辆，将车辆缓存信息清空
+                                    if (!mDeviceAddress.equals(BleInfo.getBleInfo().getMac())){
+                                        BleInfo.clearBleInfo();
+                                        BleInfoBean bleInfoBean = BleInfo.getBleInfo();
+                                        bleInfoBean.setMac(mDeviceAddress);
+                                        bleInfoBean.setIsChezhu("");
+                                        BleInfo.saveBleInfo(bleInfoBean);
+                                    }
                                     displayGattServices(data.getServices());
                                 } else if (code == REQUEST_FAILED) {
                                     tvConnection.setText(R.string.connected);
@@ -602,7 +600,7 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
                 }
                 break;
             case R.id.tv_right://更多设置
-                stopSendSpeedRequest();
+                mPresenter.stopSendSpeedRequest();
                 if (BleKitUtils.getBluetoothClient().getConnectStatus(mDeviceAddress) == STATUS_DEVICE_CONNECTED) {
                     Intent intent = new Intent(getActivity(), MoreCarInfoActivity.class);
                     intent.putExtra("mDeviceAddress", mDeviceAddress);
@@ -620,14 +618,12 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
                             BleKitUtils.writeP(mDeviceAddress, Constant.BLE.LOCK_CAR, new BleWriteResponse() {
                                 @Override
                                 public void onResponse(int code) {
-
                                 }
                             });
                         } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
                             BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.LOCK_CAR, new BleWriteResponse() {
                                 @Override
                                 public void onResponse(int code) {
-
                                 }
                             });
                         }
@@ -639,7 +635,6 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
                             BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.DEBLOCKING, new BleWriteResponse() {
                                 @Override
                                 public void onResponse(int code) {
-
                                 }
                             });
                         }
@@ -658,14 +653,12 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
                         BleKitUtils.writeP(mDeviceAddress, Constant.BLE.CLOSE_CAR, new BleWriteResponse() {
                             @Override
                             public void onResponse(int code) {
-
                             }
                         });
                     } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
                         BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.CLOSE_CAR, new BleWriteResponse() {
                             @Override
                             public void onResponse(int code) {
-
                             }
                         });
                     }
@@ -698,27 +691,8 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
         this.isOther = isOther;
     }
 
-    public AlertDialog confirmDialog;
-
-    /**
-     * 是否确认dialog
-     */
-    public void confirmDialog(Context context, String hint, View.OnClickListener mOnClickListener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        View view = View.inflate(context, R.layout.dialog_confirm, null);
-        TextView tvHint = (TextView) view.findViewById(R.id.tv_hint_text);
-        tvHint.setText(hint);
-        Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
-        Button btnConfirm = (Button) view.findViewById(R.id.btn_confirm);
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                confirmDialog.dismiss();
-            }
-        });
-        btnConfirm.setOnClickListener(mOnClickListener);
-        builder.setView(view);
-        confirmDialog = builder.show();
+    @Override
+    public String getDeviceAddress() {
+        return mDeviceAddress;
     }
-
 }

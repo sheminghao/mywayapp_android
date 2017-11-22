@@ -26,8 +26,8 @@ public class SuspensionDecoration extends RecyclerView.ItemDecoration {
     private LayoutInflater mInflater;
 
     private int mTitleHeight;//title的高
-    private static int COLOR_TITLE_BG = Color.parseColor("#FFDFDFDF");
-    private static int COLOR_TITLE_FONT = Color.parseColor("#FF999999");
+    private static int COLOR_TITLE_BG = Color.parseColor("#3A3E6E");
+    private static int COLOR_TITLE_FONT = Color.parseColor("#FFFFFF");
     private static int mTitleFontSize;//title字体大小
 
     private int mHeaderViewCount = 0;
@@ -133,7 +133,7 @@ public class SuspensionDecoration extends RecyclerView.ItemDecoration {
         int baseline = (getMeasuredHeight() - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;*/
 
         mPaint.getTextBounds(mDatas.get(position).getSuspensionTag(), 0, mDatas.get(position).getSuspensionTag().length(), mBounds);
-        c.drawText(mDatas.get(position).getSuspensionTag(), child.getPaddingLeft(), child.getTop() - params.topMargin - (mTitleHeight / 2 - mBounds.height() / 2), mPaint);
+        c.drawText(mDatas.get(position).getSuspensionTag(), child.getPaddingLeft()+20, child.getTop() - params.topMargin - (mTitleHeight / 2 - mBounds.height() / 2), mPaint);
     }
 
     @Override
@@ -171,7 +171,7 @@ public class SuspensionDecoration extends RecyclerView.ItemDecoration {
         c.drawRect(parent.getPaddingLeft(), parent.getPaddingTop(), parent.getRight() - parent.getPaddingRight(), parent.getPaddingTop() + mTitleHeight, mPaint);
         mPaint.setColor(COLOR_TITLE_FONT);
         mPaint.getTextBounds(tag, 0, tag.length(), mBounds);
-        c.drawText(tag, child.getPaddingLeft(),
+        c.drawText(tag, child.getPaddingLeft()+20,
                 parent.getPaddingTop() + mTitleHeight - (mTitleHeight / 2 - mBounds.height() / 2),
                 mPaint);
         if (flag)

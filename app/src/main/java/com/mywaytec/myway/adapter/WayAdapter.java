@@ -50,8 +50,8 @@ public class WayAdapter extends ListBaseAdapter<RouteListBean.ObjBean>{
         RatingBar ratingBar = holder.getView(R.id.ratingBar);
 //        ratingBar.setProgress(mDataList.get(position).getSceneryStar());
         ratingBar.setRating(mDataList.get(position).getSceneryStar());
-//        TextView tvLocation = holder.getView(R.id.tv_location);
-//        tvLocation.setText(mDataList.get(position).getOrigin());
+        TextView tvLocation = holder.getView(R.id.tv_location);
+        tvLocation.setText(mDataList.get(position).getDestination());
         TextView tvLikeNum = holder.getView(R.id.tv_like_num);
         tvLikeNum.setText(mDataList.get(position).getLikeNum()+"");
         TextView tvZonglicheng = holder.getView(R.id.tv_zonglicheng);

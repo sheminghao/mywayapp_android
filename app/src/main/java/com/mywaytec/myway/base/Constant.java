@@ -15,6 +15,11 @@ public class Constant {
     //文件根目录
     public static final String DEFAULT_PATH = Environment.getExternalStorageDirectory()+"/myway";
 
+    /**
+     * 是否是车主
+     */
+    public static final String IS_CHEZHU = "IS_CHEZHU";
+
     public static class BLE{
 
         public static final String WRITE_SERVICE_UUID = "0000ffe5-0000-1000-8000-00805f9b34fb";

@@ -20,27 +20,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="262px"-->
-                <!--android:gravity="center"-->
-                <!--android:orientation="vertical">-->
-
-                <!--<ImageView-->
-                    <!--android:layout_width="74px"-->
-                    <!--android:layout_height="60px"-->
-                    <!--android:src="@mipmap/icon_default" />-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="16px"-->
-                    <!--android:text="添加照片"-->
-                    <!--android:textColor="#6d6d6d"-->
-                    <!--android:textSize="24px" />-->
-
-            <!--</LinearLayout>-->
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_select_photo"
                 android:layout_width="match_parent"
@@ -60,29 +39,33 @@
             <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="21px">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingLeft="20px"
+                android:paddingRight="20px"
+                android:paddingTop="35px"
+                android:paddingBottom="35px" >
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="@string/activity_name"
                     android:textColor="#6d6d6d"
                     android:textSize="28px" />
 
                 <EditText
                     android:id="@+id/et_activity_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:gravity="right"
-                    android:hint="例：深圳市红树林_一日骑行游"
+                    android:layout_weight="3"
+                    android:hint=""
                     android:text=""
                     android:textColor="#000000"
                     android:textSize="30px"
                     android:maxLines="2"
                     android:background="@color/transparency"
-                    android:layout_marginTop="16px"/>
+                    android:layout_marginLeft="10px"/>
 
             </com.zhy.autolayout.AutoLinearLayout>
 
@@ -95,27 +78,33 @@
                 android:id="@+id/layout_gather_site"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="21px">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingLeft="20px"
+                android:paddingRight="20px"
+                android:paddingTop="35px"
+                android:paddingBottom="35px" >
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="@string/gathering_location"
                     android:textColor="#6d6d6d"
                     android:textSize="28px" />
 
                 <com.zhy.autolayout.AutoLinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_weight="3"
                     android:orientation="horizontal"
-                    android:layout_marginTop="16px">
+                    android:layout_marginLeft="10px">
 
                     <TextView
                         android:id="@+id/tv_gather_site"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:text=""
                         android:textColor="#000000"
                         android:textSize="30px" />
@@ -139,27 +128,33 @@
                 android:id="@+id/layout_start_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="21px">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingLeft="20px"
+                android:paddingRight="20px"
+                android:paddingTop="35px"
+                android:paddingBottom="35px" >
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="@string/start_time"
                     android:textColor="#6d6d6d"
                     android:textSize="28px" />
 
                 <com.zhy.autolayout.AutoLinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_weight="3"
                     android:orientation="horizontal"
-                    android:layout_marginTop="16px">
+                    android:layout_marginLeft="10px" >
 
                     <TextView
                         android:id="@+id/tv_start_time"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:text=""
                         android:textColor="#000000"
                         android:textSize="30px" />
@@ -183,27 +178,33 @@
                 android:id="@+id/layout_end_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="21px">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingLeft="20px"
+                android:paddingRight="20px"
+                android:paddingTop="35px"
+                android:paddingBottom="35px" >
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="@string/end_time"
                     android:textColor="#6d6d6d"
                     android:textSize="28px" />
 
                 <com.zhy.autolayout.AutoLinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_weight="3"
                     android:orientation="horizontal"
-                    android:layout_marginTop="16px">
+                    android:layout_marginLeft="10px">
 
                     <TextView
                         android:id="@+id/tv_end_time"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:text=""
                         android:textColor="#000000"
                         android:textSize="30px" />
@@ -226,43 +227,31 @@
             <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="21px">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingLeft="20px"
+                android:paddingRight="20px"
+                android:paddingTop="35px"
+                android:paddingBottom="35px">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="@string/number_of_partner"
                     android:textColor="#6d6d6d"
                     android:textSize="28px" />
 
-                <com.zhy.autolayout.AutoLinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <EditText
+                <EditText
                         android:id="@+id/et_num"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_gravity="right"
-                        android:gravity="right"
+                        android:layout_weight="3"
                         android:text="0"
                         android:textColor="#000000"
                         android:textSize="30px"
                         android:inputType="number"
-                        android:background="@color/transparency"
-                        android:layout_marginTop="16px"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/partner"
-                        android:textColor="#000000"
-                        android:textSize="30px" />
-
-                </com.zhy.autolayout.AutoLinearLayout>
+                        android:background="@color/transparency" />
 
             </com.zhy.autolayout.AutoLinearLayout>
 
@@ -274,12 +263,17 @@
             <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="21px">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingLeft="20px"
+                android:paddingRight="20px"
+                android:paddingTop="35px"
+                android:paddingBottom="35px" >
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="@string/telephone_activity"
                     android:textColor="#6d6d6d"
                     android:textSize="28px" />
@@ -288,13 +282,11 @@
                     android:id="@+id/et_contact"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:gravity="right"
                     android:text=""
                     android:textColor="#000000"
                     android:textSize="30px"
                     android:background="@color/transparency"
-                    android:layout_marginTop="16px"/>
+                    android:layout_marginLeft="10px"/>
 
             </com.zhy.autolayout.AutoLinearLayout>
 
@@ -324,10 +316,12 @@
                     android:minLines="5"
                     android:text=""
                     android:textColor="#000000"
+                    android:textColorHint="#BBBBBB"
                     android:textSize="30px"
+                    android:hint="@string/描述一下活动内容"
                     android:background="@color/transparency"
                     android:gravity="top"
-                    android:layout_marginTop="16px"/>
+                    android:layout_marginTop="28px"/>
 
             </com.zhy.autolayout.AutoLinearLayout>
 

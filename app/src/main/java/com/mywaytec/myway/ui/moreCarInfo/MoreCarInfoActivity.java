@@ -10,8 +10,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
@@ -20,6 +19,7 @@ import android.widget.TextView;
 
 import com.inuker.bluetooth.library.connect.listener.BleConnectStatusListener;
 import com.inuker.bluetooth.library.connect.response.BleNotifyResponse;
+import com.inuker.bluetooth.library.connect.response.BleUnnotifyResponse;
 import com.inuker.bluetooth.library.connect.response.BleWriteResponse;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.BaseActivity;
@@ -59,20 +59,13 @@ import static com.inuker.bluetooth.library.Constants.STATUS_DISCONNECTED;
 
 /**
  * 蓝牙更多设置界面
+ * 蓝牙初始化数据在首页已获取，如果在首页获取失败，在进入该页面时重新获取
+ *
  */
-public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> implements MoreCarInfoView,
-        CompoundButton.OnCheckedChangeListener {
+public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> implements MoreCarInfoView {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.cb_qianteng)
-    CheckBox cbQiandeng;
-    @BindView(R.id.cb_houdeng)
-    CheckBox cbHoudeng;
-    @BindView(R.id.cb_huaxing)
-    CheckBox cbHuaxing;
-    @BindView(R.id.cb_dingsuxunhang)
-    CheckBox cbDingsuxunhang;
     @BindView(R.id.speedSeekBar)
     SpeedSeekBar speedSeekBar;
     @BindView(R.id.tv_firmware_code)
@@ -93,6 +86,25 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
     LinearLayout layoutScSet;
     @BindView(R.id.layout_dengdaimoshi)
     LinearLayout layoutDengdaimoshi;
+    @BindView(R.id.img_qiandeng)
+    ImageView imgQiandeng;
+    @BindView(R.id.img_weideng)
+    ImageView imgWeideng;
+    @BindView(R.id.img_huaxing)
+    ImageView imgHuaxing;
+    @BindView(R.id.img_dingsuxunhang)
+    ImageView imgDingsuxunhang;
+    @BindView(R.id.tv_dengdai)
+    TextView tvDengdai;
+
+    //前灯是否打开
+    private boolean isQiandeng;
+    //后灯是否打开
+    private boolean isHoudeng;
+    //滑行启动是否打开
+    private boolean isHuaxing;
+    //定速巡航时候打开
+    private boolean isDingsuxunhang;
 
     private String mDeviceAddress;
     private String firmwareCode;//软件版本号
@@ -113,10 +125,6 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         tvTitle.setText(R.string.more_setting);
         mDeviceAddress = getIntent().getStringExtra("mDeviceAddress");
-        cbQiandeng.setOnCheckedChangeListener(this);
-        cbHoudeng.setOnCheckedChangeListener(this);
-        cbHuaxing.setOnCheckedChangeListener(this);
-        cbDingsuxunhang.setOnCheckedChangeListener(this);
         uuid = PreferencesUtils.getString(MoreCarInfoActivity.this, "uuid");
         if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {//滑板车
             layoutYoumenjiaozhun.setVisibility(View.VISIBLE);
@@ -143,10 +151,8 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                 public void onNotify(UUID service, UUID character, byte[] value) {
                     displayData(value);
                 }
-
                 @Override
                 public void onResponse(int code) {
-
                 }
             });
         } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
@@ -155,10 +161,8 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                 public void onNotify(UUID service, UUID character, byte[] value) {
                     displayData(value);
                 }
-
                 @Override
                 public void onResponse(int code) {
-
                 }
             });
         }
@@ -425,6 +429,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                 });
             }
         }else {
+            //如果有缓存数据，初始化数据
             speedSeekBar.setPracticalSpeed(BleInfo.getBleInfo().getSuduxianzhi());
             programLocation();
         }
@@ -432,41 +437,89 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
 
     private void programLocation(){
         SystemClock.sleep(80);
-        //程序运行位置
-        if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-            BleKitUtils.writeP(mDeviceAddress, Constant.BLE.PROGRAM_LOCATION, new BleWriteResponse() {
-                @Override
-                public void onResponse(int code) {
-                    if (code == REQUEST_SUCCESS){
-                        sendTime = 0;
-                        currentDengdaiMode();
-                    }else if (code == REQUEST_FAILED){
-                        if (sendTime > 10){
-                            loadingDialog.dismiss();
-                            return;
+        if (!"00".equals(BleInfo.getBleInfo().getProgramLocation())){//不在应用程序中，查询程序运行位置
+            //程序运行位置
+            if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
+                BleKitUtils.writeP(mDeviceAddress, Constant.BLE.PROGRAM_LOCATION, new BleWriteResponse() {
+                    @Override
+                    public void onResponse(int code) {
+                        if (code == REQUEST_SUCCESS){
+                            sendTime = 0;
+                            snCode();
+                        }else if (code == REQUEST_FAILED){
+                            if (sendTime > 10){
+                                loadingDialog.dismiss();
+                                return;
+                            }
+                            sendTime++;
+                            programLocation();
                         }
-                        sendTime++;
-                        programLocation();
                     }
-                }
-            });
-        } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
-            BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.PROGRAM_LOCATION, new BleWriteResponse() {
-                @Override
-                public void onResponse(int code) {
-                    if (code == REQUEST_SUCCESS){
-                        sendTime = 0;
-                        loadingDialog.dismiss();
-                    }else if (code == REQUEST_FAILED){
-                        if (sendTime > 10){
-                            loadingDialog.dismiss();
-                            return;
+                });
+            } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
+                BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.PROGRAM_LOCATION, new BleWriteResponse() {
+                    @Override
+                    public void onResponse(int code) {
+                        if (code == REQUEST_SUCCESS) {
+                            sendTime = 0;
+                            snCode();
+                        } else if (code == REQUEST_FAILED) {
+                            if (sendTime > 10) {
+                                loadingDialog.dismiss();
+                                return;
+                            }
+                            sendTime++;
+                            programLocation();
                         }
-                        sendTime++;
-                        programLocation();
                     }
-                }
-            });
+                });
+            }
+        }else {
+            snCode();
+        }
+    }
+
+    private void snCode() {
+        SystemClock.sleep(80);
+        if (TextUtils.isEmpty(BleInfo.getBleInfo().getSnCode())) {
+            //查询车辆sn码
+            if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
+                BleKitUtils.writeP(mDeviceAddress, Constant.BLE.SN_CODE, new BleWriteResponse() {
+                    @Override
+                    public void onResponse(int code) {
+                        if (code == REQUEST_SUCCESS) {
+                            sendTime = 0;
+                            currentDengdaiMode();
+                        } else if (code == REQUEST_FAILED) {
+                            if (sendTime > 10) {
+                                loadingDialog.dismiss();
+                                return;
+                            }
+                            sendTime++;
+                            snCode();
+                        }
+                    }
+                });
+            } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
+                BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.SN_CODE, new BleWriteResponse() {
+                    @Override
+                    public void onResponse(int code) {
+                        if (code == REQUEST_SUCCESS) {
+                            sendTime = 0;
+                            loadingDialog.dismiss();
+                        } else if (code == REQUEST_FAILED) {
+                            if (sendTime > 10) {
+                                loadingDialog.dismiss();
+                                return;
+                            }
+                            sendTime++;
+                            snCode();
+                        }
+                    }
+                });
+            }
+        }else {
+            currentDengdaiMode();
         }
     }
 
@@ -501,20 +554,20 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
     //蓝牙设备返回信息
     private void displayData(byte[] data) {
         if (data != null) {
-            if (!BleUtil.receiveDataCRCCheck(data)) {
-                return;
-            }
+//            if (!BleUtil.receiveDataCRCCheck(data)) {
+//                return;
+//            }
             mPresenter.displayData(data);
             String info = ConversionUtil.byte2HexStr(data);
             Log.i("TAG", "-----MoreCarInfo_info" + info);
             String[] infos = info.split(" ");
-            Log.i("TAG", "-----MoreCarInfo_infos" + infos.length);
+//            Log.i("TAG", "-----MoreCarInfo_infos" + infos.length);
             if (infos.length > 5) {
-                //TODO 发送指令成功后改变状态
                 //前灯关闭应答
                 if ("04".equals(infos[2]) && "02".equals(infos[3]) && "01".equals(infos[4])) {
                     if ("01".equals(infos[6])) {
-//                        ToastUtils.showToast("前灯关闭");
+                        isQiandeng = false;
+                        imgQiandeng.setImageResource(R.mipmap.gengduo_btn_qixuao);
                     } else if ("00".equals(infos[6])) {
 //                        ToastUtils.showToast("设置失败");
                     }
@@ -522,36 +575,56 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                 //前灯打开应答
                 else if ("04".equals(infos[2]) && "02".equals(infos[3]) && "02".equals(infos[4])) {
                     if ("01".equals(infos[6])) {
-//                        ToastUtils.showToast("前灯打开");
+                        isQiandeng = true;
+                        imgQiandeng.setImageResource(R.mipmap.gengduo_btn_queding);
                     } else if ("00".equals(infos[6])) {
-//                        ToastUtils.showToast("设置失败");
                     }
                 }
                 //后灯关闭应答
                 else if ("04".equals(infos[2]) && "02".equals(infos[3]) && "0E".equals(infos[4])) {
                     if ("01".equals(infos[6])) {
-//                        ToastUtils.showToast("后灯关闭");
+                        isHoudeng = false;
+                        imgWeideng.setImageResource(R.mipmap.gengduo_btn_qixuao);
                     } else if ("00".equals(infos[6])) {
-//                        ToastUtils.showToast("设置失败");
                     }
                 }
                 //后灯打开应答
                 else if ("04".equals(infos[2]) && "02".equals(infos[3]) && "0F".equals(infos[4])) {
                     if ("01".equals(infos[6])) {
-//                        ToastUtils.showToast("后灯打开");
+                        isHoudeng = true;
+                        imgWeideng.setImageResource(R.mipmap.gengduo_btn_queding);
                     } else if ("00".equals(infos[6])) {
-//                        ToastUtils.showToast("设置失败");
                     }
                 }
                 //打开定速巡航应答
                 else if ("04".equals(infos[2]) && "02".equals(infos[3]) && "0B".equals(infos[4])) {
                     if ("01".equals(infos[6])) {//成功
+                        isDingsuxunhang = true;
+                        imgDingsuxunhang.setImageResource(R.mipmap.gengduo_btn_queding);
                     } else if ("00".equals(infos[6])) {//失败
                     }
                 }
                 //关闭定速巡航应答
                 else if ("04".equals(infos[2]) && "02".equals(infos[3]) && "0A".equals(infos[4])) {
                     if ("01".equals(infos[6])) {//成功
+                        isDingsuxunhang = false;
+                        imgDingsuxunhang.setImageResource(R.mipmap.gengduo_btn_qixuao);
+                    } else if ("00".equals(infos[6])) {//失败
+                    }
+                }
+                //打开滑行启动
+                else if ("04".equals(infos[2]) && "02".equals(infos[3]) && "07".equals(infos[4])) {
+                    if ("01".equals(infos[6])) {//成功
+                        isHuaxing = true;
+                        imgHuaxing.setImageResource(R.mipmap.gengduo_btn_queding);
+                    } else if ("00".equals(infos[6])) {//失败
+                    }
+                }
+                //关闭滑行启动
+                else if ("04".equals(infos[2]) && "02".equals(infos[3]) && "06".equals(infos[4])) {
+                    if ("01".equals(infos[6])) {//成功
+                        isHuaxing = false;
+                        imgHuaxing.setImageResource(R.mipmap.gengduo_btn_qixuao);
                     } else if ("00".equals(infos[6])) {//失败
                     }
                 }
@@ -565,6 +638,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                 }
                 //软件版本号
                 else if ("04".equals(infos[2]) && "01".equals(infos[3]) && "05".equals(infos[4])) {
+                    Log.i("TAG", "------软件版本号info," + info);
                     StringBuilder code = new StringBuilder();
                     char code1 = (char) Integer.parseInt(infos[13], 16);
                     code.append(code1);
@@ -603,14 +677,12 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                     if ("01".equals(infos[6])) {//设置成功
                         tvMode.setText(R.string.econ);
                     } else if ("00".equals(infos[6])) {//设置失败
-//                        ToastUtils.showToast("切换失败");
                     }
                 } else if ("04".equals(infos[2]) && "02".equals(infos[3]) && "09".equals(infos[4])) {//运动模式切换
                     Log.i("TAG", "------运动模式切换反馈," + infos[6]);
                     if ("01".equals(infos[6])) {//设置成功
                         tvMode.setText(R.string.sport);
                     } else if ("00".equals(infos[6])) {//设置失败
-//                        ToastUtils.showToast("切换失败");
                     }
                 } else if ("04".equals(infos[2]) && "01".equals(infos[3]) && "08".equals(infos[4])) {//最高限速、最低限速
                     int highSpeed = Integer.parseInt(infos[6], 16);
@@ -635,32 +707,41 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                     String b6 = Integer.toBinaryString(Integer.parseInt(infos[9], 16));
                     int a = (data[9] >> 4) & 0x1;
                     Log.i("TAG", "-----车辆状态,b6" + b6 + "," + a);
+                    Log.i("TAG", "-----车辆状态,前灯"+((data[9] >> 0) & 0x1)+",尾灯,"+((data[9] >> 6) & 0x1)
+                            +",滑行启动,"+((data[9] >> 3) & 0x1) +",定速巡航,"+((data[9] >> 5) & 0x1));
                     if (((data[9] >> 0) & 0x1) == 1) {//前灯状态
-                        cbQiandeng.setChecked(true);
+                        isQiandeng = true;
+                        imgQiandeng.setImageResource(R.mipmap.gengduo_btn_queding);
                     } else {
-                        cbQiandeng.setChecked(false);
+                        isQiandeng = false;
+                        imgQiandeng.setImageResource(R.mipmap.gengduo_btn_qixuao);
                     }
                     if (((data[9] >> 6) & 0x1) == 0) {//尾灯状态
-                        cbHoudeng.setChecked(true);
+                        isHoudeng = true;
+                        imgWeideng.setImageResource(R.mipmap.gengduo_btn_queding);
                     } else {
-                        cbHoudeng.setChecked(false);
+                        isHoudeng = false;
+                        imgWeideng.setImageResource(R.mipmap.gengduo_btn_qixuao);
                     }
                     if (((data[9] >> 4) & 0x1) == 0) {//车辆模式
                         tvMode.setText(R.string.econ);
                     } else {
                         tvMode.setText(R.string.sport);
                     }
-                    if (((data[9] >> 3) & 0x1) == 0){//滑行启动状态
-                        cbHuaxing.setChecked(true);
+                    if (((data[9] >> 3) & 0x1) == 1){//滑行启动状态
+                        isHuaxing = true;
+                        imgHuaxing.setImageResource(R.mipmap.gengduo_btn_queding);
                     }else {
-                        cbHuaxing.setChecked(false);
+                        isHuaxing = false;
+                        imgHuaxing.setImageResource(R.mipmap.gengduo_btn_qixuao);
                     }
-                    if (((data[9] >> 5) & 0x1) == 0){//定速巡航状态
-                        cbDingsuxunhang.setChecked(true);
+                    if (((data[9] >> 5) & 0x1) == 1){//定速巡航状态
+                        isDingsuxunhang = true;
+                        imgDingsuxunhang.setImageResource(R.mipmap.gengduo_btn_queding);
                     }else {
-                        cbDingsuxunhang.setChecked(false);
+                        isDingsuxunhang = false;
+                        imgDingsuxunhang.setImageResource(R.mipmap.gengduo_btn_qixuao);
                     }
-
                     BleInfoBean bleInfoBean = BleInfo.getBleInfo();
                     bleInfoBean.setCarState(data);
                     BleInfo.saveBleInfo(bleInfoBean);
@@ -685,11 +766,15 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                         if (firmwareUpdatePopupWindow != null && firmwareUpdatePopupWindow.isShowing()) {
                             firmwareUpdatePopupWindow.dismiss();
                         }
-                    } else if ("00".equals(infos[6])) {//操作失败
+                    } else if ("00".equals(infos[6])){//车辆非静止，禁止操作
+
+                    } else if ("02".equals(infos[6])){//正在充电，禁止操作
+
                     }
                 } else if ("04".equals(infos[2]) && "01".equals(infos[3]) && "07".equals(infos[4])) {
+                    BleInfoBean bleInfoBean = BleInfo.getBleInfo();
                     if ("01".equals(infos[6])) {//引导程序中
-                        PreferencesUtils.putString(MoreCarInfoActivity.this, "programLocation", "01");
+                        bleInfoBean.setProgramLocation("01");
                         if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
                             Intent intent = new Intent(MoreCarInfoActivity.this, ScFirmwareUpdateActivity.class);
                             intent.putExtra("firmwareCode", firmwareCode);
@@ -704,8 +789,9 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             startActivity(intent);
                         }
                     } else if ("00".equals(infos[6])) {//应用程序中
-                        PreferencesUtils.putString(MoreCarInfoActivity.this, "programLocation", "00");
+                        bleInfoBean.setProgramLocation("00");
                     }
+                    BleInfo.saveBleInfo(bleInfoBean);
                 }
                 //车辆密码设置
                 else if ("04".equals(infos[2]) && "02".equals(infos[3]) && "13".equals(infos[4])) {
@@ -727,24 +813,99 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
         }
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
-        switch (buttonView.getId()) {
-            case R.id.cb_qianteng://前灯开关
-                Log.i("TAG", "-------点击前灯开关");
-                if (isChecked) {
+    @OnClick({R.id.layout_fault_detect, R.id.layout_firmware_update, R.id.layout_change_ble_password,
+            R.id.layout_finger_mark, R.id.layout_cheshenjiaozhun, R.id.layout_moshiqiehuan,
+            R.id.layout_youmenjiaozhun, R.id.layout_dengdaimoshi, R.id.img_qiandeng, R.id.img_weideng,
+            R.id.img_huaxing, R.id.img_dingsuxunhang})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.layout_finger_mark://指纹管理
+                if (BleUtil.isChezhu(mPresenter.getRetrofitHelper())) {
+                    Intent intent = new Intent(MoreCarInfoActivity.this, FingerMarkActivity.class);
+                    intent.putExtra("mDeviceAddress", mDeviceAddress);
+                    startActivity(intent);
+                }else {
+                    //TODO 非车主操作提示
+                    ToastUtils.showToast("非车主不可操作");
+                }
+                break;
+            case R.id.layout_fault_detect://故障检测
+                Intent intent2 = new Intent(MoreCarInfoActivity.this, FaultDetectActivity.class);
+                intent2.putExtra("mDeviceAddress", mDeviceAddress);
+                startActivity(intent2);
+                break;
+            case R.id.layout_firmware_update://固件升级
+                if (BleKitUtils.getBluetoothClient().getConnectStatus(mDeviceAddress) == STATUS_DEVICE_CONNECTED) {
+                    if (BleUtil.isChezhu(mPresenter.getRetrofitHelper())) {
+                        checkVersion();
+                    }else {
+                        //TODO 固件升级非车主操作提示
+                        ToastUtils.showToast("非车主不可操作");
+                    }
+                } else {
+                    ToastUtils.showToast(R.string.please_firstly_connect_your_vehicle);
+                }
+                break;
+            case R.id.layout_change_ble_password://修改密码
+                if (BleUtil.isChezhu(mPresenter.getRetrofitHelper())) {
+                    mPresenter.changeBlePasswordDialog(this, mDeviceAddress);
+                }else {
+                    //TODO 非车主操作提示
+                    ToastUtils.showToast("非车主不可操作");
+                }
+                break;
+            case R.id.layout_cheshenjiaozhun://车身校准
+                if (BleUtil.isChezhu(mPresenter.getRetrofitHelper())) {
+                    showHorizontalAlignmentPop(findViewById(R.id.layout_cheshenjiaozhun));
+                }else {
+                    //TODO 非车主操作提示
+                    ToastUtils.showToast("非车主不可操作");
+                }
+                break;
+            case R.id.layout_moshiqiehuan://模式切换
+                String uuid3 = PreferencesUtils.getString(MoreCarInfoActivity.this, "uuid");
+                if (getResources().getString(R.string.econ).equals(tvMode.getText().toString())) {//标准模式切换到运动模式
+                    if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid3)) {
+                        BleKitUtils.writeP(mDeviceAddress, Constant.BLE.MODE_SWITCH_SPORTS, new BleWriteResponse() {
+                            @Override
+                            public void onResponse(int code) {
+                            }
+                        });
+                    } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid3)) {
+                        BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.MODE_SWITCH_SPORTS, new BleWriteResponse() {
+                            @Override
+                            public void onResponse(int code) {
+                            }
+                        });
+                    }
+                } else if (getResources().getString(R.string.sport).equals(tvMode.getText().toString())) {//运动模式切换到标准模式
+                    if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid3)) {
+                        BleKitUtils.writeP(mDeviceAddress, Constant.BLE.MODE_SWITCH_ENERGY_SAVING, new BleWriteResponse() {
+                            @Override
+                            public void onResponse(int code) {
+                            }
+                        });
+                    } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid3)) {
+                        BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.MODE_SWITCH_ENERGY_SAVING, new BleWriteResponse() {
+                            @Override
+                            public void onResponse(int code) {
+                            }
+                        });
+                    }
+                }
+                break;
+            case R.id.img_qiandeng://前灯
+                if (!isQiandeng) {
                     if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
                         BleKitUtils.writeP(mDeviceAddress, Constant.BLE.OPEN_LIGHT_FRONT, new BleWriteResponse() {
                             @Override
                             public void onResponse(int code) {
-
                             }
                         });
                     } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
                         BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.OPEN_LIGHT_FRONT, new BleWriteResponse() {
                             @Override
                             public void onResponse(int code) {
-
                             }
                         });
                     }
@@ -753,34 +914,29 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                         BleKitUtils.writeP(mDeviceAddress, Constant.BLE.CLOSE_LIGHT_FRONT, new BleWriteResponse() {
                             @Override
                             public void onResponse(int code) {
-
                             }
                         });
                     } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
                         BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.CLOSE_LIGHT_FRONT, new BleWriteResponse() {
                             @Override
                             public void onResponse(int code) {
-
                             }
                         });
                     }
                 }
                 break;
-            case R.id.cb_houdeng://后灯开关
-                Log.i("TAG", "-------点击后灯开关");
-                if (isChecked) {
+            case R.id.img_weideng://尾灯
+                if (!isHoudeng) {
                     if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
                         BleKitUtils.writeP(mDeviceAddress, Constant.BLE.OPEN_LIGHT_BACK, new BleWriteResponse() {
                             @Override
                             public void onResponse(int code) {
-
                             }
                         });
                     } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
                         BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.OPEN_LIGHT_BACK, new BleWriteResponse() {
                             @Override
                             public void onResponse(int code) {
-
                             }
                         });
                     }
@@ -789,36 +945,31 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                         BleKitUtils.writeP(mDeviceAddress, Constant.BLE.CLOSE_LIGHT_BACK, new BleWriteResponse() {
                             @Override
                             public void onResponse(int code) {
-
                             }
                         });
                     } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
                         BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.CLOSE_LIGHT_BACK, new BleWriteResponse() {
                             @Override
                             public void onResponse(int code) {
-
                             }
                         });
 
                     }
                 }
                 break;
-            case R.id.cb_huaxing://滑行模式开关
-                Log.i("TAG", "-------点击滑行模式开关");
-                if (isChecked) {//开启滑行模式
+            case R.id.img_huaxing://滑行启动
+                if (!isHuaxing) {//开启滑行模式
                     if (null != Constant.BLE.OPEN_TAXI_START || Constant.BLE.OPEN_TAXI_START.length > 0) {
                         if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
                             BleKitUtils.writeP(mDeviceAddress, Constant.BLE.OPEN_TAXI_START, new BleWriteResponse() {
                                 @Override
                                 public void onResponse(int code) {
-
                                 }
                             });
                         } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
                             BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.OPEN_TAXI_START, new BleWriteResponse() {
                                 @Override
                                 public void onResponse(int code) {
-
                                 }
                             });
                         }
@@ -829,132 +980,43 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             BleKitUtils.writeP(mDeviceAddress, Constant.BLE.CLOSE_TAXI_START, new BleWriteResponse() {
                                 @Override
                                 public void onResponse(int code) {
-
                                 }
                             });
                         } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
                             BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.CLOSE_TAXI_START, new BleWriteResponse() {
                                 @Override
                                 public void onResponse(int code) {
-
                                 }
                             });
                         }
                     }
                 }
                 break;
-            case R.id.cb_dingsuxunhang://定速巡航
-                Log.i("TAG", "-------点击定速巡航");
-                if (isChecked) {//开启定速巡航
+            case R.id.img_dingsuxunhang://定速巡航
+                if (!isDingsuxunhang) {//开启定速巡航
                     BleKitUtils.writeP(mDeviceAddress, Constant.BLE.OPEN_CONSTANT_SPEED, new BleWriteResponse() {
                         @Override
                         public void onResponse(int code) {
-
                         }
                     });
                 } else {//关闭定速巡航
                     BleKitUtils.writeP(mDeviceAddress, Constant.BLE.CLOSE_CONSTANT_SPEED, new BleWriteResponse() {
                         @Override
                         public void onResponse(int code) {
-
                         }
                     });
-                }
-                break;
-        }
-    }
-
-    //
-    private void sendBleDate(final byte[] date) {
-        SystemClock.sleep(25);
-        String uuid = PreferencesUtils.getString(MoreCarInfoActivity.this, "uuid");
-        if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-            BleKitUtils.writeP(mDeviceAddress, date, new BleWriteResponse() {
-                @Override
-                public void onResponse(int code) {
-
-                }
-            });
-        } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
-            BleKitUtils.writeTaiTou(mDeviceAddress, date, new BleWriteResponse() {
-                @Override
-                public void onResponse(int code) {
-
-                }
-            });
-        }
-
-    }
-
-    @OnClick({R.id.layout_fault_detect, R.id.layout_firmware_update, R.id.layout_change_ble_password,
-            R.id.layout_finger_mark, R.id.layout_cheshenjiaozhun, R.id.layout_moshiqiehuan,
-            R.id.layout_youmenjiaozhun, R.id.layout_dengdaimoshi})
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.layout_finger_mark://指纹录制
-                Intent intent = new Intent(MoreCarInfoActivity.this, FingerMarkActivity.class);
-                intent.putExtra("mDeviceAddress", mDeviceAddress);
-                startActivity(intent);
-                break;
-            case R.id.layout_fault_detect://故障检测
-                Intent intent2 = new Intent(MoreCarInfoActivity.this, FaultDetectActivity.class);
-                intent2.putExtra("mDeviceAddress", mDeviceAddress);
-                startActivity(intent2);
-                break;
-            case R.id.layout_firmware_update://固件升级
-                if (BleKitUtils.getBluetoothClient().getConnectStatus(mDeviceAddress) == STATUS_DEVICE_CONNECTED) {
-                    checkVersion();
-                } else {
-                    ToastUtils.showToast(R.string.please_firstly_connect_your_vehicle);
-                }
-                break;
-            case R.id.layout_change_ble_password://修改密码
-                mPresenter.changeBlePasswordDialog(this, mDeviceAddress);
-                break;
-            case R.id.layout_cheshenjiaozhun://车身校准
-                showHorizontalAlignmentPop(findViewById(R.id.layout_cheshenjiaozhun));
-                break;
-            case R.id.layout_moshiqiehuan://模式切换
-                String uuid3 = PreferencesUtils.getString(MoreCarInfoActivity.this, "uuid");
-                if (getResources().getString(R.string.econ).equals(tvMode.getText().toString())) {//标准模式切换到运动模式
-                    if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid3)) {
-                        BleKitUtils.writeP(mDeviceAddress, Constant.BLE.MODE_SWITCH_SPORTS, new BleWriteResponse() {
-                            @Override
-                            public void onResponse(int code) {
-
-                            }
-                        });
-                    } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid3)) {
-                        BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.MODE_SWITCH_SPORTS, new BleWriteResponse() {
-                            @Override
-                            public void onResponse(int code) {
-
-                            }
-                        });
-                    }
-                } else if (getResources().getString(R.string.sport).equals(tvMode.getText().toString())) {//运动模式切换到标准模式
-                    if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid3)) {
-                        BleKitUtils.writeP(mDeviceAddress, Constant.BLE.MODE_SWITCH_ENERGY_SAVING, new BleWriteResponse() {
-                            @Override
-                            public void onResponse(int code) {
-
-                            }
-                        });
-                    } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid3)) {
-                        BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.MODE_SWITCH_ENERGY_SAVING, new BleWriteResponse() {
-                            @Override
-                            public void onResponse(int code) {
-
-                            }
-                        });
-                    }
                 }
                 break;
             case R.id.layout_dengdaimoshi://灯带模式
                 mPresenter.openDengdaiPopupWindow(findViewById(R.id.layout_dengdaimoshi), mDeviceAddress);
                 break;
             case R.id.layout_youmenjiaozhun://油门校准
-                mPresenter.showYoumenAlignmentPop(layoutYoumenjiaozhun, mDeviceAddress);
+                if (BleUtil.isChezhu(mPresenter.getRetrofitHelper())) {
+                    mPresenter.showYoumenAlignmentPop(layoutYoumenjiaozhun, mDeviceAddress);
+                }else {
+                    //TODO 非车主操作提示
+                    ToastUtils.showToast("非车主不可操作");
+                }
                 break;
         }
     }
@@ -967,12 +1029,51 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
         if (BleKitUtils.getBluetoothClient().getConnectStatus(mDeviceAddress) == STATUS_DEVICE_DISCONNECTED){
             finish();
         }
+
+        if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.notifyP(mDeviceAddress, new BleNotifyResponse() {
+                @Override
+                public void onNotify(UUID service, UUID character, byte[] value) {
+                    displayData(value);
+                }
+
+                @Override
+                public void onResponse(int code) {
+
+                }
+            });
+        } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.notifyTaiTou(mDeviceAddress, new BleNotifyResponse() {
+                @Override
+                public void onNotify(UUID service, UUID character, byte[] value) {
+                    displayData(value);
+                }
+
+                @Override
+                public void onResponse(int code) {
+                }
+            });
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
         BleKitUtils.getBluetoothClient().unregisterConnectStatusListener(mDeviceAddress, mBleConnectStatusListener);
+
+        if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.unnotifyP(mDeviceAddress, new BleUnnotifyResponse() {
+                @Override
+                public void onResponse(int code) {
+                }
+            });
+        } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.unnotifyTaiTou(mDeviceAddress, new BleUnnotifyResponse() {
+                @Override
+                public void onResponse(int code) {
+                }
+            });
+        }
     }
 
     private final BleConnectStatusListener mBleConnectStatusListener = new BleConnectStatusListener() {
@@ -1030,7 +1131,6 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                     BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.HORIZONTAL_ALIGNMENT, new BleWriteResponse() {
                         @Override
                         public void onResponse(int code) {
-
                         }
                     });
                 }
@@ -1144,14 +1244,12 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                     BleKitUtils.writeP(mDeviceAddress, Constant.BLE.FIRMWARE_UPDATE, new BleWriteResponse() {
                         @Override
                         public void onResponse(int code) {
-
                         }
                     });
                 } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
                     BleKitUtils.writeTaiTou(mDeviceAddress, Constant.BLE.FIRMWARE_UPDATE, new BleWriteResponse() {
                         @Override
                         public void onResponse(int code) {
-
                         }
                     });
                 }
@@ -1275,6 +1373,11 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
     @Override
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    public TextView getDengdaiTV() {
+        return tvDengdai;
     }
 
 }

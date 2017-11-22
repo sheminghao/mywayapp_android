@@ -3,6 +3,7 @@ package com.mywaytec.myway.model.http.api;
 import com.mywaytec.myway.model.BaseInfo;
 import com.mywaytec.myway.model.bean.DianziweilanBean;
 import com.mywaytec.myway.model.bean.FenceWarningBean;
+import com.mywaytec.myway.model.bean.ObjStringBean;
 import com.mywaytec.myway.model.bean.RoutePathsListBean;
 import com.mywaytec.myway.model.bean.VehicleLastLocationBean;
 import com.mywaytec.myway.model.bean.VehicleTrackBean;
@@ -99,7 +100,5 @@ public interface LongchuangApis {
     @POST(projectName+"/vehicle/fence/warning/delete")
     Observable<BaseInfo> deleteVehicleFenceWarning(@Query("deviceId") String deviceId,
                                                    @Query("objectId") String objectId);
-
-
 
 }

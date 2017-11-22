@@ -3,14 +3,10 @@ package com.mywaytec.myway.ui.scFirmwareUpdate;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.RxPresenter;
 import com.mywaytec.myway.model.bean.FirmwareInfo;
 import com.mywaytec.myway.model.http.RetrofitHelper;
-import com.mywaytec.myway.ui.moreCarInfo.MoreCarInfoActivity;
-import com.mywaytec.myway.utils.PreferencesUtils;
 import com.mywaytec.myway.utils.RxUtil;
-import com.mywaytec.myway.utils.ToastUtils;
 import com.mywaytec.myway.view.CommonSubscriber;
 
 import javax.inject.Inject;

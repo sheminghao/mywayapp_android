@@ -17,6 +17,8 @@ import com.mywaytec.myway.model.bean.LoginInfo;
 import com.mywaytec.myway.model.bean.MessageBean;
 import com.mywaytec.myway.model.bean.NearbyActivityBean;
 import com.mywaytec.myway.model.bean.NearbyBean;
+import com.mywaytec.myway.model.bean.ObjBooleanBean;
+import com.mywaytec.myway.model.bean.ObjIntBean;
 import com.mywaytec.myway.model.bean.ObjStringBean;
 import com.mywaytec.myway.model.bean.OtherMsgBean;
 import com.mywaytec.myway.model.bean.PraiseBean;
@@ -325,7 +327,7 @@ public interface MywayApis {
      *获取未读消息数目
      */
     @POST("/message/count/unread")
-    Observable<ObjStringBean> getUnreadCount(@Query("uid") String uid);
+    Observable<ObjIntBean> getUnreadCount(@Query("uid") String uid);
 
     /**
      *阅读消息
@@ -415,6 +417,19 @@ public interface MywayApis {
     Observable<BaseInfo> saveRoutePaths(@PartMap Map<String, RequestBody> bodyMap,
                                         @Part("legend") int legend,
                                         @Part("duration") int duration);
+
+    /**
+     *保存路线
+     */
+    @Multipart
+    @POST("/route/save")
+    Observable<UploadRouteBean> saveRoute(@PartMap Map<String, RequestBody> bodyMap,
+                                          @Part("sceneryStar") int scenery_star,
+                                          @Part("difficultyStar") int difficulty_star,
+                                          @Part("legend") int legend,
+                                          @Part("enduranceClaim") int endurance_claim,
+                                          @Part("score") int score,
+                                          @Part("route_id") int route_id);
 
     /**
      * 发布轨迹
@@ -598,4 +613,23 @@ public interface MywayApis {
                                         @Query("token") String token,
                                         @Query("aid") String aid);
 
+    /**
+     *判断车主
+     */
+    @POST("/vehicle/user/owner")
+    Observable<ObjStringBean> vehicleUserOwner(@Query("uid") String uid,
+                                               @Query("sn_code") String sn_code);
+
+    /**
+     *验证用户是否已经注册过
+     */
+    @POST("/user/repeatability/verify")
+    Observable<ObjBooleanBean> userRepeatabilityVerify(@Query("phoneNumber") String phoneNumber);
+
+    /**
+     *一键阅读所有消息
+     */
+    @POST("/message/readAll")
+    Observable<BaseInfo> readAllMessage(@Query("uid") String uid,
+                                        @Query("token") String token);
 }

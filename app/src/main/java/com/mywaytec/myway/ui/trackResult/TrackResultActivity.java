@@ -7,7 +7,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -22,15 +21,14 @@ import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.utils.DistanceUtil;
-import com.bumptech.glide.Glide;
 import com.mywaytec.myway.APP;
 import com.mywaytec.myway.DaoSession;
 import com.mywaytec.myway.MyTrackDao;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.BaseActivity;
+import com.mywaytec.myway.model.bean.RoutePathsListBean;
 import com.mywaytec.myway.model.db.MyTrack;
-import com.mywaytec.myway.utils.PreferencesUtils;
-import com.mywaytec.myway.view.CircleImageView;
+import com.mywaytec.myway.view.CustomRatingBar;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -51,34 +49,22 @@ public class TrackResultActivity extends BaseActivity<TrackResultPresenter> impl
     TextView tvRight;
     @BindView(R.id.mapview)
     MapView mMapView;
-    @BindView(R.id.img_head_portrait)
-    CircleImageView imgHeadPortrait;
-    @BindView(R.id.tv_nickname)
-    TextView tvNickname;
     @BindView(R.id.img_cover)
     ImageView imgCover;
+    @BindView(R.id.ratingBar_zongfen)
+    CustomRatingBar zongfenRatingBar;
+    @BindView(R.id.tv_zongfen)
+    TextView tvZongfen;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.et_route_name)
     EditText etRouteName;
-    @BindView(R.id.ratingBar_fengjing)
-    RatingBar fengjingRatingBar;
-    @BindView(R.id.ratingBar_nandu)
-    RatingBar nanduRatingBar;
-    @BindView(R.id.et_xuhangyaoqiu)
-    EditText etXuhangyaoqiu;
     @BindView(R.id.et_luxianjianjie)
     EditText etLuxianjianjie;
     @BindView(R.id.et_qishididian)
     EditText etQishididian;
-    @BindView(R.id.et_qishigongjiao)
-    EditText etQishigongjiao;
     @BindView(R.id.et_jieshudidian)
     EditText etJieshudidian;
-    @BindView(R.id.et_jieshugongjiao)
-    EditText etJieshugongjiao;
-    @BindView(R.id.tv_total_distance)
-    TextView tvTotalDistance;
     @BindView(R.id.content_track_result)
     ScrollView mScrollView;
 
@@ -88,6 +74,7 @@ public class TrackResultActivity extends BaseActivity<TrackResultPresenter> impl
     private int saveRouteId;
     private int duration;
     private DecimalFormat df = new DecimalFormat("######0.00");
+    RoutePathsListBean.ObjBean saveRoute;
 
     @Override
     protected int attachLayoutRes() {
@@ -103,59 +90,73 @@ public class TrackResultActivity extends BaseActivity<TrackResultPresenter> impl
     protected void initViews() {
         tvTitle.setText(R.string.track_profile);
 
+        //如果是我的轨迹，saveRouteId不为0. 如果是录制轨迹，saveRouteId为0。
         saveRouteId = getIntent().getIntExtra("save_route_id", 0);
         total = getIntent().getFloatExtra("total", 0);
         duration = getIntent().getIntExtra("duration", 0);
         trackkey = getIntent().getLongExtra("trackkey", 0);
-        tvTotalDistance.setText(df.format(total/1000)+"");
+
+        zongfenRatingBar.setOnRatingChangeListener(new CustomRatingBar.OnRatingChangeListener() {
+            @Override
+            public void onChange(int countSelected) {
+                switch (countSelected){
+                    case 0:
+                        tvZongfen.setText("");
+                        break;
+                    case 1:
+                        tvZongfen.setText(R.string.非常差);
+                        break;
+                    case 2:
+                        tvZongfen.setText(R.string.较差);
+                        break;
+                    case 3:
+                        tvZongfen.setText(R.string.一般);
+                        break;
+                    case 4:
+                        tvZongfen.setText(R.string.较好);
+                        break;
+                    case 5:
+                        tvZongfen.setText(R.string.非常好);
+                        break;
+                }
+            }
+        });
+
         if(saveRouteId == 0) {
             tvRight.setText(R.string.save);
             initAMap();
         }else {
-            etRouteName.setText(getIntent().getStringExtra("save_route_name"));
+            saveRoute = (RoutePathsListBean.ObjBean) getIntent().getSerializableExtra("save_route");
+            etRouteName.setText(saveRoute.getName());
+            etLuxianjianjie.setText(saveRoute.getIntro());
+            etQishididian.setText(saveRoute.getOrigin());
+            etJieshudidian.setText(saveRoute.getDestination());
         }
-
-        if (PreferencesUtils.getLoginInfo().getObj().getGender()){
-            Glide.with(this).load(PreferencesUtils.getLoginInfo().getObj().getImgeUrl())
-                    .error(R.mipmap.touxiang_boy_nor)
-                    .into(imgHeadPortrait);
-        }else{
-            Glide.with(this).load(PreferencesUtils.getLoginInfo().getObj().getImgeUrl())
-                    .error(R.mipmap.touxiang_girl_nor)
-                    .into(imgHeadPortrait);
-        }
-        tvNickname.setText(PreferencesUtils.getLoginInfo().getObj().getNickname());
     }
 
     @Override
     protected void updateViews() {
     }
 
-    @OnClick({R.id.img_cover, R.id.layout_upload_photo, R.id.tv_submit, R.id.tv_right})
+    @OnClick({R.id.tv_upload_cover, R.id.tv_submit, R.id.tv_right})
     public void onClick(View view){
         switch (view.getId()){
-            case R.id.img_cover://选择封面
+            case R.id.tv_upload_cover://选择封面
                 mPresenter.editCover();
-                break;
-            case R.id.layout_upload_photo://选择照片
-                mPresenter.selectPhoto();
                 break;
             case R.id.tv_submit://提交
                 String routename = etRouteName.getText().toString().trim();//路线名称
                 String title = "";//标题
-                int scenery_star = (int) fengjingRatingBar.getRating();//风景评分
-                int difficulty_star = (int) nanduRatingBar.getRating();//难度评分
+                int scenery_star = zongfenRatingBar.getCountNum();//风景评分
+                int difficulty_star = zongfenRatingBar.getCountNum();//难度评分
                 int legend = (int) total;//里程（单位：m）
                 int endurance_claim = 0;//续航要求
-                if (etXuhangyaoqiu.getText().toString().trim().length() > 0) {
-                    endurance_claim = Integer.parseInt(etXuhangyaoqiu.getText().toString().trim());
-                }
                 String intro = etLuxianjianjie.getText().toString().trim();//简介
                 String origin = etQishididian.getText().toString().trim();//起点
-                String origin_bus = etQishigongjiao.getText().toString().trim();//起点公交站
+                String origin_bus = "";//起点公交站
                 String destination = etJieshudidian.getText().toString().trim();//终点
-                String destination_bus = etJieshugongjiao.getText().toString().trim();//终点公交站
-                String score = "";//综合评分
+                String destination_bus = "";//终点公交站
+                String score = zongfenRatingBar.getCountNum()+"";//综合评分
                 if(saveRouteId == 0) {
                     mPresenter.shareRoutePath(routename, title, scenery_star, difficulty_star, legend,
                             endurance_claim, intro, origin, origin_bus, destination, destination_bus, score, latLngList);
@@ -184,7 +185,6 @@ public class TrackResultActivity extends BaseActivity<TrackResultPresenter> impl
         myTrackDao = daoSession.getMyTrackDao();
         MyTrack myTrack = myTrackDao.load(trackkey);
         total = Float.parseFloat(myTrack.getTotalDistance());
-        tvTotalDistance.setText(df.format(total / 1000.0) + "");
 
         latLngList = new ArrayList<>();
         for (int i = 0; i < myTrack.getTracks().size(); i++) {

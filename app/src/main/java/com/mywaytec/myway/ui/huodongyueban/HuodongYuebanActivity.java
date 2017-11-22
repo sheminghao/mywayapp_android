@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -157,6 +156,12 @@ public class HuodongYuebanActivity extends BaseActivity<HuodongYuebanPresenter> 
                 objBean.setCurrentNum(activityInfo.getCurrentNum());
                 objBean.setSign(activityInfo.isSign());
                 objBean.setParticipant(activityInfo.isParticipant());
+                if (wodeRecyclerView.getVisibility() == View.VISIBLE){//如果在我的活动页面，退出活动后，删除该活动
+                    if (!objBean.isParticipant()){
+                        mPresenter.getWodeActivityAdapter().remove(position);
+                        mPresenter.getWodeActivityAdapter().notifyItemRemoved(position);
+                    }
+                }
             }
         }
     }

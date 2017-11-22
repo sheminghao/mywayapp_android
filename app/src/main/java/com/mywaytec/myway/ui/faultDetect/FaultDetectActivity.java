@@ -1,12 +1,5 @@
 package com.mywaytec.myway.ui.faultDetect;
 
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
-import android.os.IBinder;
 import android.support.design.widget.CoordinatorLayout;
 import android.util.Log;
 import android.view.View;
@@ -20,7 +13,6 @@ import com.inuker.bluetooth.library.connect.response.BleNotifyResponse;
 import com.inuker.bluetooth.library.connect.response.BleWriteResponse;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.BaseActivity;
-import com.mywaytec.myway.base.BluetoothLeService;
 import com.mywaytec.myway.base.Constant;
 import com.mywaytec.myway.utils.BleKitUtils;
 import com.mywaytec.myway.utils.BleUtil;

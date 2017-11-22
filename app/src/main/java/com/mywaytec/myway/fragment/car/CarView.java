@@ -18,4 +18,6 @@ public interface CarView extends IBaseView {
     boolean isOther();
 
     void setOther(boolean isOther);
+
+    String getDeviceAddress();
 }

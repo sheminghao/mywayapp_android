@@ -1,15 +1,12 @@
 package com.mywaytec.myway.ui.huodongXiangqing;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.RxPresenter;
 import com.mywaytec.myway.model.BaseInfo;
 import com.mywaytec.myway.model.http.RetrofitHelper;
-import com.mywaytec.myway.ui.main.MainView;
 import com.mywaytec.myway.utils.PreferencesUtils;
 import com.mywaytec.myway.utils.RxUtil;
 import com.mywaytec.myway.utils.ToastUtils;

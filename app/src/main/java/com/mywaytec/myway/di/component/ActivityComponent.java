@@ -39,6 +39,7 @@ import com.mywaytec.myway.ui.publish.PublishActivity;
 import com.mywaytec.myway.ui.rankingList.RankingListActivity;
 import com.mywaytec.myway.ui.register.RegisterActivity;
 import com.mywaytec.myway.ui.scFirmwareUpdate.ScFirmwareUpdateActivity;
+import com.mywaytec.myway.ui.selectCountry.SelectCountryActivity;
 import com.mywaytec.myway.ui.selectVenue.SelectVenueActivity;
 import com.mywaytec.myway.ui.setting.SettingActivity;
 import com.mywaytec.myway.ui.switchLanguage.SwitchLanguageActivity;
@@ -145,4 +146,6 @@ public interface ActivityComponent {
     void inject(ElectronicFenceActivity electronicFenceActivity);
 
     void inject(EditFenceActivity editFenceActivity);
+
+    void inject(SelectCountryActivity selectCountryActivity);
 }

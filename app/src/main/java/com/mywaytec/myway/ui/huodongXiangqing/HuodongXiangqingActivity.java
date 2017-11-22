@@ -2,7 +2,6 @@ package com.mywaytec.myway.ui.huodongXiangqing;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,6 +15,8 @@ import com.mywaytec.myway.ui.huodongChengyuan.HuodongChengyuanActivity;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
+
+import java.text.MessageFormat;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -84,12 +85,13 @@ public class HuodongXiangqingActivity extends BaseActivity<HuodongXiangqingPrese
         if (null != activityInfo) {
             tvActivityName.setText(activityInfo.getTitle());
             //TODO
-            tvJifen.setText("+"+0);
+            tvJifen.setText(MessageFormat.format(getResources().getString(R.string.join_and_get_scores),
+                    activityInfo.getLevel()));
             tvCurrentNum.setText(activityInfo.getCurrentNum()+"");
             tvTotalNum.setText("/"+activityInfo.getNum());
-            tvTime.setText("· "+activityInfo.getStart()+"~"+activityInfo.getEnd());
+            tvTime.setText(activityInfo.getStart()+" ~ "+activityInfo.getEnd());
             if (null != activityInfo.getLocation())
-            tvAddress.setText("· "+activityInfo.getLocation().getProvince()+activityInfo.getLocation()
+            tvAddress.setText(activityInfo.getLocation().getProvince()+activityInfo.getLocation()
                     .getCity()+activityInfo.getLocation().getStreet());
             tvIntro.setText(activityInfo.getIntro());
             tvContact.setText(activityInfo.getContact());

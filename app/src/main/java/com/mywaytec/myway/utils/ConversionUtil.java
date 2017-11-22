@@ -146,4 +146,51 @@ public class ConversionUtil {
         return ret;
     }
 
+    /**
+     * unicode的String转换成String的字符串
+     * @param hex 16进制值字符串 （一个unicode为2byte）
+     * @return String 全角字符串
+     */
+    public static String unicodeToString(String hex)
+    {
+        int t = hex.length() / 6;
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < t; i++)
+        {
+            String s = hex.substring(i * 6, (i + 1) * 6);
+            // 高位需要补上00再转
+            String s1 = s.substring(2, 4) + "00";
+            // 低位直接转
+            String s2 = s.substring(4);
+            // 将16进制的string转为int
+            int n = Integer.valueOf(s1, 16) + Integer.valueOf(s2, 16);
+            // 将int转换为字符
+            char[] chars = Character.toChars(n);
+            str.append(new String(chars));
+        }
+        return str.toString();
+    }
+
+
+    /**
+     * 十六进制转换字符串
+     * @param String str Byte字符串(Byte之间无分隔符 如:[616C6B])
+     * @return String 对应的字符串
+     */
+    public static String hexStr2Str(String hexStr)
+    {
+        String str = "0123456789ABCDEF";
+        char[] hexs = hexStr.toCharArray();
+        byte[] bytes = new byte[hexStr.length() / 2];
+        int n;
+
+        for (int i = 0; i < bytes.length; i++)
+        {
+            n = str.indexOf(hexs[2 * i]) * 16;
+            n += str.indexOf(hexs[2 * i + 1]);
+            bytes[i] = (byte) (n & 0xff);
+        }
+        return new String(bytes);
+    }
+
 }

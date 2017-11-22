@@ -122,6 +122,8 @@
     <string name="you_win_mw_players">You win {0}% MW players</string>
     <string name="no">No.{0}</string>
     <string name="you_can_be_ranked_and_get_scores_only_after_vehicle_verification">You can be ranked and get scores only after vehicle verification</string>
+    <string name="未参与排名">Unattended ranking</string>
+    <string name="无">nothing</string>
 
     <!-- 绑定车辆界面 -->
     <string name="vehicle_binding">Vehicle Binding</string>
@@ -259,6 +261,7 @@
     <string name="please_keep_the_vehicle_still_and_horizontal">Please keep the vehicle still and horizontal</string>
     <string name="start_calibration">Start Calibration</string>
     <string name="calibration_finished_please_restart_vehicle">Calibration Finished！Please Restart Vehicle.</string>
+    <string name="固件正在更新中请勿操作">固件正在更新中，请勿操作</string>
 
     <!-- 固件升级界面 -->
     <string name="the_current_firmware_version_is_already_latest">The Current Firmware version is already latest</string>
@@ -292,16 +295,29 @@
     <string name="track_profile">Track Profile</string>
     <string name="track_name">Track Name:</string>
     <string name="scenery">Scenery:</string>
+    <string name="recommend">Recommend:</string>
     <string name="track_result_mileage">Mileage:</string>
     <string name="level">Level:</string>
     <string name="battery_rang_required">Battery Rang Required:</string>
     <string name="track_description">Track Description</string>
-    <string name="track_result_start">Start:</string>
+    <string name="track_result_start">Start place:</string>
     <string name="start_bus_station">Start Bus Station:</string>
-    <string name="track_result_end">End:</string>
+    <string name="track_result_end">Final place:</string>
     <string name="end_bus_station">End Bus Station:</string>
     <string name="uload_photos">Upload Photos</string>
     <string name="save">save</string>
+    <string name="upload_cover">Upload a cover</string>
+    <string name="路线标题">Route title(2-14 words only)</string>
+    <string name="总分">total points</string>
+    <string name="非常差">非常差</string>
+    <string name="较差">较差</string>
+    <string name="一般">一般</string>
+    <string name="较好">favourable</string>
+    <string name="非常好">非常好</string>
+    <string name="路线简介提示">how about the scenery and driving？What should be paid attention to\taken notice of?(no less than 15 words is appreciated~)</string>
+    <string name="请输入真实详细起点">Please input real specific start place</string>
+    <string name="请输入真实详细终点">Please input real specific final place</string>
+
 
     <!-- 路线界面 -->
     <string name="way_mileage">Mileage</string>
@@ -314,7 +330,7 @@
     <string name="nearby_activity">Nearby</string>
     <string name="mine_activity">Mine</string>
     <string name="activity_detail">Activity Detail</string>
-    <string name="join_and_get_scores">Join and Get +0 Scores</string>
+    <string name="join_and_get_scores">Join and Get +{0} Scores</string>
     <string name="partner">partner</string>
     <string name="telephone_activity">Telephone</string>
     <string name="join_now">Join Now</string>
@@ -471,6 +487,7 @@
     <string name="none">null</string>
     <string name="successfully">Successfully！</string>
     <string name="failed">Failed！</string>
+    <string name="请检查网络是否连接">Please check if the network is connected</string>
     <string name="network_connection_is_failed">network connection is failed</string>
     <string name="the_phone_or_email_is_not_correct">The phone or Email is not correct!</string>
     <string name="the_verification_code_has_been_sent">The verification code has been sent to your phone. Please kindly check your message!</string>
@@ -510,6 +527,7 @@
     <string name="please_enter_the_sn_code">Please enter the SN Code</string>
     <string name="login_successful">Login successful!</string>
     <string name="copy_success">Copy success</string>
+    <string name="password_verification_failed">Password verification failed</string>
     <string name="找回密码成功">Retrieve password successfully</string>
     <string name="找回密码失败">Retrieve password unsuccessfully</string>
     <string name="修改成功">Modify password successfully</string>
@@ -527,11 +545,13 @@
     <string name="请选择风景图片">Please select tour photoes.</string>
     <string name="指纹">Fingerprint</string>
     <string name="该设备不支持蓝牙功能">The device does not support bluetooth function.</string>
+    <string name="手机号已注册">The phone number has been registered</string>
     <string name="完成注册表示您已阅读和同意">Sign up to indicate that you have read and agree</string>
     <string name="图片不能超过256k">The picture cannot exceed 256k</string>
     <string name="视频不能超过20M">The video cannot exceed 20M</string>
     <string name="gif图片不能超过5M">GIF images cannot exceed 5M</string>
-
+    <string name="密码长度不正确">Incorrect password length</string>
+    <string name="描述一下活动内容">描述一下活动内容，这个活动最有吸引力的是什么？（写够15字才是好车友~）</string>
 
 
 </resources>

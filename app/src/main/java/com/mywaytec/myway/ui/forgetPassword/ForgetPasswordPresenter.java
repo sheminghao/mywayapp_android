@@ -53,7 +53,11 @@ public class ForgetPasswordPresenter extends RxPresenter<ForgetPasswordView> {
         String pwd = mView.getPassword1();
         //MD5加密
         pwd = MD5.md5(pwd);
-        mRetrofitHelper.findPassword(mView.getPhoneNumber(), "86", mView.getAuthcode(), pwd)
+        String countryCode = "86";//手机区号默认为中国
+        if (mView.getSelectCountryTV().getText().toString().length() > 0) {
+            countryCode = mView.getSelectCountryTV().getText().toString().substring(1);
+        }
+        mRetrofitHelper.findPassword(mView.getPhoneNumber(), countryCode, mView.getAuthcode(), pwd)
                 .compose(RxUtil.<BaseInfo>rxSchedulerHelper())
                 .subscribe(new CommonSubscriber<BaseInfo>(mView, mView.getContext(), true) {
                     @Override

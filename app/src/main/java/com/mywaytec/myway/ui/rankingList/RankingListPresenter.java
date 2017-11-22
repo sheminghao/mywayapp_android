@@ -77,9 +77,9 @@ public class RankingListPresenter extends RxPresenter<RankingListView> {
                         } else if (dayRankingBean.getCode() == 12) {
                             mView.getRankPecentTV().setText(R.string.you_can_be_ranked_and_get_scores_only_after_vehicle_verification);
                             mView.getRankPecentTV().setEnabled(true);
-                            mView.getMyRanking().setText("未参与排名");
-                            mView.getCarType().setText("无");
-                            mView.getMileage().setText("无");
+                            mView.getMyRanking().setText(R.string.未参与排名);
+                            mView.getCarType().setText(R.string.无);
+                            mView.getMileage().setText(R.string.无);
                         }
                     }
                 });

@@ -73,7 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="bottom"
+        android:gravity="center_vertical"
         android:layout_marginTop="40px">
 
         <com.zhy.autolayout.AutoLinearLayout
@@ -130,7 +130,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:layout_marginLeft="10px">
 
             <ImageView
                 android:id="@+id/img_sign_in"

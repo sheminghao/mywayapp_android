@@ -95,7 +95,7 @@ public class LoginPresenter extends RxPresenter<LoginView> {
         platform = 3;
         Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
         if (!wechat.isClientValid()) {
-            ToastUtils.showToast("请安装微信客户端");
+            ToastUtils.showToast(R.string.请安装微信客户端);
             return;
         }
         loadingDialog = new LoadingDialog(mView.getContext());

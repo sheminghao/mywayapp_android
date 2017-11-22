@@ -10,7 +10,7 @@ import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.RxPresenter;
 import com.mywaytec.myway.model.BaseInfo;
 import com.mywaytec.myway.model.bean.GoldInfoBean;
-import com.mywaytec.myway.model.bean.ObjStringBean;
+import com.mywaytec.myway.model.bean.ObjIntBean;
 import com.mywaytec.myway.model.bean.OtherMsgBean;
 import com.mywaytec.myway.model.http.RetrofitHelper;
 import com.mywaytec.myway.utils.DialogUtils;
@@ -67,7 +67,7 @@ public class MainPresenter extends RxPresenter<MainView> {
                                 mView.getSigninTV().setText(R.string.sign_in);
                                 mView.getSigninTV().setTextColor(Color.parseColor("#ffffff"));
                             }
-                        }else if (otherMsgBean.getCode() == 233){
+                        }else if (otherMsgBean.getCode() == 19){
                             DialogUtils.reLoginDialog(mView.getContext());
                         }else {
                             tvPaiming.setText(R.string.none);
@@ -78,10 +78,10 @@ public class MainPresenter extends RxPresenter<MainView> {
 
         //获取未读消息
         retrofitHelper.getUnreadCount(uid)
-                .compose(RxUtil.<ObjStringBean>rxSchedulerHelper())
-                .subscribe(new CommonSubscriber<ObjStringBean>() {
+                .compose(RxUtil.<ObjIntBean>rxSchedulerHelper())
+                .subscribe(new CommonSubscriber<ObjIntBean>() {
                     @Override
-                    public void onNext(ObjStringBean objStringBean) {
+                    public void onNext(ObjIntBean objStringBean) {
                         if (objStringBean.getCode() == 353){
                             if (objStringBean.getObj() == 0){
                                 tvUnreadCount.setVisibility(View.GONE);

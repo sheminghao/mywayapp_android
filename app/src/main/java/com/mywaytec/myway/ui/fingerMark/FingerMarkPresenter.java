@@ -88,7 +88,6 @@ public class FingerMarkPresenter extends RxPresenter<FingerMarkView> {
                 BleKitUtils.writeP(mView.getDeviceAddress(), BleUtil.deleteFingerWark(fingerWarkId), new BleWriteResponse() {
                     @Override
                     public void onResponse(int code) {
-
                     }
                 });
             }
@@ -171,6 +170,7 @@ public class FingerMarkPresenter extends RxPresenter<FingerMarkView> {
                     mView.getEnterCountTV().setText(R.string.register_successfully);
                     mView.getHintTextTV().setText(R.string.you_can_use_your_fingerprint_to_lockunlock_vehicle_now);
                     mView.getCancelTV().setText(R.string.finish);
+                    mView.getCancelTV().setVisibility(View.VISIBLE);
                 }
             }else if (data.length > 6 && "04".equals(infos[2]) && "02".equals(infos[3]) && "10".equals(infos[4])) {//删除成功，返回ID
                 byte fingerId = data[6];
@@ -269,5 +269,33 @@ public class FingerMarkPresenter extends RxPresenter<FingerMarkView> {
             builder.setView(view);
             hint2Dialog = builder.show();
         }
+    }
+
+    public AlertDialog deteleAllFingerDialog;
+    /** 删除所有指纹dialog */
+    public void deteleAllFinger(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        View view = View.inflate(mContext, R.layout.dialog_add_finger_hint, null);
+        TextView tvCancel = (TextView) view.findViewById(R.id.tv_cancel);
+        TextView tvContinue = (TextView) view.findViewById(R.id.tv_continue);
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deteleAllFingerDialog.dismiss();
+            }
+        });
+        tvContinue.setOnClickListener(new View.OnClickListener() {//添加指纹
+            @Override
+            public void onClick(View v) {
+                BleKitUtils.writeP(mView.getDeviceAddress(), Constant.BLE.DETELE_ALL_FINGER_WARK, new BleWriteResponse() {
+                    @Override
+                    public void onResponse(int code) {
+                        deteleAllFingerDialog.dismiss();
+                    }
+                });
+            }
+        });
+        builder.setView(view);
+        deteleAllFingerDialog = builder.show();
     }
 }

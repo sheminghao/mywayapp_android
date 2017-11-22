@@ -11,8 +11,8 @@ android {
         applicationId "com.mywaytec.myway"
         minSdkVersion 18
         targetSdkVersion 22
-        versionCode 17
-        versionName "1.2.8"
+        versionCode 18
+        versionName "1.2.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         // dex突破65535的限制
         multiDexEnabled true
@@ -124,13 +124,10 @@ dependencies {
 
     //ui
 
-    //视频控件
-
     //图片选择
 
     //canary
 
-    //数据库框架
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:design:25.2.0'
     compile 'com.android.support:percent:25.2.0'
@@ -156,8 +153,8 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.5.1'
     compile 'com.github.ybq:Android-SpinKit:1.1.0'
     compile 'com.github.jdsjlzx:LRecyclerView:1.4.0'
-    compile 'cn.jzvd:jiaozivideoplayer:6.0.0'
-    compile 'org.greenrobot:greendao:3.2.0'
+    compile 'cn.jzvd:jiaozivideoplayer:6.0.0'//视频控件
+    compile 'org.greenrobot:greendao:3.2.0'//数据库框架
     compile 'com.github.yuweiguocn:GreenDaoUpgradeHelper:v1.4.0'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.6'

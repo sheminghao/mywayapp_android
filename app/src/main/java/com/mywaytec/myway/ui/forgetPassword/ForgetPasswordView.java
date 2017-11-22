@@ -1,6 +1,7 @@
 package com.mywaytec.myway.ui.forgetPassword;
 
 import android.content.Context;
+import android.widget.TextView;
 
 import com.mywaytec.myway.base.IBaseView;
 
@@ -18,5 +19,7 @@ public interface ForgetPasswordView extends IBaseView {
     String getAuthcode();
 
     Context getContext();
+
+    TextView getSelectCountryTV();
 
 }

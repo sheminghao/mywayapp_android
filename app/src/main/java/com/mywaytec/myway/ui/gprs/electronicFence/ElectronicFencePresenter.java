@@ -28,6 +28,8 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.PolygonOptions;
 import com.baidu.mapapi.map.Stroke;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.LatLngBounds;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.adapter.DianziweilanAdapter;
 import com.mywaytec.myway.base.Constant;
@@ -112,11 +114,95 @@ public class ElectronicFencePresenter extends RxPresenter<ElectronicFenceView> {
                         if (dianziweilanBean.getCode() == 1){
                             dianziweilanAdapter.setDataList(dianziweilanBean.getObj());
                             dianziweilanAdapter.notifyDataSetChanged();
+                            initDianziweilan(dianziweilanBean);
                         }else {
                             ToastUtils.showToast(dianziweilanBean.getMsg());
                         }
                     }
                 });
+
+        dianziweilanAdapter.setOnSelectListener(new DianziweilanAdapter.OnSelectListener() {
+            @Override
+            public void onSelect(int position) {
+                List<DianziweilanBean.ObjBean.LocsBean> locs = dianziweilanAdapter.getDataList().get(position).getLocs();
+                mBaiduMap.clear();
+                if (null != locs && locs.size() >= 3) {
+                    //定义多边形顶点
+                    List<LatLng> pts = new ArrayList<>();
+                    for (int i = 0; i < locs.size(); i++) {
+                        LatLng latLng = new LatLng(locs.get(i).getLatitude(), locs.get(i).getLongitude());
+                        pts.add(latLng);
+                    }
+                    //构建用户绘制多边形的Option对象
+                    OverlayOptions polygonOption = new PolygonOptions()
+                            .points(pts)
+                            .stroke(new Stroke(5, 0xAA00FF00))
+                            .fillColor(0xAAFFFF00);
+
+                    //在地图上添加多边形Option，用于显示
+                    mBaiduMap.addOverlay(polygonOption);
+
+                    showOverlayinMapCenter(locs);
+                }
+            }
+        });
+    }
+
+    //初始化显示选中的电子围栏
+    private void initDianziweilan(DianziweilanBean dianziweilanBean){
+        for (int i = 0; i < dianziweilanBean.getObj().size(); i++) {
+            if (dianziweilanBean.getObj().get(i).isStatus()){
+                List<DianziweilanBean.ObjBean.LocsBean> locs = dianziweilanAdapter.getDataList().get(i).getLocs();
+                mBaiduMap.clear();
+                if (null != locs && locs.size() >= 3) {
+                    //定义多边形顶点
+                    List<LatLng> pts = new ArrayList<>();
+                    for (int j = 0; j < locs.size(); j++) {
+                        LatLng latLng = new LatLng(locs.get(j).getLatitude(), locs.get(j).getLongitude());
+                        pts.add(latLng);
+                    }
+                    //构建用户绘制多边形的Option对象
+                    OverlayOptions polygonOption = new PolygonOptions()
+                            .points(pts)
+                            .stroke(new Stroke(5, 0xAA00FF00))
+                            .fillColor(0xAAFFFF00);
+
+                    //在地图上添加多边形Option，用于显示
+                    mBaiduMap.addOverlay(polygonOption);
+
+                    showOverlayinMapCenter(locs);
+                }
+                return;
+            }
+        }
+    }
+
+    //将多边形显示在地图中心
+    private void showOverlayinMapCenter(List<DianziweilanBean.ObjBean.LocsBean> locs){
+        double maxLat = 0;
+        double minLat = 360;
+        double maxLng = 0;
+        double minLng = 360;
+        for (int i = 0; i < locs.size(); i++) {
+            if (maxLat < locs.get(i).getLatitude()){
+                maxLat = locs.get(i).getLatitude();
+            }
+            if (minLat > locs.get(i).getLatitude()){
+                minLat = locs.get(i).getLatitude();
+            }
+            if (maxLng < locs.get(i).getLongitude()){
+                maxLng = locs.get(i).getLongitude();
+            }
+            if (minLng > locs.get(i).getLongitude()){
+                minLng = locs.get(i).getLongitude();
+            }
+        }
+        LatLng northeast = new LatLng(maxLat, maxLng);
+        LatLng southwest = new LatLng(minLat, minLng);
+        LatLngBounds bounds = new LatLngBounds.Builder().include(northeast)
+                .include(southwest).build();
+        MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(bounds);
+        mBaiduMap.setMapStatus(u);
     }
 
     //修改名称更新列表

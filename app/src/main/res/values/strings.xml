@@ -122,6 +122,8 @@
     <string name="you_win_mw_players">您已击败了{0}%的车手</string>
     <string name="no">第{0}名</string>
     <string name="you_can_be_ranked_and_get_scores_only_after_vehicle_verification">车辆认证后才能参加排名比拼获得奖励哦~</string>
+    <string name="未参与排名">未参与排名</string>
+    <string name="无">无</string>
 
     <!-- 绑定车辆界面 -->
     <string name="vehicle_binding">车辆绑定</string>
@@ -189,7 +191,7 @@
     <string name="go_to_setting">去设置</string>
     <string name="please_open_gps">请打开GPS</string>
     <string name="accelerator_calibration">油门校准</string>
-    <string name="fingerprint_register">指纹录制</string>
+    <string name="fingerprint_register">指纹管理</string>
     <string name="cruise_mode">定速巡航</string>
     <string name="mood_light_mode">灯带模式</string>
     <string name="close">关闭</string>
@@ -237,7 +239,6 @@
     <string name="dialog_continue">继续</string>
 
 
-
     <!-- 故障检测界面 -->
     <string name="fault_diagnose">故障检测</string>
     <string name="diagnose">检测</string>
@@ -259,6 +260,7 @@
     <string name="please_keep_the_vehicle_still_and_horizontal">请保持车辆处于水平静止状态。</string>
     <string name="start_calibration">开始校准</string>
     <string name="calibration_finished_please_restart_vehicle">校准完成！请重启车辆。</string>
+    <string name="固件正在更新中请勿操作">固件正在更新中，请勿操作</string>
 
     <!-- 固件升级界面 -->
     <string name="the_current_firmware_version_is_already_latest">已是最新版本</string>
@@ -271,7 +273,7 @@
     <string name="firmware_cant_update_because_the_vehicle_is_not_still">车辆不是静止状态，不能进行固件更新！</string>
     <string name="confirm_to_update_firmware">确定更新</string>
     <string name="update_successfully_please_restart_vehicle">升级完成！请重启车辆。</string>
-    <string name="update_unsuccessfully_please_restart_vehicle_to_update_firmware_again">更新失败，请重启车辆再次更新！</string>
+    <string name="update_unsuccessfully_please_restart_vehicle_to_update_firmware_again">更新失败！请长按开关按钮2s关机，然后启动车辆重启升级。</string>
 
     <!-- 记录轨迹界面 -->
     <string name="GPS_signals">GPS信号:</string>
@@ -292,16 +294,28 @@
     <string name="track_profile">完善路线信息</string>
     <string name="track_name">路线名称:</string>
     <string name="scenery">风景:</string>
+    <string name="recommend">推荐:</string>
     <string name="track_result_mileage">里程:</string>
     <string name="level">难度:</string>
     <string name="battery_rang_required">续航要求:</string>
     <string name="track_description">路线简介</string>
-    <string name="track_result_start">起点:</string>
+    <string name="track_result_start">起点：</string>
     <string name="start_bus_station">起点公交站:</string>
-    <string name="track_result_end">终点:</string>
+    <string name="track_result_end">终点：</string>
     <string name="end_bus_station">终点公交站:</string>
     <string name="uload_photos">上传精彩照片</string>
     <string name="save">保存</string>
+    <string name="upload_cover">上传封面图</string>
+    <string name="路线标题">路线标题(2到14字)</string>
+    <string name="总分">总分</string>
+    <string name="非常差">非常差</string>
+    <string name="较差">较差</string>
+    <string name="一般">一般</string>
+    <string name="较好">较好</string>
+    <string name="非常好">非常好</string>
+    <string name="路线简介提示">风景怎么样，骑行是否顺畅，有没有需要注意的地方？（写够15字才是好车友~）</string>
+    <string name="请输入真实详细起点">请输入真实详细起点</string>
+    <string name="请输入真实详细终点">请输入真实详细终点</string>
 
     <!-- 路线界面 -->
     <string name="way_mileage">全程</string>
@@ -314,7 +328,7 @@
     <string name="nearby_activity">附近活动</string>
     <string name="mine_activity">我的活动</string>
     <string name="activity_detail">活动详情</string>
-    <string name="join_and_get_scores">参与即可+0积分</string>
+    <string name="join_and_get_scores">参与即可+{0}积分</string>
     <string name="partner">人</string>
     <string name="telephone_activity">联系方式</string>
     <string name="join_now">立即参与</string>
@@ -466,12 +480,11 @@
     <string name="曼威车神">曼威车神</string>
 
 
-
-
     <!-- 提示信息 -->
     <string name="none">无</string>
     <string name="successfully">成功！</string>
     <string name="failed">失败！</string>
+    <string name="请检查网络是否连接">请检查网络是否连接</string>
     <string name="network_connection_is_failed">网络连接失败</string>
     <string name="the_phone_or_email_is_not_correct">手机号或邮箱不正确！</string>
     <string name="the_verification_code_has_been_sent">验证码已发送，请注意查收！</string>
@@ -511,6 +524,7 @@
     <string name="please_enter_the_sn_code">请输入SN号</string>
     <string name="login_successful">登录成功</string>
     <string name="copy_success">复制成功</string>
+    <string name="password_verification_failed">密码验证失败</string>
     <string name="找回密码成功">找回密码成功</string>
     <string name="找回密码失败">找回密码失败</string>
     <string name="修改成功">修改成功</string>
@@ -528,11 +542,13 @@
     <string name="请选择风景图片">请选择风景图片</string>
     <string name="指纹">指纹</string>
     <string name="该设备不支持蓝牙功能">该设备不支持蓝牙功能</string>
+    <string name="手机号已注册">手机号已注册</string>
     <string name="完成注册表示您已阅读和同意">完成注册表示您已阅读和同意</string>
     <string name="图片不能超过256k">图片不能超过256k</string>
     <string name="视频不能超过20M">视频不能超过20M</string>
     <string name="gif图片不能超过5M">gif图片不能超过5M</string>
-
+    <string name="密码长度不正确">密码长度不正确</string>
+    <string name="描述一下活动内容">描述一下活动内容，这个活动最有吸引力的是什么？（写够15字才是好车友~）</string>
 
 
 </resources>

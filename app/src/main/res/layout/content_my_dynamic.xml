@@ -24,32 +24,15 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20px"/>
 
-        <com.zhy.autolayout.AutoLinearLayout
+        <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_centerInParent="true"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_dongtai"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/dynamic"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/tv_luxian"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="40px"
-                android:text="@string/way"
-                android:textColor="#B7B7B7"
-                android:textSize="20sp" />
-
-        </com.zhy.autolayout.AutoLinearLayout>
+            android:text=""
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/img_right"
@@ -63,6 +46,71 @@
             android:src="@mipmap/cebianlan_wodefabu_heimingdan" />
 
     </com.zhy.autolayout.AutoRelativeLayout>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|bottom"
+        android:orientation="horizontal"
+        android:paddingTop="30px" >
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_dongtai"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_dongtai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dynamic"
+                android:textColor="#000000"
+                android:textSize="36px" />
+
+            <View
+                android:id="@+id/view_dongtai"
+                android:layout_width="60px"
+                android:layout_height="3px"
+                android:layout_marginTop="18px"
+                android:background="#000000" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_luxian"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_luxian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/way"
+                android:textColor="#666666"
+                android:textSize="36px" />
+
+            <View
+                android:id="@+id/view_luxian"
+                android:layout_width="60px"
+                android:layout_height="3px"
+                android:layout_marginTop="18px"
+                android:background="#000000"
+                android:visibility="invisible" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#dcdcdc"/>
 
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"

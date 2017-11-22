@@ -2,13 +2,14 @@ package com.mywaytec.myway.model.bean;
 
 import com.mywaytec.myway.model.BaseInfo;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by shemh on 2017/10/18.
  */
 
-public class RoutePathsListBean extends BaseInfo {
+public class RoutePathsListBean extends BaseInfo implements Serializable{
 
 
     private List<ObjBean> obj;
@@ -21,7 +22,7 @@ public class RoutePathsListBean extends BaseInfo {
         this.obj = obj;
     }
 
-    public static class ObjBean {
+    public static class ObjBean implements Serializable{
         /**
          * id : 248
          * image : null
@@ -56,17 +57,17 @@ public class RoutePathsListBean extends BaseInfo {
         private Object difficultyStar;
         private int legend;
         private Object enduranceClaim;
-        private Object intro;
-        private Object origin;
-        private Object originBus;
-        private Object destination;
-        private Object destinationBus;
+        private String intro;
+        private String origin;
+        private String originBus;
+        private String destination;
+        private String destinationBus;
         private Object score;
         private String createTime;
-        private Object title;
+        private String title;
         private String uid;
         private boolean isSuccess;
-        private Object city;
+        private String city;
         private Object likeNum;
         private Object isLike;
         private Object user;
@@ -130,43 +131,43 @@ public class RoutePathsListBean extends BaseInfo {
             this.enduranceClaim = enduranceClaim;
         }
 
-        public Object getIntro() {
+        public String getIntro() {
             return intro;
         }
 
-        public void setIntro(Object intro) {
+        public void setIntro(String intro) {
             this.intro = intro;
         }
 
-        public Object getOrigin() {
+        public String getOrigin() {
             return origin;
         }
 
-        public void setOrigin(Object origin) {
+        public void setOrigin(String origin) {
             this.origin = origin;
         }
 
-        public Object getOriginBus() {
+        public String getOriginBus() {
             return originBus;
         }
 
-        public void setOriginBus(Object originBus) {
+        public void setOriginBus(String originBus) {
             this.originBus = originBus;
         }
 
-        public Object getDestination() {
+        public String getDestination() {
             return destination;
         }
 
-        public void setDestination(Object destination) {
+        public void setDestination(String destination) {
             this.destination = destination;
         }
 
-        public Object getDestinationBus() {
+        public String getDestinationBus() {
             return destinationBus;
         }
 
-        public void setDestinationBus(Object destinationBus) {
+        public void setDestinationBus(String destinationBus) {
             this.destinationBus = destinationBus;
         }
 
@@ -186,11 +187,11 @@ public class RoutePathsListBean extends BaseInfo {
             this.createTime = createTime;
         }
 
-        public Object getTitle() {
+        public String getTitle() {
             return title;
         }
 
-        public void setTitle(Object title) {
+        public void setTitle(String title) {
             this.title = title;
         }
 
@@ -210,11 +211,11 @@ public class RoutePathsListBean extends BaseInfo {
             this.isSuccess = isSuccess;
         }
 
-        public Object getCity() {
+        public String getCity() {
             return city;
         }
 
-        public void setCity(Object city) {
+        public void setCity(String city) {
             this.city = city;
         }
 

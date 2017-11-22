@@ -7,6 +7,7 @@ import android.util.Log;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.RxPresenter;
 import com.mywaytec.myway.model.BaseInfo;
+import com.mywaytec.myway.model.bean.ObjBooleanBean;
 import com.mywaytec.myway.model.http.RetrofitHelper;
 import com.mywaytec.myway.utils.RxUtil;
 import com.mywaytec.myway.utils.ToastUtils;
@@ -46,7 +47,22 @@ public class RegisterPresenter extends RxPresenter<RegisterView> {
             ToastUtils.showToast(R.string.please_enter_a_correct_phone_number);
             return;
         }
-        SMSSDK.getVerificationCode("86", mView.getPhoneNumber());
+        mRetrofitHelper.userRepeatabilityVerify(mView.getPhoneNumber())
+                .compose(RxUtil.<ObjBooleanBean>rxSchedulerHelper())
+                .subscribe(new CommonSubscriber<ObjBooleanBean>() {
+                    @Override
+                    public void onNext(ObjBooleanBean objBooleanBean) {
+                        if (!objBooleanBean.getObj()){
+                            String countryCode = "86";//手机区号默认为中国
+                            if (mView.getSelectCountryTV().getText().toString().length() > 0) {
+                                countryCode = mView.getSelectCountryTV().getText().toString().substring(1);
+                            }
+                            SMSSDK.getVerificationCode(countryCode, mView.getPhoneNumber());
+                        }else {
+                            ToastUtils.showToast(R.string.手机号已注册);
+                        }
+                    }
+                });
     }
 
     //注册
@@ -58,7 +74,11 @@ public class RegisterPresenter extends RxPresenter<RegisterView> {
         }
         //MD5加密
         pwd = MD5.md5(pwd);
-        mRetrofitHelper.registerInfo(mView.getPhoneNumber(), "86",pwd, code)
+        String countryCode = "86";//手机区号默认为中国
+        if (mView.getSelectCountryTV().getText().toString().length() > 0) {
+            countryCode = mView.getSelectCountryTV().getText().toString().substring(1);
+        }
+        mRetrofitHelper.registerInfo(mView.getPhoneNumber(), countryCode,pwd, code)
                 .compose(RxUtil.<BaseInfo>rxSchedulerHelper())
                 .subscribe(new CommonSubscriber<BaseInfo>(mView, mView.getContext(), true) {
                     @Override

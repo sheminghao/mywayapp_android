@@ -11,7 +11,7 @@ android:orientation="vertical">
     android:orientation="vertical"
     android:paddingLeft="24px"
     android:paddingRight="24px"
-    android:paddingTop="20px">
+    android:paddingTop="10px">
 
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
@@ -49,6 +49,12 @@ android:orientation="vertical">
                 android:textColor="#999999"
                 android:layout_marginTop="10px"/>
         </com.zhy.autolayout.AutoLinearLayout>
+
+        <ImageView
+            android:id="@+id/img_toutiao"
+            android:layout_width="126px"
+            android:layout_height="100px"
+            android:src="@mipmap/toutiao_ch"/>
 
         <ImageView
             android:id="@+id/img_xiala"

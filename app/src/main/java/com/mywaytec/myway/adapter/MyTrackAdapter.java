@@ -10,8 +10,7 @@ import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.ListBaseAdapter;
 import com.mywaytec.myway.base.SuperViewHolder;
 import com.mywaytec.myway.model.bean.RoutePathsListBean;
-import com.mywaytec.myway.model.db.MyTrack;
-import com.mywaytec.myway.utils.ConversionUtil;
+import com.mywaytec.myway.utils.TimeUtil;
 import com.mywaytec.myway.view.SwipeMenuView;
 
 import java.text.DecimalFormat;
@@ -41,7 +40,7 @@ public class MyTrackAdapter extends ListBaseAdapter<RoutePathsListBean.ObjBean> 
         TextView tvLicheng = holder.getView(R.id.tv_licheng);
         TextView tvTime = holder.getView(R.id.tv_time);
         tvTrackname.setText(mDataList.get(position).getName() + "");
-        tvPublishTime.setText(mDataList.get(position).getCreateTime() + "");
+        tvPublishTime.setText(TimeUtil.YMDHMStoMDHMTime(mDataList.get(position).getCreateTime()));
         tvLicheng.setText(df.format(mDataList.get(position).getLegend()/1000.0) + "km");
         tvTime.setText(mDataList.get(position).getDuration()+"");
 

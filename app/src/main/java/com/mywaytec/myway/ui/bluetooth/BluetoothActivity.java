@@ -1,14 +1,11 @@
 package com.mywaytec.myway.ui.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,18 +24,15 @@ import com.mywaytec.myway.DaoSession;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.adapter.BluetoothListAdapter;
 import com.mywaytec.myway.base.BaseActivity;
-import com.mywaytec.myway.model.BluetoothInfoModel;
 import com.mywaytec.myway.model.db.ConnectedBleInfo;
 import com.mywaytec.myway.ui.lookoverAllCar.LookoverAllCarActivity;
 import com.mywaytec.myway.utils.BleKitUtils;
 import com.mywaytec.myway.utils.BleUtil;
-import com.mywaytec.myway.utils.LogUtil;
 import com.mywaytec.myway.utils.TimeUtil;
 import com.zhy.autolayout.AutoLinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -97,8 +91,6 @@ public class BluetoothActivity extends BaseActivity<BluetoothPresenter> implemen
         lRecyclerView.setPullRefreshEnabled(false);
         lRecyclerView.setLoadMoreEnabled(false);
         lRecyclerViewAdapter.setOnItemClickListener(this);
-
-//        scanLeDevice(true);
 
         SearchRequest request = new SearchRequest.Builder()
                 .searchBluetoothLeDevice(1000000, 1)   // 先扫BLE设备3次，每次3s

@@ -126,34 +126,51 @@
 
         <com.zhy.autolayout.AutoLinearLayout
             android:id="@+id/layout_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"
-            android:orientation="horizontal"
-            android:gravity="center"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
             android:visibility="gone" >
 
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="600px"
-                android:layout_height="30px"
-                android:layout_centerInParent="true"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:max="100"
-                android:progress="0"
-                android:visibility="gone"
-                android:progressDrawable="@drawable/progress_bar_adjust"/>
-
-            <TextView
-                android:id="@+id/tv_progress"
+            <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0%"
-                android:textColor="@color/white"
-                android:textSize="32px"
-                android:layout_marginLeft="20px"
-                android:visibility="gone"/>
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginTop="140px" >
+    
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="600px"
+                    android:layout_height="30px"
+                    android:layout_centerInParent="true"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:max="100"
+                    android:progress="0"
+                    android:visibility="gone"
+                    android:progressDrawable="@drawable/progress_bar_adjust"/>
+    
+                <TextView
+                    android:id="@+id/tv_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0%"
+                    android:textColor="@color/white"
+                    android:textSize="32px"
+                    android:layout_marginLeft="20px"
+                    android:visibility="gone"/>
+    
+            </com.zhy.autolayout.AutoLinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40px"
+                android:text="@string/固件正在更新中请勿操作"
+                android:textColor="@color/white"
+                android:textSize="32px"/>
+            
         </com.zhy.autolayout.AutoLinearLayout>
 
         <com.zhy.autolayout.AutoLinearLayout

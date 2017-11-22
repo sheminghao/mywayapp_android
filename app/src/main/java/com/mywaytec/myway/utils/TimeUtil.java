@@ -49,6 +49,19 @@ public class TimeUtil {
 		return str;
 	}
 
+	public static String YMDHMStoMDHMTime(String time) {
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String str = "";
+		try {
+			Date date = format1.parse(time);
+			SimpleDateFormat format2 = new SimpleDateFormat("MM-dd HH:mm");
+			str = format2.format(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return str;
+	}
+
 	public static String  getHMSTime()
 	{
 		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");

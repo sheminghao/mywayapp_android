@@ -1,6 +1,7 @@
 package com.mywaytec.myway.ui.message;
 
 import android.content.Context;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
@@ -17,5 +18,7 @@ public interface MessageView extends IBaseView {
     TextView getNoneTV();
 
     Context getContext();
+
+    ImageView getRightImg();
 
 }

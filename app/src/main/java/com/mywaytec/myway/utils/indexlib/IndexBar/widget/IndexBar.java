@@ -123,7 +123,7 @@ public class IndexBar extends View {
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         int textSize = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_SP, 16, getResources().getDisplayMetrics());//默认的TextSize
-        mPressedBackground = Color.BLACK;//默认按下是纯黑色
+        mPressedBackground = Color.WHITE;//默认按下是纯黑色
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.IndexBar, defStyleAttr, 0);
         int n = typedArray.getIndexCount();
         for (int i = 0; i < n; i++) {
@@ -143,7 +143,7 @@ public class IndexBar extends View {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setTextSize(textSize);
-        mPaint.setColor(Color.BLACK);
+        mPaint.setColor(Color.WHITE);
 
         //设置index触摸监听器
         setmOnIndexPressedListener(new onIndexPressedListener() {
