@@ -87,6 +87,7 @@ public class VehicleLocationActivity extends BaseActivity<VehicleLocationPresent
     ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service){
+            Log.i("TAG", "------定位，onServiceConnected");
             // 建立连接
             // 获取服务的操作对象
             mMqttService = ((MqttService.MqttBinder)service).getService();
@@ -96,7 +97,12 @@ public class VehicleLocationActivity extends BaseActivity<VehicleLocationPresent
         }
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            // 连接断开
+            Log.i("TAG", "------定位，onServiceDisconnected");
+                // 连接断开
+                if (mMqttService != null){
+                    mMqttService.onDestroy();
+                    mMqttService = null;
+                }
             }
         };
 
@@ -156,15 +162,22 @@ public class VehicleLocationActivity extends BaseActivity<VehicleLocationPresent
     }
 
     @Override
+    public String getVehicleName() {
+        return vehicleName;
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.i("TAG", "------VehicleLocationActivity, onDestroy()");
         //在activity执行onDestroy时执行mMapView.onDestroy()，销毁地图
         mPresenter.destroy();
         mMapView.onDestroy();
         mMapView = null;
         unbindService(mServiceConnection);
         if (mMqttService != null){
-            mMqttService.onDestroy();
+//            mMqttService.onDestroy();
+//            mMqttService = null;
         }
     }
 

@@ -192,8 +192,55 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
 
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        loadingDialog = new LoadingDialog(this);
-        loadingDialog.show();
+//        loadingDialog = new LoadingDialog(this);
+//        loadingDialog.show();
+
+        if (BleUtil.isChezhu(mPresenter.getRetrofitHelper())) {
+            layoutChangeBlePassword.setVisibility(View.VISIBLE);
+        }else {
+            layoutChangeBlePassword.setVisibility(View.GONE);
+        }
+
+        mPresenter.initSetting();
+
+        //初始化车辆状态
+        if (null != BleInfo.getBleInfo().getCarState() && BleInfo.getBleInfo().getCarState().length >= 9){
+            byte[] data = BleInfo.getBleInfo().getCarState();
+            if (((data[9] >> 0) & 0x1) == 1) {//前灯状态
+                isQiandeng = true;
+                imgQiandeng.setImageResource(R.mipmap.gengduo_btn_queding);
+            } else {
+                isQiandeng = false;
+                imgQiandeng.setImageResource(R.mipmap.gengduo_btn_qixuao);
+            }
+            if (((data[9] >> 6) & 0x1) == 0) {//尾灯状态
+                isHoudeng = true;
+                imgWeideng.setImageResource(R.mipmap.gengduo_btn_queding);
+            } else {
+                isHoudeng = false;
+                imgWeideng.setImageResource(R.mipmap.gengduo_btn_qixuao);
+            }
+            if (((data[9] >> 4) & 0x1) == 0) {//车辆模式
+                tvMode.setText(R.string.econ);
+            } else {
+                tvMode.setText(R.string.sport);
+            }
+            if (((data[9] >> 3) & 0x1) == 1){//滑行启动状态
+                isHuaxing = true;
+                imgHuaxing.setImageResource(R.mipmap.gengduo_btn_queding);
+            }else {
+                isHuaxing = false;
+                imgHuaxing.setImageResource(R.mipmap.gengduo_btn_qixuao);
+            }
+            if (((data[9] >> 5) & 0x1) == 1){//定速巡航状态
+                isDingsuxunhang = true;
+                imgDingsuxunhang.setImageResource(R.mipmap.gengduo_btn_queding);
+            }else {
+                isDingsuxunhang = false;
+                imgDingsuxunhang.setImageResource(R.mipmap.gengduo_btn_qixuao);
+            }
+        }
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -207,7 +254,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
 
     }
 
-    LoadingDialog loadingDialog;
+//    LoadingDialog loadingDialog;
     //发送指令超时时间
     private int sendTime;
     private void fasongZhiling() {
@@ -223,7 +270,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             speedLimitValues();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-                                loadingDialog.dismiss();
+//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -240,7 +287,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             speedLimitValues();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-                                loadingDialog.dismiss();
+//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -271,7 +318,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             carState();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-                                loadingDialog.dismiss();
+//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -288,7 +335,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             carState();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-                                loadingDialog.dismiss();
+//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -317,7 +364,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                         firmwareVersionCode();
                     }else if (code == REQUEST_FAILED){
                         if (sendTime > 10){
-                            loadingDialog.dismiss();
+//                            loadingDialog.dismiss();
                             return;
                         }
                         sendTime++;
@@ -334,7 +381,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                         firmwareVersionCode();
                     }else if (code == REQUEST_FAILED){
                         if (sendTime > 10){
-                            loadingDialog.dismiss();
+//                            loadingDialog.dismiss();
                             return;
                         }
                         sendTime++;
@@ -358,7 +405,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             practicalLimitValues();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-                                loadingDialog.dismiss();
+//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -375,7 +422,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             practicalLimitValues();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-                                loadingDialog.dismiss();
+//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -402,7 +449,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             programLocation();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-                                loadingDialog.dismiss();
+//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -419,7 +466,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             programLocation();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-                                loadingDialog.dismiss();
+//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -448,7 +495,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             snCode();
                         }else if (code == REQUEST_FAILED){
                             if (sendTime > 10){
-                                loadingDialog.dismiss();
+//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -465,7 +512,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             snCode();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-                                loadingDialog.dismiss();
+//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -492,7 +539,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             currentDengdaiMode();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-                                loadingDialog.dismiss();
+//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -506,10 +553,10 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                     public void onResponse(int code) {
                         if (code == REQUEST_SUCCESS) {
                             sendTime = 0;
-                            loadingDialog.dismiss();
+//                            loadingDialog.dismiss();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-                                loadingDialog.dismiss();
+//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -533,10 +580,10 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                     public void onResponse(int code) {
                         if (code == REQUEST_SUCCESS) {
                             sendTime = 0;
-                            loadingDialog.dismiss();
+//                            loadingDialog.dismiss();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-                                loadingDialog.dismiss();
+//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -546,7 +593,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                 });
             }
         }else {
-            loadingDialog.dismiss();
+//            loadingDialog.dismiss();
         }
     }
 
@@ -1299,7 +1346,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                                 char[] c = firmwareCode.toCharArray();
                                 int carCode = Integer.parseInt(c[5] + "" + 0 + "" + c[7]);
                                 Log.i("TAG", "------固件信息，设备版本：" + carCode + ", 后台版本：" + firmwareInfo.getObj().getFirmwareVersion());
-                                if (carCode < firmwareInfo.getObj().getFirmwareVersion() ||
+                                if (carCode <= firmwareInfo.getObj().getFirmwareVersion() ||
                                         "01".equals(PreferencesUtils.getString(
                                                 MoreCarInfoActivity.this, "programLocation"))) {//不是最新版本，提示升级或是在引导程序中
                                     Log.i("TAG", "------固件信息，不是最新版本，提示升级");
@@ -1378,6 +1425,11 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
     @Override
     public TextView getDengdaiTV() {
         return tvDengdai;
+    }
+
+    @Override
+    public SpeedSeekBar getSpeedSeekBar() {
+        return speedSeekBar;
     }
 
 }

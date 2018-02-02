@@ -24,7 +24,7 @@ import butterknife.OnClick;
 public class MyProfileActivity extends BaseActivity<MyProfilePresenter> implements MyProfileView {
 
     public static final String MYPROFILE = "MYPROFILE";
-    public static final int MYPROFILE_CODE = 0x128;
+    public static final int MYPROFILE_CODE = 0x132;
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
@@ -89,7 +89,6 @@ public class MyProfileActivity extends BaseActivity<MyProfilePresenter> implemen
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.putExtra(MYPROFILE, MYPROFILE);
                 setResult(RESULT_OK, intent);
                 finish();
             }

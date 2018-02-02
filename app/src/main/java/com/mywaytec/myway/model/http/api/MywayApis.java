@@ -6,8 +6,12 @@ import com.mywaytec.myway.model.bean.AllBindingCarBean;
 import com.mywaytec.myway.model.bean.AllPeopleBean;
 import com.mywaytec.myway.model.bean.BlacklistBean;
 import com.mywaytec.myway.model.bean.ChangeHeadImgBean;
+import com.mywaytec.myway.model.bean.ClubDetailBean;
+import com.mywaytec.myway.model.bean.ClubJoinListBean;
+import com.mywaytec.myway.model.bean.ClubMessageBean;
 import com.mywaytec.myway.model.bean.CommentListBean;
 import com.mywaytec.myway.model.bean.DayRankingBean;
+import com.mywaytec.myway.model.bean.DeleteClubUsersBean;
 import com.mywaytec.myway.model.bean.DynamicDetailBean;
 import com.mywaytec.myway.model.bean.DynamicListBean;
 import com.mywaytec.myway.model.bean.FirmwareInfo;
@@ -15,6 +19,8 @@ import com.mywaytec.myway.model.bean.GoldInfoBean;
 import com.mywaytec.myway.model.bean.LikeListBean;
 import com.mywaytec.myway.model.bean.LoginInfo;
 import com.mywaytec.myway.model.bean.MessageBean;
+import com.mywaytec.myway.model.bean.MyAttentionBean;
+import com.mywaytec.myway.model.bean.MyFansBean;
 import com.mywaytec.myway.model.bean.NearbyActivityBean;
 import com.mywaytec.myway.model.bean.NearbyBean;
 import com.mywaytec.myway.model.bean.ObjBooleanBean;
@@ -24,10 +30,13 @@ import com.mywaytec.myway.model.bean.OtherMsgBean;
 import com.mywaytec.myway.model.bean.PraiseBean;
 import com.mywaytec.myway.model.bean.PublicRoutePathsBean;
 import com.mywaytec.myway.model.bean.PublishBean;
+import com.mywaytec.myway.model.bean.RongClubListBean;
+import com.mywaytec.myway.model.bean.RongTokenBean;
 import com.mywaytec.myway.model.bean.RouteDetailBean;
 import com.mywaytec.myway.model.bean.RouteListBean;
 import com.mywaytec.myway.model.bean.RoutePathsListBean;
 import com.mywaytec.myway.model.bean.SearchCarBean;
+import com.mywaytec.myway.model.bean.SearchClubBean;
 import com.mywaytec.myway.model.bean.UploadRouteBean;
 import com.mywaytec.myway.model.bean.UsedCarBean;
 import com.mywaytec.myway.model.bean.UserInfo;
@@ -51,12 +60,14 @@ import rx.Observable;
 public interface MywayApis {
 
 //    本地服务器
-//    String HOST = "http://192.168.1.165:8080";
+//    String HOST = "http://192.168.1.162:8080";
     //曼威服务器
-//    String HOST_IP = "http://120.77.249.52";
-    String HOST_IP = "http://www.mywaytec.cn";
+      String HOST = "http://120.77.249.52:8090";
     //外网服务器
-    String HOST = HOST_IP+":8090";
+//    String HOST ="http://www.mywaytec.cn:8090";
+    //测试服务器
+//    String HOST ="http://120.78.182.49:8071";
+
 
     /**
      * 注册
@@ -632,4 +643,169 @@ public interface MywayApis {
     @POST("/message/readAll")
     Observable<BaseInfo> readAllMessage(@Query("uid") String uid,
                                         @Query("token") String token);
+
+    /**
+     *融云token
+     */
+    @POST("/club/rongyun/token")
+    Observable<RongTokenBean> clubRongToken(@Query("uid") String uid);
+
+    /**
+     *创建俱乐部
+     */
+    @Multipart
+    @POST("/rongyun/club/create")
+    Observable<BaseInfo> createRongClub(@PartMap Map<String, RequestBody> bodyMap);
+
+    /**
+     *更新俱乐部
+     */
+    @Multipart
+    @POST("/rongyun/club/update")
+    Observable<BaseInfo> updateRongClub(@PartMap Map<String, RequestBody> bodyMap,
+                                        @Part("gid") int gid);
+
+    /**
+     *申请加入俱乐部
+     */
+    @FormUrlEncoded
+    @POST("/rongyun/club/join/apply")
+    Observable<BaseInfo> joinRongClub(@Field("uid") String uid,
+                                      @Field("token") String token,
+                                      @Field("gid") int gid);
+
+    /**
+     *退出俱乐部
+     */
+    @FormUrlEncoded
+    @POST("/rongyun/club/exit")
+    Observable<BaseInfo> exitRongClub(@Field("uid") String uid,
+                                      @Field("token") String token,
+                                      @Field("gid") int gid);
+
+    /**
+     *设置消息免打扰
+     */
+    @FormUrlEncoded
+    @POST("/club/message/disturbing")
+    Observable<BaseInfo> disturbingClubMessage(@Field("uid") String uid,
+                                               @Field("token") String token,
+                                               @Field("gid") int gid,
+                                               @Field("no_disturbing") boolean no_disturbing);
+
+    /**
+     *解散俱乐部
+     */
+    @FormUrlEncoded
+    @POST("/rongyun/club/dissolve")
+    Observable<BaseInfo> dissolveRongClub(@Field("uid") String uid,
+                                          @Field("token") String token,
+                                          @Field("gid") int gid);
+
+    /**
+     *获取俱乐部详情
+     */
+    @FormUrlEncoded
+    @POST("/rongyun/club/detail")
+    Observable<ClubDetailBean> rongClubDetail(@Field("uid") String uid,
+                                              @Field("token") String token,
+                                              @Field("gid") int gid);
+
+    /**
+     *俱乐部列表
+     */
+    @FormUrlEncoded
+    @POST("/rongyun/club/list")
+    Observable<RongClubListBean> rongClubList(@Field("uid") String uid,
+                                              @Field("token") String token);
+
+    /**
+     *推荐和搜索俱乐部
+     */
+    @FormUrlEncoded
+    @POST("/rongyun/club/search")
+    Observable<SearchClubBean> searchClubList(@Field("uid") String uid,
+                                              @Field("token") String token,
+                                              @Field("name") String name);
+
+    /**
+     *俱乐部通知列表
+     */
+    @FormUrlEncoded
+    @POST("/rongyun/club/join/list")
+    Observable<ClubJoinListBean> clubJoinList(@Field("uid") String uid,
+                                              @Field("token") String token);
+
+    /**
+     *是否有俱乐部通知
+     */
+    @FormUrlEncoded
+    @POST("/rongyun/club/join/verify")
+    Observable<ClubMessageBean> clubJoinVerify(@Field("uid") String uid,
+                                               @Field("token") String token);
+
+    /**
+     *同意加入俱乐部的申请
+     */
+    @FormUrlEncoded
+    @POST("/rongyun/club/join/agree")
+    Observable<BaseInfo> agreeJoinClub(@Field("uid") String uid,
+                                       @Field("token") String token,
+                                       @Field("fromUid") String fromUid,
+                                       @Field("gid") int gid);
+
+    /**
+     *拒绝加入俱乐部的申请
+     */
+    @FormUrlEncoded
+    @POST("/rongyun/club/join/deny")
+    Observable<BaseInfo> denyJoinClub(@Field("uid") String uid,
+                                      @Field("token") String token,
+                                      @Field("fromUid") String fromUid,
+                                      @Field("gid") int gid);
+
+    /**
+     *删除俱乐部成员
+     */
+    @FormUrlEncoded
+    @POST("/rongyun/club/users/delete")
+    Observable<DeleteClubUsersBean> deleteClubUsers(@Field("uid") String uid,
+                                                    @Field("token") String token,
+                                                    @Field("gid") int gid,
+                                                    @Field("deleted_uid") String deleted_uid);
+
+    /**
+     *关注
+     */
+    @FormUrlEncoded
+    @POST("/user/fans/attention/confirm")
+    Observable<BaseInfo> attention(@Field("uid") String uid,
+                                   @Field("token") String token,
+                                   @Field("idols_uid") String idols_uid);
+
+    /**
+     *取消关注
+     */
+    @FormUrlEncoded
+    @POST("/user/fans/attention/cancel")
+    Observable<BaseInfo> cancelAttention(@Field("uid") String uid,
+                                         @Field("token") String token,
+                                         @Field("idols_uid") String idols_uid);
+
+    /**
+     *我的关注
+     */
+    @FormUrlEncoded
+    @POST("/user/attention/my/idols")
+    Observable<MyAttentionBean> myAttention(@Field("uid") String uid,
+                                            @Field("token") String token);
+
+    /**
+     *我的粉丝
+     */
+    @FormUrlEncoded
+    @POST("/user/attention/my/fans")
+    Observable<MyAttentionBean> myFans(@Field("uid") String uid,
+                                      @Field("token") String token);
+
 }

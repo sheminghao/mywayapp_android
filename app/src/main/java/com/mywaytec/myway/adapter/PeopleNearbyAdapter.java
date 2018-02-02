@@ -20,6 +20,8 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 
 /**
+ * 附近的人适配器
+ *
  * Created by shemh on 2017/8/2.
  */
 
@@ -73,7 +75,9 @@ public class PeopleNearbyAdapter extends ListBaseAdapter<NearbyBean.ObjBean> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, UserDynamicActivity.class);
-                intent.putExtra("otherUid", mDataList.get(position).getUid());
+                intent.putExtra("uid", mDataList.get(position).getUid());
+                intent.putExtra("nickName", mDataList.get(position).getUser().getNickname());
+                intent.putExtra("headPortrait", mDataList.get(position).getUser().getImgeUrl());
                 mContext.startActivity(intent);
             }
         });

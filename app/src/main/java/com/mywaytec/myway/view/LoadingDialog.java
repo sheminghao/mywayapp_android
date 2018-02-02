@@ -39,7 +39,6 @@ public class LoadingDialog extends Dialog {
         super.dismiss();
         if (null != loadingView) {
             loadingView.stop();
-            loadingView = null;
         }
     }
 }

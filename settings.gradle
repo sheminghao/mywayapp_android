@@ -1,1 +1,1 @@
-include ':app', ':lazylibrary', ':ucrop', ':picture_library'
+include ':app', ':lazylibrary', ':ucrop', ':picture_library', ':IMKit', ':IMLib', ':RedPacket', ':bluetooth_library'

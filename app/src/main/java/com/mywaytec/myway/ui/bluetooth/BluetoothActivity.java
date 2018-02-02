@@ -126,7 +126,7 @@ public class BluetoothActivity extends BaseActivity<BluetoothPresenter> implemen
             if (null != device && !bluetoothDevices.contains(device)) {
                 //不重复添加
                 bluetoothDevices.add(device);
-                if(null != device.getName() && !device.getName().contains("iCre")) {
+                if(null != device.getName() && device.getName().contains("SC-") || device.getName().contains("RA-")) {
                     bluetoothInfoModels.add(device);
                     bluetoothListAdapter.setDataList(bluetoothInfoModels);
                 }

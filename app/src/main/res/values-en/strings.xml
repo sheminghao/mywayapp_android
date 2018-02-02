@@ -16,7 +16,7 @@
     <string name="list_footer_loading">loading</string>
     <string name="list_footer_end">end</string>
     <string name="footer_network_error">network error</string>
-
+    <string name="activity_is_over">activity is over</string>
 
 
     <!-- 引导页面 -->
@@ -44,6 +44,8 @@
     <string name="myway_agreements">《Myway Terms and Privacy》</string>
 
     <!-- 动态界面 -->
+    <string name="discover">Discover</string>
+    <string name="message">Message</string>
     <string name="dynamic">Share</string>
     <string name="way">Track</string>
     <string name="transpond">Transpond</string>
@@ -204,13 +206,11 @@
     <string name="ble_new_password">New password</string>
     <string name="ble_confirm_password">Confirm password</string>
 
-
     <!-- 油门校准 -->
     <string name="please_press_accelerator_to_the_end_and_hold_on">Please press accelerator to the end and hold on. And then start first calibration.</string>
     <string name="start_first_calibration">Start first calibration.</string>
     <string name="release_accelerator">Release accelerator, and then start second calibration.</string>
     <string name="start_second_calibration">Start second calibration.</string>
-
 
     <!-- 指纹录制界面 -->
     <string name="hint">hint</string>
@@ -238,7 +238,6 @@
     <string name="fingerprint_management">Fingerprint Management</string>
     <string name="please_get_off_the_vehicle">Please get off the vehicle, and keep the vehicle still. And then start finger register.</string>
     <string name="dialog_continue">Continue</string>
-
 
     <!-- 故障检测界面 -->
     <string name="fault_diagnose">Fault Diagnose</string>
@@ -318,7 +317,6 @@
     <string name="请输入真实详细起点">Please input real specific start place</string>
     <string name="请输入真实详细终点">Please input real specific final place</string>
 
-
     <!-- 路线界面 -->
     <string name="way_mileage">Mileage</string>
     <string name="way_total_mileage">Total Mileage:</string>
@@ -353,7 +351,6 @@
     <string name="activity_publish">Publish</string>
     <string name="publish_activity">Publish Activity</string>
     <string name="select_gathering_location">Select Gathering Location</string>
-
 
     <!-- GPRS模块 -->
     <string name="remote_control">Remote Control</string>
@@ -396,6 +393,54 @@
     <string name="coins">MW coins</string>
     <string name="scores_for_promotion">Scores for promotion</string>
     <string name="total_scores">Total Scores</string>
+
+    <!-- 消息模块 -->
+    <string name="club_message">Message</string>
+    <string name="club">Club</string>
+    <string name="search">Search</string>
+    <string name="official">official</string>
+    <string name="established">established</string>
+    <string name="mw_recommend">MW Recommend</string>
+    <string name="successful_applying">successful applying</string>
+    <string name="you_are_not_a_member_yet">you are not a member yet</string>
+    <string name="you_are_a_member_already">you are a member already</string>
+    <string name="message_bother_free">message bother-free</string>
+    <string name="stand_out_chat">stand-out chat</string>
+    <string name="agree">Agree</string>
+    <string name="reject">Reject</string>
+    <string name="apply_for_participation">apply for participation</string>
+    <string name="agreed">Agreed</string>
+    <string name="rejected">Rejected</string>
+    <string name="joined">Joined</string>
+    <string name="set_in_a_club">Set in a club</string>
+    <string name="club_name">Club name</string>
+    <string name="club_location">Location</string>
+    <string name="club_profile">Club profile</string>
+    <string name="note_down_club_name">Note down club name</string>
+    <string name="note_down_club_profile">Note down club profile</string>
+    <string name="choose_area">Choose area</string>
+    <string name="choose_club_photo">Choose club photo</string>
+    <string name="region">Region</string>
+    <string name="profile">Profile:</string>
+    <string name="member">Member</string>
+    <string name="join_club_member">Member:</string>
+    <string name="member_lists">Member lists</string>
+    <string name="administrator">Administrator </string>
+    <string name="people">People</string>
+    <string name="verification_message">Verification message</string>
+    <string name="the_other_person_is_typing">The other person is typing</string>
+    <string name="the_other_party_is_talking">The other party is talking</string>
+    <string name="click_on_the_select">Click on the select</string>
+    <string name="club_notice">Club notice</string>
+    <string name="follow">Follow</string>
+    <string name="followed">Followed</string>
+    <string name="unfollow">Unfollow</string>
+    <string name="follow_each_other">Follow each other</string>
+    <string name="chat">Chat</string>
+    <string name="team_leader">Team leader</string>
+    <string name="fans">fans</string>
+    <string name="exit">Exit</string>
+    <string name="modify_club">Modify club</string>
 
 
     <!-- 增值攻略数据 -->
@@ -528,6 +573,8 @@
     <string name="login_successful">Login successful!</string>
     <string name="copy_success">Copy success</string>
     <string name="password_verification_failed">Password verification failed</string>
+    <string name="delete_failed">Delete failed</string>
+    <string name="delete_successful">Delete successful</string>
     <string name="找回密码成功">Retrieve password successfully</string>
     <string name="找回密码失败">Retrieve password unsuccessfully</string>
     <string name="修改成功">Modify password successfully</string>
@@ -552,6 +599,12 @@
     <string name="gif图片不能超过5M">GIF images cannot exceed 5M</string>
     <string name="密码长度不正确">Incorrect password length</string>
     <string name="描述一下活动内容">描述一下活动内容，这个活动最有吸引力的是什么？（写够15字才是好车友~）</string>
+    <string name="请检查您的网络是否连接">Please check if your network is connected</string>
+    <string name="binding_success">Binding success</string>
+    <string name="binding_failure">Binding failure</string>
+    <string name="not_repeat_the_binding">The vehicle has been bound successfully. Do not repeat the binding!</string>
+    <string name="the_vehicle_has_been_bound">The vehicle has been bound by other users!</string>
+    <string name="delete_all_fingerprints">Delete all fingerprints?</string>
 
 
 </resources>

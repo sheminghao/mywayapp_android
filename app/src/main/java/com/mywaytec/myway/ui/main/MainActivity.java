@@ -22,17 +22,19 @@ import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.BaseActivity;
 import com.mywaytec.myway.base.Constant;
 import com.mywaytec.myway.fragment.car.CarFragment;
+import com.mywaytec.myway.fragment.chat.ChatFragment;
 import com.mywaytec.myway.fragment.dynamic.DynamicFragment;
-import com.mywaytec.myway.fragment.way.WayFragment;
 import com.mywaytec.myway.model.bean.DynamicListBean;
 import com.mywaytec.myway.ui.bindingCar.BindingCarActivity;
 import com.mywaytec.myway.ui.gradeAndGold.GradeAndGoldActivity;
 import com.mywaytec.myway.ui.huodongyueban.HuodongYuebanActivity;
+import com.mywaytec.myway.ui.im.createClub.CreateClubActivity;
 import com.mywaytec.myway.ui.message.MessageActivity;
 import com.mywaytec.myway.ui.mydynamic.MyDynamicActivity;
 import com.mywaytec.myway.ui.myprofile.MyProfileActivity;
 import com.mywaytec.myway.ui.mytrack.MyTrackActivity;
 import com.mywaytec.myway.ui.peopleNearby.PeopleNearbyActivity;
+import com.mywaytec.myway.ui.personalCenter.PersonalCenterActivity;
 import com.mywaytec.myway.ui.rankingList.RankingListActivity;
 import com.mywaytec.myway.ui.setting.SettingActivity;
 import com.mywaytec.myway.ui.track.TrackRecordActivity;
@@ -50,6 +52,7 @@ import cn.jzvd.JZVideoPlayerStandard;
 
 import static com.mywaytec.myway.fragment.dynamic.DynamicFragment.PUBLISH;
 import static com.mywaytec.myway.ui.myprofile.MyProfileActivity.MYPROFILE_CODE;
+import static com.mywaytec.myway.ui.personalCenter.PersonalCenterActivity.PERSONAL_CENTER;
 
 /**
  * 首页
@@ -98,6 +101,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     TextView tvDynamic;
     @BindView(R.id.tv_way)
     TextView tvWay;
+    @BindView(R.id.img_xiaoxi_hint)
+    ImageView imgXiaoxiHint;
 
 
     @Override
@@ -114,6 +119,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     protected void initViews() {
         initView();
         initDragLayout();
+        mPresenter.initRongIM();
 
     }
 
@@ -214,17 +220,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     DynamicFragment dynamicFragment;
     CarFragment carFragment;
-    WayFragment wayFragment;
+    ChatFragment chatFragment;
     @OnClick({R.id.layout_dynamic, R.id.layout_car, R.id.layout_way, R.id.layout_message,
               R.id.layout_binding_car, R.id.layout_paiming, R.id.layout_wodefabu, R.id.layout_people_nearby,
               R.id.layout_sign_in, R.id.layout_setting, R.id.layout_level, R.id.layout_huodongyueban,
               R.id.layout_my_track})
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.layout_dynamic://动态
-                imgDynamic.setImageResource(R.mipmap.tongdai_bai);
+            case R.id.layout_dynamic://发现
+                imgDynamic.setImageResource(R.mipmap.tabbar_faxian_select);
                 imgCar.setImageResource(R.mipmap.tab_car_press);
-                imgWay.setImageResource(R.mipmap.luxian);
+                imgWay.setImageResource(R.mipmap.tabbar_xiaoxi_nor);
                 tvDynamic.setTextColor(Color.parseColor("#ffffff"));
                 tvWay.setTextColor(Color.parseColor("#898989"));
                 dynamicFragment = (DynamicFragment) fragmentManager.findFragmentByTag("dynamicFragment");
@@ -236,25 +242,25 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
                     if (carFragment != null){
                         fragmentManager.beginTransaction().hide(carFragment).commit();
                     }
-                    wayFragment = (WayFragment) fragmentManager.findFragmentByTag("wayFragment");
-                    if (wayFragment != null){
-                        fragmentManager.beginTransaction().hide(wayFragment).commit();
+                    chatFragment = (ChatFragment) fragmentManager.findFragmentByTag("wayFragment");
+                    if (chatFragment != null){
+                        fragmentManager.beginTransaction().hide(chatFragment).commit();
                     }
                 }else{
 //                    Log.i("TAG", "------首页dynamicFragment已创建");
                     if (carFragment == null){
                         carFragment = CarFragment.getInstance();
                     }
-                    if (wayFragment == null){
-                        wayFragment = WayFragment.getInstance();
+                    if (chatFragment == null){
+                        chatFragment = ChatFragment.getInstance();
                     }
-                    fragmentManager.beginTransaction().show(dynamicFragment).hide(carFragment).hide(wayFragment).commit();
+                    fragmentManager.beginTransaction().show(dynamicFragment).hide(carFragment).hide(chatFragment).commit();
                 }
                 break;
             case R.id.layout_car://车辆
-                imgDynamic.setImageResource(R.mipmap.tongdai);
+                imgDynamic.setImageResource(R.mipmap.tabbar_faxian_nor);
                 imgCar.setImageResource(R.mipmap.tab_car_nor);
-                imgWay.setImageResource(R.mipmap.luxian);
+                imgWay.setImageResource(R.mipmap.tabbar_xiaoxi_nor);
                 tvDynamic.setTextColor(Color.parseColor("#898989"));
                 tvWay.setTextColor(Color.parseColor("#898989"));
                 carFragment = (CarFragment) fragmentManager.findFragmentByTag("carFragment");
@@ -266,32 +272,32 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
                     if (dynamicFragment != null){
                         fragmentManager.beginTransaction().hide(dynamicFragment).commit();
                     }
-                    wayFragment = (WayFragment) fragmentManager.findFragmentByTag("wayFragment");
-                    if (wayFragment != null){
-                        fragmentManager.beginTransaction().hide(wayFragment).commit();
+                    chatFragment = (ChatFragment) fragmentManager.findFragmentByTag("wayFragment");
+                    if (chatFragment != null){
+                        fragmentManager.beginTransaction().hide(chatFragment).commit();
                     }
                 }else{
 //                    Log.i("TAG", "------首页carFragment已创建");
                     if (dynamicFragment == null){
                         dynamicFragment = DynamicFragment.getInstance();
                     }
-                    if (wayFragment == null){
-                        wayFragment = WayFragment.getInstance();
+                    if (chatFragment == null){
+                        chatFragment = ChatFragment.getInstance();
                     }
-                    fragmentManager.beginTransaction().show(carFragment).hide(dynamicFragment).hide(wayFragment).commit();
+                    fragmentManager.beginTransaction().show(carFragment).hide(dynamicFragment).hide(chatFragment).commit();
                 }
                 break;
             case R.id.layout_way://路线
-                imgDynamic.setImageResource(R.mipmap.tongdai);
+                imgDynamic.setImageResource(R.mipmap.tabbar_faxian_nor);
                 imgCar.setImageResource(R.mipmap.tab_car_press);
-                imgWay.setImageResource(R.mipmap.luxian_bai);
+                imgWay.setImageResource(R.mipmap.tabbar_xiaoxi_select);
                 tvDynamic.setTextColor(Color.parseColor("#898989"));
                 tvWay.setTextColor(Color.parseColor("#ffffff"));
-                wayFragment = (WayFragment) fragmentManager.findFragmentByTag("wayFragment");
-                if (wayFragment == null){
+                chatFragment = (ChatFragment) fragmentManager.findFragmentByTag("wayFragment");
+                if (chatFragment == null){
 //                    Log.i("TAG", "------首页创建wayFragment");
-                    wayFragment = WayFragment.getInstance();
-                    fragmentManager.beginTransaction().add(R.id.layout_fragment, wayFragment, "wayFragment").commit();
+                    chatFragment = ChatFragment.getInstance();
+                    fragmentManager.beginTransaction().add(R.id.layout_fragment, chatFragment, "wayFragment").commit();
                     dynamicFragment = (DynamicFragment) fragmentManager.findFragmentByTag("dynamicFragment");
                     if (dynamicFragment != null){
                         fragmentManager.beginTransaction().hide(dynamicFragment).commit();
@@ -308,7 +314,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
                     if (carFragment == null){
                         carFragment = CarFragment.getInstance();
                     }
-                    fragmentManager.beginTransaction().show(wayFragment).hide(dynamicFragment).hide(carFragment).commit();
+                    fragmentManager.beginTransaction().show(chatFragment).hide(dynamicFragment).hide(carFragment).commit();
                 }
                 break;
             case R.id.layout_sign_in://签到
@@ -317,7 +323,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
                 }
                 break;
             case R.id.img_my_profile://我的资料
-                startActivityForResult(new Intent(MainActivity.this, MyProfileActivity.class), MYPROFILE_CODE);
+                startActivityForResult(new Intent(MainActivity.this, PersonalCenterActivity.class), PERSONAL_CENTER);
                 break;
             case R.id.layout_wodefabu://我的发布
                 startActivity(new Intent(MainActivity.this, MyDynamicActivity.class));
@@ -362,7 +368,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
                     dynamicFragment.refresh();
                 }
             }
-        } else if (requestCode == MYPROFILE_CODE && resultCode == RESULT_OK) {
+        } else if (requestCode == PERSONAL_CENTER && resultCode == RESULT_OK) {
             Log.i("TAG", "-------MainActivity修改用户资料返回");
             tvNickname.setText(PreferencesUtils.getLoginInfo().getObj().getNickname());
             tvSignature.setText(PreferencesUtils.getLoginInfo().getObj().getSignature());
@@ -397,6 +403,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
             }
 //            ToastUtils.showToast("刷新"+position);
             Log.i("TAG", "-------MainActivity刷新"+position);
+        }
+        else if (requestCode == CreateClubActivity.CREATE_CLUB && resultCode == RESULT_OK){
+            chatFragment.refreshClubList();
         }
     }
 
@@ -446,5 +455,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     @Override
     public TextView getSigninTV() {
         return tvSignin;
+    }
+
+    @Override
+    public ImageView getXiaoxiHintImg() {
+        return imgXiaoxiHint;
     }
 }

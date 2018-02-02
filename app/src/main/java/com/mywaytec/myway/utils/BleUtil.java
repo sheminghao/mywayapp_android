@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.mywaytec.myway.APP;
+import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.Constant;
 import com.mywaytec.myway.model.bean.BleInfoBean;
 import com.mywaytec.myway.model.bean.ObjStringBean;
@@ -226,6 +227,7 @@ public class BleUtil {
     public static boolean isChezhu(final RetrofitHelper retrofitHelper){
         BleInfoBean bleInfoBean = BleInfo.getBleInfo();
         String snCode = bleInfoBean.getSnCode();
+        Log.i("TAG", "-----isChezhu，车辆SN码" + snCode);
         if (!TextUtils.isEmpty(bleInfoBean.getIsChezhu())){
             //是车主
             if ("true".equals(bleInfoBean.getIsChezhu())){
@@ -254,6 +256,7 @@ public class BleUtil {
                             }
                         });
             }else {
+                ToastUtils.showToast(R.string.请检查网络是否连接);
                 return false;
             }
         }

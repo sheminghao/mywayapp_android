@@ -45,14 +45,16 @@
 
         </com.zhy.autolayout.AutoRelativeLayout>
 
-        <com.zhy.autolayout.AutoRelativeLayout
+        <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#f1f1f1" >
+            android:background="#f1f1f1"
+            android:orientation="vertical">
 
             <com.mywaytec.myway.view.MyScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
                 <com.zhy.autolayout.AutoLinearLayout
                     android:layout_width="match_parent"
@@ -107,7 +109,7 @@
                 android:textSize="32px"
                 android:background="@color/white"/>
 
-        </com.zhy.autolayout.AutoRelativeLayout>
+        </com.zhy.autolayout.AutoLinearLayout>
 
     </com.zhy.autolayout.AutoLinearLayout>
 

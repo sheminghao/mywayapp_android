@@ -30,6 +30,8 @@ import com.mywaytec.myway.model.bean.DynamicListBean;
 import com.mywaytec.myway.model.http.RetrofitHelper;
 import com.mywaytec.myway.ui.dynamicDetail.DynamicDetailActivity;
 import com.mywaytec.myway.ui.main.MainActivity;
+import com.mywaytec.myway.ui.personalCenter.PersonalCenterActivity;
+import com.mywaytec.myway.ui.userDynamic.UserDynamicActivity;
 import com.mywaytec.myway.utils.Base64_2;
 import com.mywaytec.myway.utils.ImageUtils;
 import com.mywaytec.myway.utils.PreferencesUtils;
@@ -148,6 +150,23 @@ public class DynamicAdapter extends ListBaseAdapter<DynamicListBean.ObjBean> imp
                     .centerCrop()
                     .into(imgHeadPortrait);
         }
+
+        imgHeadPortrait.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String uid = PreferencesUtils.getLoginInfo().getObj().getUid();
+                if (uid.equals(mDataList.get(position).getUid())){
+                    Intent intent = new Intent(mContext, PersonalCenterActivity.class);
+                    mContext.startActivity(intent);
+                }else {
+                    Intent intent = new Intent(mContext, UserDynamicActivity.class);
+                    intent.putExtra("uid", mDataList.get(position).getUid());
+                    intent.putExtra("nickName", mDataList.get(position).getUser().getNickname());
+                    intent.putExtra("headPortrait", mDataList.get(position).getUser().getImgeUrl());
+                    mContext.startActivity(intent);
+                }
+            }
+        });
 
         ImageView imgXiala = holder.getView(R.id.img_xiala);
         imgXiala.setOnClickListener(new View.OnClickListener() {

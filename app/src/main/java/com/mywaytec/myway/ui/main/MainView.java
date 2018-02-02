@@ -20,4 +20,6 @@ public interface MainView extends IBaseView {
 
     TextView getSigninTV();
 
+    ImageView getXiaoxiHintImg();
+
 }

@@ -15,6 +15,7 @@ import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.adapter.OtherDynamicAdapter;
 import com.mywaytec.myway.base.RxPresenter;
+import com.mywaytec.myway.model.BaseInfo;
 import com.mywaytec.myway.model.bean.DynamicListBean;
 import com.mywaytec.myway.model.bean.PraiseBean;
 import com.mywaytec.myway.model.bean.UserInfo;
@@ -28,6 +29,8 @@ import com.mywaytec.myway.view.CommonSubscriber;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import io.rong.imkit.RongIM;
 
 /**
  * Created by shemh on 2017/8/7.
@@ -200,6 +203,40 @@ public class UserDynamicPresenter extends RxPresenter<UserDynamicView> {
         List<DynamicListBean.ObjBean> objBeanList = dynamicAdapter.getDataList();
         objBeanList.set(position, dynamic);
         dynamicAdapter.notifyDataSetChanged();
+    }
+
+    //关注
+    public void attention(String idolsUid){
+        String uid = PreferencesUtils.getLoginInfo().getObj().getUid();
+        String token = PreferencesUtils.getLoginInfo().getObj().getToken();
+        retrofitHelper.attention(uid, token, idolsUid)
+                .compose(RxUtil.<BaseInfo>rxSchedulerHelper())
+                .subscribe(new CommonSubscriber<BaseInfo>() {
+                    @Override
+                    public void onNext(BaseInfo baseInfo) {
+                        if (baseInfo.getCode() == 1){
+                            mView.getGuanzhuTV().setText(R.string.unfollow);
+                            mView.getGuanzhuImg().setImageResource(R.mipmap.gerenzhongxin_taren_yiguanzhu);
+                        }
+                    }
+                });
+    }
+
+    //取消关注
+    public void cancelAttention(String idolsUid){
+        String uid = PreferencesUtils.getLoginInfo().getObj().getUid();
+        String token = PreferencesUtils.getLoginInfo().getObj().getToken();
+        retrofitHelper.cancelAttention(uid, token, idolsUid)
+                .compose(RxUtil.<BaseInfo>rxSchedulerHelper())
+                .subscribe(new CommonSubscriber<BaseInfo>() {
+                    @Override
+                    public void onNext(BaseInfo baseInfo) {
+                        if (baseInfo.getCode() == 1){
+                            mView.getGuanzhuTV().setText(R.string.follow);
+                            mView.getGuanzhuImg().setImageResource(R.mipmap.gerenzhongxin_taren_guanzhu);
+                        }
+                    }
+                });
     }
 
     //显示用户等级

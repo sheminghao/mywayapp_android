@@ -3,6 +3,7 @@ package com.mywaytec.myway.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ public class BindingCarAdapter extends ListBaseAdapter<AllBindingCarBean.ObjBean
 
     @Override
     public void onBindItemHolder(SuperViewHolder holder, final int position) {
+        Log.i("TAG", "------sncode, " + mDataList.get(position).getSnCode());
         TextView tvCarName = holder.getView(R.id.tv_car_name);
         tvCarName.setText(mDataList.get(position).getName());
 

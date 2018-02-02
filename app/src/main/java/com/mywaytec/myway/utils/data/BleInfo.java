@@ -18,9 +18,9 @@ import java.util.List;
 public class BleInfo {
 
     public static BleInfoBean getBleInfo(){
-        String info=(String) PreferencesUtils.getString(APP.getInstance(),"bleInfo","");
+        String info = PreferencesUtils.getString(APP.getInstance(),"bleInfo","");
         if (!TextUtils.isEmpty(info)) {
-            return (BleInfoBean) new Gson().fromJson(info, BleInfoBean.class);
+            return new Gson().fromJson(info, BleInfoBean.class);
         }
         return new BleInfoBean();
     }

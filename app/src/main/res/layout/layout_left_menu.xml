@@ -161,7 +161,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="43px"
+        android:layout_marginTop="13px"
         android:overScrollMode="never"
         android:scrollbars="none" >
 
@@ -175,7 +175,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:paddingTop="30px"
+                android:paddingBottom="24px">
 
                 <ImageView
                     android:layout_width="36px"
@@ -204,9 +206,10 @@
                 android:id="@+id/layout_paiming"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48px"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingTop="24px"
+                android:paddingBottom="24px">
 
                 <ImageView
                     android:layout_width="36px"
@@ -236,9 +239,10 @@
                 android:id="@+id/layout_binding_car"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48px"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingTop="24px"
+                android:paddingBottom="24px" >
 
                 <ImageView
                     android:layout_width="36px"
@@ -267,9 +271,10 @@
                 android:id="@+id/layout_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48px"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingTop="24px"
+                android:paddingBottom="24px" >
 
                 <ImageView
                     android:layout_width="36px"
@@ -302,9 +307,10 @@
                 android:id="@+id/layout_people_nearby"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48px"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingTop="24px"
+                android:paddingBottom="24px" >
 
                 <ImageView
                     android:layout_width="36px"
@@ -326,9 +332,10 @@
                 android:id="@+id/layout_huodongyueban"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48px"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingTop="24px"
+                android:paddingBottom="24px">
 
                 <ImageView
                     android:layout_width="36px"
@@ -350,9 +357,10 @@
                 android:id="@+id/layout_my_track"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48px"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingTop="24px"
+                android:paddingBottom="24px" >
 
                 <ImageView
                     android:layout_width="36px"
@@ -375,9 +383,10 @@
                 android:id="@+id/layout_setting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48px"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingTop="24px"
+                android:paddingBottom="24px" >
 
                 <ImageView
                     android:layout_width="36px"

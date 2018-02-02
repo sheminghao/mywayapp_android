@@ -6,8 +6,12 @@ import com.mywaytec.myway.model.bean.AllBindingCarBean;
 import com.mywaytec.myway.model.bean.AllPeopleBean;
 import com.mywaytec.myway.model.bean.BlacklistBean;
 import com.mywaytec.myway.model.bean.ChangeHeadImgBean;
+import com.mywaytec.myway.model.bean.ClubDetailBean;
+import com.mywaytec.myway.model.bean.ClubJoinListBean;
+import com.mywaytec.myway.model.bean.ClubMessageBean;
 import com.mywaytec.myway.model.bean.CommentListBean;
 import com.mywaytec.myway.model.bean.DayRankingBean;
+import com.mywaytec.myway.model.bean.DeleteClubUsersBean;
 import com.mywaytec.myway.model.bean.DianziweilanBean;
 import com.mywaytec.myway.model.bean.DynamicDetailBean;
 import com.mywaytec.myway.model.bean.DynamicListBean;
@@ -17,6 +21,8 @@ import com.mywaytec.myway.model.bean.GoldInfoBean;
 import com.mywaytec.myway.model.bean.LikeListBean;
 import com.mywaytec.myway.model.bean.LoginInfo;
 import com.mywaytec.myway.model.bean.MessageBean;
+import com.mywaytec.myway.model.bean.MyAttentionBean;
+import com.mywaytec.myway.model.bean.MyFansBean;
 import com.mywaytec.myway.model.bean.NearbyActivityBean;
 import com.mywaytec.myway.model.bean.NearbyBean;
 import com.mywaytec.myway.model.bean.ObjBooleanBean;
@@ -26,10 +32,13 @@ import com.mywaytec.myway.model.bean.OtherMsgBean;
 import com.mywaytec.myway.model.bean.PraiseBean;
 import com.mywaytec.myway.model.bean.PublicRoutePathsBean;
 import com.mywaytec.myway.model.bean.PublishBean;
+import com.mywaytec.myway.model.bean.RongClubListBean;
+import com.mywaytec.myway.model.bean.RongTokenBean;
 import com.mywaytec.myway.model.bean.RouteDetailBean;
 import com.mywaytec.myway.model.bean.RouteListBean;
 import com.mywaytec.myway.model.bean.RoutePathsListBean;
 import com.mywaytec.myway.model.bean.SearchCarBean;
+import com.mywaytec.myway.model.bean.SearchClubBean;
 import com.mywaytec.myway.model.bean.UploadRouteBean;
 import com.mywaytec.myway.model.bean.UsedCarBean;
 import com.mywaytec.myway.model.bean.UserInfo;
@@ -42,6 +51,7 @@ import com.mywaytec.myway.model.http.api.MywayApis;
 import java.util.Map;
 
 import okhttp3.RequestBody;
+import retrofit2.http.Field;
 import rx.Observable;
 
 /**
@@ -732,6 +742,162 @@ public class RetrofitHelper {
      */
     public Observable<BaseInfo> readAllMessage(String uid, String token){
         return mywayService.readAllMessage(uid, token);
+    }
+
+    /**
+     * 融云token
+     * @return
+     */
+    public Observable<RongTokenBean> clubRongToken(String uid){
+        return mywayService.clubRongToken(uid);
+    }
+
+    /**
+     * 创建俱乐部
+     * @return
+     */
+    public Observable<BaseInfo> createRongClub(Map<String, RequestBody> bodyMap){
+        return mywayService.createRongClub(bodyMap);
+    }
+
+    /**
+     * 更新俱乐部
+     * @return
+     */
+    public Observable<BaseInfo> updateRongClub(Map<String, RequestBody> bodyMap, int gid){
+        return mywayService.updateRongClub(bodyMap, gid);
+    }
+
+    /**
+     * 申请加入俱乐部
+     * @return
+     */
+    public Observable<BaseInfo> joinRongClub(String uid, String token, int gid){
+        return mywayService.joinRongClub(uid, token, gid);
+    }
+
+    /**
+     * 退出俱乐部
+     * @return
+     */
+    public Observable<BaseInfo> exitRongClub(String uid, String token, int gid){
+        return mywayService.exitRongClub(uid, token, gid);
+    }
+
+    /**
+     * 设置消息免打扰
+     * @return
+     */
+    public Observable<BaseInfo> disturbingClubMessage(String uid, String token, int gid, boolean no_disturbing){
+        return mywayService.disturbingClubMessage(uid, token, gid, no_disturbing);
+    }
+
+    /**
+     * 解散俱乐部
+     * @return
+     */
+    public Observable<BaseInfo> dissolveRongClub(String uid, String token, int gid){
+        return mywayService.dissolveRongClub(uid, token, gid);
+    }
+
+    /**
+     * 获取俱乐部详情
+     * @return
+     */
+    public Observable<ClubDetailBean> rongClubDetail(String uid, String token, int gid){
+        return mywayService.rongClubDetail(uid, token, gid);
+    }
+
+    /**
+     * 俱乐部列表
+     * @return
+     */
+    public Observable<RongClubListBean> rongClubList(String uid, String token){
+        return mywayService.rongClubList(uid, token);
+    }
+
+    /**
+     * 推荐和搜索俱乐部
+     * @return
+     */
+    public Observable<SearchClubBean> searchClubList(String uid, String token, String name){
+        return mywayService.searchClubList(uid, token, name);
+    }
+
+    /**
+     * 俱乐部通知列表
+     * @return
+     */
+    public Observable<ClubJoinListBean> clubJoinList(String uid, String token){
+        return mywayService.clubJoinList(uid, token);
+    }
+
+    /**
+     * 是否有俱乐部通知
+     * @return
+     */
+    public Observable<ClubMessageBean> clubJoinVerify(String uid, String token){
+        return mywayService.clubJoinVerify(uid, token);
+    }
+
+    /**
+     * 同意加入俱乐部的申请
+     * @return
+     */
+    public Observable<BaseInfo> agreeJoinClub(String uid, String token, String fromUid,
+                                                      int gid){
+        return mywayService.agreeJoinClub(uid, token, fromUid, gid);
+    }
+
+    /**
+     * 拒绝加入俱乐部的申请
+     * @return
+     */
+    public Observable<BaseInfo> denyJoinClub(String uid, String token, String fromUid,
+                                              int gid){
+        return mywayService.denyJoinClub(uid, token, fromUid, gid);
+    }
+
+    /**
+     * 删除俱乐部成员
+     * @return
+     */
+    public Observable<DeleteClubUsersBean> deleteClubUsers(String uid, String token,
+                                                           int gid, String deleted_uid){
+        return mywayService.deleteClubUsers(uid, token, gid, deleted_uid);
+    }
+
+    /**
+     * 关注
+     * @return
+     */
+    public Observable<BaseInfo> attention(String uid, String token,  String idols_uid){
+        return mywayService.attention(uid, token, idols_uid);
+    }
+
+    /**
+     * 取消关注
+     * @return
+     */
+    public Observable<BaseInfo> cancelAttention(String uid, String token,
+                                          String idols_uid){
+        return mywayService.cancelAttention(uid, token, idols_uid);
+    }
+
+    /**
+     * 我的关注
+     * @return
+     */
+    public Observable<MyAttentionBean> myAttention(String uid, String token){
+        return mywayService.myAttention(uid, token);
+    }
+
+    /**
+     * 我的粉丝
+     * @return
+     */
+    public Observable<MyAttentionBean> myFans(String uid, String token){
+        return mywayService.myFans(uid, token);
     }
 
 }

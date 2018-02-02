@@ -8,6 +8,7 @@ import com.mywaytec.myway.APP;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.IBaseView;
 import com.mywaytec.myway.model.http.exception.ApiException;
+import com.mywaytec.myway.utils.SystemUtil;
 import com.mywaytec.myway.utils.ToastUtils;
 
 import retrofit2.adapter.rxjava.HttpException;
@@ -73,6 +74,10 @@ public abstract class CommonSubscriber<T> extends Subscriber<T> {
         Log.i("TAG", "------"+e.getMessage());
         if (null != loadingDialog){
             loadingDialog.dismiss();
+        }
+        //TODO 中英文
+        if (!SystemUtil.isNetworkConnected()){
+            ToastUtils.showToast("请检查网络是否连接");
         }
         if (mView == null)
             return;

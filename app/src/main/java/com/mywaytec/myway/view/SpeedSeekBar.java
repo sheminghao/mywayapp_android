@@ -82,6 +82,11 @@ public class SpeedSeekBar extends LinearLayout {
         setOrientation(VERTICAL);
         setGravity(Gravity.CENTER);
         addView(view);
+        higeSpeed = 25;
+        lowSpeed = 15;
+        setHighSpeed(higeSpeed, lowSpeed);
+        setLowSpeed(higeSpeed, lowSpeed);
+
     }
 
     private OnProgressChange onProgressChange;
@@ -96,6 +101,9 @@ public class SpeedSeekBar extends LinearLayout {
 
     private int higeSpeed;
     public void setHighSpeed(int higeSpeed, int lowSpeed){
+        if (higeSpeed == 0){
+            higeSpeed = 25;
+        }
         this.higeSpeed = higeSpeed;
         seekBar.setMax(higeSpeed-lowSpeed);
         Log.i("TAG", "------设置最高速度，" + seekBar.getProgress()+" km/h");
@@ -103,6 +111,9 @@ public class SpeedSeekBar extends LinearLayout {
 
     private int lowSpeed;
     public void setLowSpeed(int higeSpeed, int lowSpeed){
+        if (lowSpeed == 0){
+            lowSpeed = 15;
+        }
         this.lowSpeed = lowSpeed;
         tvSpeed.setText(seekBar.getProgress()+lowSpeed+" km/h");
         seekBar.setMax(higeSpeed-lowSpeed);

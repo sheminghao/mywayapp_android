@@ -218,6 +218,7 @@ public class VehicleTrackPresenter extends RxPresenter<VehicleTrackView> {
         String end = getTime3(endDate);
         start = riqi+start;
         end = riqi+end;
+        Log.i("TAG", "------start, " +start + ", end, " +end);
 
         retrofitHelper.getVehicleTrackList(deviceId, start, end)
                 .compose(RxUtil.<VehicleTrackBean>rxSchedulerHelper())
@@ -225,6 +226,10 @@ public class VehicleTrackPresenter extends RxPresenter<VehicleTrackView> {
                     @Override
                     public void onNext(VehicleTrackBean vehicleTrackBean) {
                         if (vehicleTrackBean.getCode() == 1){
+                            for (int i = 0; i < vehicleTrackBean.getObj().size(); i++) {
+//                                Log.i("TAG", "------lng, " + vehicleTrackBean.getObj().get(i).getLoc().getCoordinates().get(0)
+//                                +"== lat, " + vehicleTrackBean.getObj().get(i).getLoc().getCoordinates().get(1));
+                            }
                             initData(vehicleTrackBean);
                         }
                     }
@@ -235,6 +240,7 @@ public class VehicleTrackPresenter extends RxPresenter<VehicleTrackView> {
     public void initData(VehicleTrackBean vehicleTrackBean) {
         huabanche.clear();
         mBaiduMap.clear();
+        //判断轨迹条数
         List<Integer> indexList = new ArrayList<>();
         for (int i = 0; i < vehicleTrackBean.getObj().size(); i++) {
             if (indexList.size() == 0 && i == 0){
@@ -250,11 +256,12 @@ public class VehicleTrackPresenter extends RxPresenter<VehicleTrackView> {
             }
         }
 
+        Log.i("TAG", "------indexList.size(), " + indexList.size());
         for (int i = 0; i < indexList.size(); i++) {
             latlngs = new ArrayList<>();
             for (int j = 0; j < vehicleTrackBean.getObj().size(); j++) {
                 if (indexList.get(i) == vehicleTrackBean.getObj().get(j).getIndex()) {
-                    VehicleTrackBean.ObjBean.LocBean locBean = vehicleTrackBean.getObj().get(i).getLoc();
+                    VehicleTrackBean.ObjBean.LocBean locBean = vehicleTrackBean.getObj().get(j).getLoc();
                     if (null != locBean) {
                         if (locBean.getCoordinates() != null && locBean.getCoordinates().size() > 1) {
                             double lat = locBean.getCoordinates().get(1);
@@ -275,6 +282,11 @@ public class VehicleTrackPresenter extends RxPresenter<VehicleTrackView> {
                     }
                 }
             }
+            Log.i("TAG", "------latlngs.size(), " + latlngs.size());
+            for (int j = 0; j < latlngs.size(); j++) {
+                Log.i("TAG", "------lng, " + latlngs.get(j).longitude
+                                +"== lat, " + latlngs.get(j).latitude );
+            }
             huabanche.add(latlngs);
         }
 
@@ -290,7 +302,9 @@ public class VehicleTrackPresenter extends RxPresenter<VehicleTrackView> {
         if (huabanche != null & huabanche.size() > 0){
             //绘制所有轨迹
             for (int i = 0; i < huabanche.size(); i++) {
-                drawPolyLine(huabanche.get(i));
+                if (huabanche.get(i).size() > 1) {
+                    drawPolyLine(huabanche.get(i));
+                }
             }
 
             //整体回放

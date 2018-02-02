@@ -24,6 +24,15 @@ import com.mywaytec.myway.ui.gradeAndGold.GradeAndGoldActivity;
 import com.mywaytec.myway.ui.huodongChengyuan.HuodongChengyuanActivity;
 import com.mywaytec.myway.ui.huodongXiangqing.HuodongXiangqingActivity;
 import com.mywaytec.myway.ui.huodongyueban.HuodongYuebanActivity;
+import com.mywaytec.myway.ui.im.JoinClub.JoinClubActivity;
+import com.mywaytec.myway.ui.im.clubMember.ClubMemberActivity;
+import com.mywaytec.myway.ui.im.clubMember.ClubMemberView;
+import com.mywaytec.myway.ui.im.clubVerify.ClubVerifyActivity;
+import com.mywaytec.myway.ui.im.conversation.ConversationActivity;
+import com.mywaytec.myway.ui.im.createClub.CreateClubActivity;
+import com.mywaytec.myway.ui.im.exitClub.ExitClubActivity;
+import com.mywaytec.myway.ui.im.modifyClub.ModifyClubActivity;
+import com.mywaytec.myway.ui.im.searchClub.SearchClubActivity;
 import com.mywaytec.myway.ui.location.LocationActivity;
 import com.mywaytec.myway.ui.login.LoginActivity;
 import com.mywaytec.myway.ui.lookoverAllCar.LookoverAllCarActivity;
@@ -35,6 +44,7 @@ import com.mywaytec.myway.ui.mydynamic.MyDynamicActivity;
 import com.mywaytec.myway.ui.myprofile.MyProfileActivity;
 import com.mywaytec.myway.ui.mytrack.MyTrackActivity;
 import com.mywaytec.myway.ui.peopleNearby.PeopleNearbyActivity;
+import com.mywaytec.myway.ui.personalCenter.PersonalCenterActivity;
 import com.mywaytec.myway.ui.publish.PublishActivity;
 import com.mywaytec.myway.ui.rankingList.RankingListActivity;
 import com.mywaytec.myway.ui.register.RegisterActivity;
@@ -148,4 +158,22 @@ public interface ActivityComponent {
     void inject(EditFenceActivity editFenceActivity);
 
     void inject(SelectCountryActivity selectCountryActivity);
+
+    void inject(ConversationActivity conversationActivity);
+
+    void inject(CreateClubActivity createClubActivity);
+
+    void inject(JoinClubActivity joinClubActivity);
+
+    void inject(SearchClubActivity searchClubActivity);
+
+    void inject(ExitClubActivity exitClubActivity);
+
+    void inject(ClubVerifyActivity clubVerifyActivity);
+
+    void inject(ClubMemberActivity clubMemberActivity);
+
+    void inject(PersonalCenterActivity personalCenterActivity);
+
+    void inject(ModifyClubActivity modifyClubActivity);
 }

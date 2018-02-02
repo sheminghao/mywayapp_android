@@ -30,6 +30,19 @@ public class BleKitUtils {
     }
 
     //平衡车写数据
+    public static void writeP(String MAC, byte[] bytes, final BleWriteResponse bleWriteResponse, long delayInMillis){
+        getBluetoothClient().write(MAC, UUID.fromString(Constant.BLE.WRITE_SERVICE_UUID),
+                UUID.fromString(Constant.BLE.WRITE_CHARACTERISTIC_UUID), bytes, new BleWriteResponse() {
+                    @Override
+                    public void onResponse(int code) {
+                        if (bleWriteResponse != null){
+                            bleWriteResponse.onResponse(code);
+                        }
+                    }
+                }, delayInMillis);
+    }
+
+    //平衡车写数据
     public static void writeP(String MAC, byte[] bytes, final BleWriteResponse bleWriteResponse){
         getBluetoothClient().write(MAC, UUID.fromString(Constant.BLE.WRITE_SERVICE_UUID),
                 UUID.fromString(Constant.BLE.WRITE_CHARACTERISTIC_UUID), bytes, new BleWriteResponse() {
@@ -39,7 +52,7 @@ public class BleKitUtils {
                             bleWriteResponse.onResponse(code);
                         }
                     }
-                });
+                }, 100);
     }
 
     //泰斗写数据
@@ -52,7 +65,7 @@ public class BleKitUtils {
                             bleWriteResponse.onResponse(code);
                         }
                     }
-        });
+        }, 0);
     }
 
     //平衡车写数据无反馈

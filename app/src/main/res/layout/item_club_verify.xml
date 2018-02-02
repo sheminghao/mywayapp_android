@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="189px"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding = "20px" >
+
+    <com.mywaytec.myway.view.CircleImageView
+        android:id="@+id/img_head_portrait"
+        android:layout_width="103px"
+        android:layout_height="103px" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginLeft="20px"
+        android:layout_marginRight="20px" >
+
+        <TextView
+            android:id="@+id/tv_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:textSize="32px"
+            android:singleLine="true"/>
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#666666"
+            android:textSize="28px"
+            android:layout_marginTop="20px"
+            android:singleLine="true"/>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_apply_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#666666"
+            android:textSize="28px"
+            android:visibility="gone"/>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_apply_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/tv_agreement"
+                android:layout_width="120px"
+                android:layout_height="56px"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="30px"
+                android:text="@string/agree"
+                android:background="@mipmap/yanzhenxiaoxi_tongyi"/>
+
+            <TextView
+                android:id="@+id/tv_jujue"
+                android:layout_width="120px"
+                android:layout_height="56px"
+                android:layout_marginTop="35px"
+                android:gravity="center"
+                android:textColor="#333333"
+                android:textSize="30px"
+                android:text="@string/reject"
+                android:background="@mipmap/yanzhengxiaoxi_jujue"/>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#F2F2F2"/>
+
+</com.zhy.autolayout.AutoLinearLayout>

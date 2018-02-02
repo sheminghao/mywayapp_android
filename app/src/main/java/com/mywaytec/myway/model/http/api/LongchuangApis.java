@@ -3,21 +3,15 @@ package com.mywaytec.myway.model.http.api;
 import com.mywaytec.myway.model.BaseInfo;
 import com.mywaytec.myway.model.bean.DianziweilanBean;
 import com.mywaytec.myway.model.bean.FenceWarningBean;
-import com.mywaytec.myway.model.bean.ObjStringBean;
-import com.mywaytec.myway.model.bean.RoutePathsListBean;
 import com.mywaytec.myway.model.bean.VehicleLastLocationBean;
 import com.mywaytec.myway.model.bean.VehicleTrackBean;
 
 import java.util.Map;
 
-import okhttp3.RequestBody;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
-import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -28,9 +22,9 @@ import rx.Observable;
 public interface LongchuangApis {
 
     //龙创服务器
-    String HOST_IP = "http://116.62.193.58";
-//    String HOST_IP = "http://192.168.1.165";
-    String HOST = HOST_IP+":8081";
+    String HOST_IP = "http://120.78.182.49";
+//    String HOST_IP = "http://192.168.1.162";
+    String HOST = HOST_IP+":8080";
     String projectName = "/myway_iot";
 
     /**

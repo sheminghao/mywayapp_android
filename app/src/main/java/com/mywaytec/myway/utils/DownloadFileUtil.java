@@ -112,9 +112,9 @@ public class DownloadFileUtil {
             public void onError(Throwable ex, boolean isOnCallback) {
                 Log.e("TAG", "----下载失败"+ex.getMessage(), ex);
                 if (!SystemUtil.isNetworkConnected()) {
-                    ToastUtils.showToast("请检查您的网络是否连接");
+                    ToastUtils.showToast(R.string.请检查您的网络是否连接);
                 }else {
-                    Toast.makeText(x.app(), "下载失败", Toast.LENGTH_LONG).show();
+                    Toast.makeText(x.app(), "下载失败，请检查您的网络", Toast.LENGTH_LONG).show();
                 }
 
             }

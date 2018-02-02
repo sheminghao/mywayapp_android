@@ -54,6 +54,7 @@ import static com.inuker.bluetooth.library.Constants.REQUEST_CANCELED;
 import static com.inuker.bluetooth.library.Constants.REQUEST_FAILED;
 import static com.inuker.bluetooth.library.Constants.REQUEST_SUCCESS;
 import static com.inuker.bluetooth.library.Constants.STATUS_CONNECTED;
+import static com.inuker.bluetooth.library.Constants.STATUS_DEVICE_CONNECTED;
 import static com.inuker.bluetooth.library.Constants.STATUS_DEVICE_DISCONNECTED;
 import static com.inuker.bluetooth.library.Constants.STATUS_DISCONNECTED;
 
@@ -899,7 +900,7 @@ public class ScFirmwareUpdateActivity extends BaseActivity<ScFirmwareUpdatePrese
             @Override
             public void onResponse(int code) {
             }
-        });
+        }, 0);
     }
 
     private int flag;
@@ -914,7 +915,6 @@ public class ScFirmwareUpdateActivity extends BaseActivity<ScFirmwareUpdatePrese
         if (isReset) {
             flag = 0;
         }
-//        SystemClock.sleep(30);
 
         int count = data.length / 20 + 1;
         byte[] b = new byte[20];
@@ -935,22 +935,31 @@ public class ScFirmwareUpdateActivity extends BaseActivity<ScFirmwareUpdatePrese
         BleKitUtils.writeNoRspP(mDeviceAddress, b, new BleWriteResponse() {
             @Override
             public void onResponse(int code) {
-                if (code == REQUEST_SUCCESS) {
-//                            Log.i("TAG", "------flag," + flag);
-                    if (20 * (flag + 1) >= data.length) {
-                        return;
-                    }
-                    flag++;
-                    sendDatePackage(data, false, ceshi);
-                } else if (code == REQUEST_FAILED) {
-                    if (20 * (flag + 1) >= data.length) {
-                        return;
-                    }
-                    sendDatePackage(data, false, ceshi);
-                } else if (code == REQUEST_CANCELED) {
-
-                }
+//                if (code == REQUEST_SUCCESS) {
+////                            Log.i("TAG", "------flag," + flag);
+//                    if (20 * (flag + 1) >= data.length) {
+//                        return;
+//                    }
+//                    flag++;
+//                    sendDatePackage(data, false, ceshi);
+//                } else if (code == REQUEST_FAILED) {
+//                    if (20 * (flag + 1) >= data.length) {
+//                        return;
+//                    }
+//                    if (BleKitUtils.getBluetoothClient().getConnectStatus(mDeviceAddress) == STATUS_DEVICE_CONNECTED) {
+//                        sendDatePackage(data, false, ceshi);
+//                    }
+//                } else if (code == REQUEST_CANCELED) {
+//
+//                }
             }
         });
+
+        if (20 * (flag + 1) >= data.length) {
+                    return;
+        }
+        flag++;
+//        SystemClock.sleep(10);
+        sendDatePackage(data, false, ceshi);
     }
 }

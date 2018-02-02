@@ -1,6 +1,7 @@
 package com.mywaytec.myway.fragment.car;
 
 import android.content.Context;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mywaytec.myway.base.IBaseView;
@@ -20,4 +21,6 @@ public interface CarView extends IBaseView {
     void setOther(boolean isOther);
 
     String getDeviceAddress();
+
+    ImageView getRightImg();
 }

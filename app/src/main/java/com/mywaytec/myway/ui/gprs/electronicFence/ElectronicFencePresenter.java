@@ -29,7 +29,6 @@ import com.baidu.mapapi.map.PolygonOptions;
 import com.baidu.mapapi.map.Stroke;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
-import com.baidu.mapapi.utils.DistanceUtil;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.adapter.DianziweilanAdapter;
 import com.mywaytec.myway.base.Constant;
@@ -126,23 +125,39 @@ public class ElectronicFencePresenter extends RxPresenter<ElectronicFenceView> {
             public void onSelect(int position) {
                 List<DianziweilanBean.ObjBean.LocsBean> locs = dianziweilanAdapter.getDataList().get(position).getLocs();
                 mBaiduMap.clear();
-                if (null != locs && locs.size() >= 3) {
-                    //定义多边形顶点
-                    List<LatLng> pts = new ArrayList<>();
-                    for (int i = 0; i < locs.size(); i++) {
-                        LatLng latLng = new LatLng(locs.get(i).getLatitude(), locs.get(i).getLongitude());
-                        pts.add(latLng);
+                if (dianziweilanAdapter.getDataList().get(position).getRadius() > 0){//圆形
+                    if (null != locs && locs.size() >= 0) {
+                        int radius = dianziweilanAdapter.getDataList().get(position).getRadius();
+                        LatLng latLng = new LatLng(locs.get(0).getLatitude(), locs.get(0).getLongitude());
+                        CircleOptions circleOptions = new CircleOptions()
+                                .center(latLng)
+                                .stroke(new Stroke(5, 0xAA00FF00))
+                                .fillColor(0xAAFFFF00)
+                                .radius(radius);
+                        //在地图上添加多边形Option，用于显示
+                        mBaiduMap.addOverlay(circleOptions);
+
+                        showOverlayinMapCenter(locs);
                     }
-                    //构建用户绘制多边形的Option对象
-                    OverlayOptions polygonOption = new PolygonOptions()
-                            .points(pts)
-                            .stroke(new Stroke(5, 0xAA00FF00))
-                            .fillColor(0xAAFFFF00);
+                }else {
+                    if (null != locs && locs.size() >= 3) {//多边形
+                        //定义多边形顶点
+                        List<LatLng> pts = new ArrayList<>();
+                        for (int i = 0; i < locs.size(); i++) {
+                            LatLng latLng = new LatLng(locs.get(i).getLatitude(), locs.get(i).getLongitude());
+                            pts.add(latLng);
+                        }
+                        //构建用户绘制多边形的Option对象
+                        OverlayOptions polygonOption = new PolygonOptions()
+                                .points(pts)
+                                .stroke(new Stroke(5, 0xAA00FF00))
+                                .fillColor(0xAAFFFF00);
 
-                    //在地图上添加多边形Option，用于显示
-                    mBaiduMap.addOverlay(polygonOption);
+                        //在地图上添加多边形Option，用于显示
+                        mBaiduMap.addOverlay(polygonOption);
 
-                    showOverlayinMapCenter(locs);
+                        showOverlayinMapCenter(locs);
+                    }
                 }
             }
         });
@@ -154,23 +169,39 @@ public class ElectronicFencePresenter extends RxPresenter<ElectronicFenceView> {
             if (dianziweilanBean.getObj().get(i).isStatus()){
                 List<DianziweilanBean.ObjBean.LocsBean> locs = dianziweilanAdapter.getDataList().get(i).getLocs();
                 mBaiduMap.clear();
-                if (null != locs && locs.size() >= 3) {
-                    //定义多边形顶点
-                    List<LatLng> pts = new ArrayList<>();
-                    for (int j = 0; j < locs.size(); j++) {
-                        LatLng latLng = new LatLng(locs.get(j).getLatitude(), locs.get(j).getLongitude());
-                        pts.add(latLng);
+                if (dianziweilanBean.getObj().get(i).getRadius() > 0){//圆形
+                    if (null != locs && locs.size() >= 0) {
+                        int radius = dianziweilanBean.getObj().get(i).getRadius();
+                        LatLng latLng = new LatLng(locs.get(0).getLatitude(), locs.get(0).getLongitude());
+                        CircleOptions circleOptions = new CircleOptions()
+                                .center(latLng)
+                                .stroke(new Stroke(5, 0xAA00FF00))
+                                .fillColor(0xAAFFFF00)
+                                .radius(radius);
+                        //在地图上添加多边形Option，用于显示
+                        mBaiduMap.addOverlay(circleOptions);
+
+                        showOverlayinMapCenter(locs);
                     }
-                    //构建用户绘制多边形的Option对象
-                    OverlayOptions polygonOption = new PolygonOptions()
-                            .points(pts)
-                            .stroke(new Stroke(5, 0xAA00FF00))
-                            .fillColor(0xAAFFFF00);
+                }else {
+                    if (null != locs && locs.size() >= 3) {
+                        //定义多边形顶点
+                        List<LatLng> pts = new ArrayList<>();
+                        for (int j = 0; j < locs.size(); j++) {
+                            LatLng latLng = new LatLng(locs.get(j).getLatitude(), locs.get(j).getLongitude());
+                            pts.add(latLng);
+                        }
+                        //构建用户绘制多边形的Option对象
+                        OverlayOptions polygonOption = new PolygonOptions()
+                                .points(pts)
+                                .stroke(new Stroke(5, 0xAA00FF00))
+                                .fillColor(0xAAFFFF00);
 
-                    //在地图上添加多边形Option，用于显示
-                    mBaiduMap.addOverlay(polygonOption);
+                        //在地图上添加多边形Option，用于显示
+                        mBaiduMap.addOverlay(polygonOption);
 
-                    showOverlayinMapCenter(locs);
+                        showOverlayinMapCenter(locs);
+                    }
                 }
                 return;
             }

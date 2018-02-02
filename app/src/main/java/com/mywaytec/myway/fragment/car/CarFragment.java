@@ -8,11 +8,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.inuker.bluetooth.library.connect.listener.BleConnectStatusListener;
@@ -54,6 +57,7 @@ import static com.inuker.bluetooth.library.Constants.REQUEST_FAILED;
 import static com.inuker.bluetooth.library.Constants.REQUEST_SUCCESS;
 import static com.inuker.bluetooth.library.Constants.STATUS_CONNECTED;
 import static com.inuker.bluetooth.library.Constants.STATUS_DEVICE_CONNECTED;
+import static com.inuker.bluetooth.library.Constants.STATUS_DEVICE_DISCONNECTED;
 import static com.inuker.bluetooth.library.Constants.STATUS_DISCONNECTED;
 
 /**
@@ -79,9 +83,11 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
     @BindView(R.id.tv_dianliang)
     TextView tvDianliang;
     @BindView(R.id.connection)
-    TextView tvConnection;
+    ImageButton tvConnection;
     @BindView(R.id.btn_lock_car)
     Button btnLockCar;
+    @BindView(R.id.img_right)
+    ImageView imgRight;
 
     /**
      * 是否锁车
@@ -186,6 +192,7 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
         mDeviceAddress = BleUtil.getBleAddress();
 
         tvTitle.setText(mDeviceName);
+        imgRight.setClickable(false);
     }
 
     //设置字体
@@ -213,7 +220,7 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
 //            }
             mPresenter.displayData(data);
             String info = ConversionUtil.byte2HexStr(data);
-//            Log.i("TAG", "-----info" + info);
+            Log.i("TAG", "-----info" + info);
             String[] infos = info.split(" ");
 //            Log.i("TAG", "-----infos"+infos.length);
             if (infos.length > 5) {
@@ -264,60 +271,62 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
                     Log.i("TAG", "-----车辆SN码" + info);
                     if (infos.length == 20) {
                         snCode1 = new StringBuilder();
-                        String code1 = infos[19].substring(1);
+                        String code1 = infos[19];
                         snCode1.append(code1);
-                        String code2 = infos[18].substring(1);
+                        String code2 = infos[18];
                         snCode1.append(code2);
-                        String code3 = infos[17].substring(1);
+                        String code3 = infos[17];
                         snCode1.append(code3);
-                        String code4 = infos[16].substring(1);
+                        String code4 = infos[16];
                         snCode1.append(code4);
-                        String code5 = infos[15].substring(1);
+                        String code5 = infos[15];
                         snCode1.append(code5);
-                        String code6 = infos[14].substring(1);
+                        String code6 = infos[14];
                         snCode1.append(code6);
-                        String code7 = infos[13].substring(1);
+                        String code7 = infos[13];
                         snCode1.append(code7);
-                        String code8 = infos[12].substring(1);
+                        String code8 = infos[12];
                         snCode1.append(code8);
-                        String code9 = infos[11].substring(1);
+                        String code9 = infos[11];
                         snCode1.append(code9);
-                        String code10 = infos[10].substring(1);
+                        String code10 = infos[10];
                         snCode1.append(code10);
-                        String code11 = infos[9].substring(1);
+                        String code11 = infos[9];
                         snCode1.append(code11);
-                        String code12 = infos[8].substring(1);
+                        String code12 = infos[8];
                         snCode1.append(code12);
-                        String code13 = infos[7].substring(1);
+                        String code13 = infos[7];
                         snCode1.append(code13);
-                        String code14 = infos[6].substring(1);
+                        String code14 = infos[6];
                         snCode1.append(code14);
                     }else {
-                        snCode2 = new StringBuilder();
-                        String code1 = infos[9].substring(1);
-                        snCode2.append(code1);
-                        String code2 = infos[8].substring(1);
-                        snCode2.append(code2);
-                        String code3 = infos[7].substring(1);
-                        snCode2.append(code3);
-                        String code4 = infos[6].substring(1);
-                        snCode2.append(code4);
-                        String code5 = infos[5].substring(1);
-                        snCode2.append(code5);
-                        String code6 = infos[4].substring(1);
-                        snCode2.append(code6);
-                        String code7 = infos[3].substring(1);
-                        snCode2.append(code7);
-                        String code8 = infos[2].substring(1);
-                        snCode2.append(code8);
-                        String code9 = infos[1].substring(1);
-                        snCode2.append(code9);
-                        String code10 = infos[0].substring(1);
-                        snCode2.append(code10);
+                        if (info.length() > 9) {
+                            snCode2 = new StringBuilder();
+                            String code1 = infos[9];
+                            snCode2.append(code1);
+                            String code2 = infos[8];
+                            snCode2.append(code2);
+                            String code3 = infos[7];
+                            snCode2.append(code3);
+                            String code4 = infos[6];
+                            snCode2.append(code4);
+                            String code5 = infos[5];
+                            snCode2.append(code5);
+                            String code6 = infos[4];
+                            snCode2.append(code6);
+                            String code7 = infos[3];
+                            snCode2.append(code7);
+                            String code8 = infos[2];
+                            snCode2.append(code8);
+                            String code9 = infos[1];
+                            snCode2.append(code9);
+                            String code10 = infos[0];
+                            snCode2.append(code10);
+                        }
                     }
 
                     if (!TextUtils.isEmpty(snCode1) && !TextUtils.isEmpty(snCode2)) {
-                        String snCodeStr = snCode1.toString() + snCode2.toString();
+                        String snCodeStr = ConversionUtil.hexStringToString(snCode2.toString() + snCode1.toString());
                         if (snCodeStr.length() == 24) {
                             BleInfoBean bleInfoBean = BleInfo.getBleInfo();
                             bleInfoBean.setSnCode(snCodeStr);
@@ -356,12 +365,14 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
 //                            intent.putExtra("firmwareUpdataInfo", firmwareUpdataInfo);
                             intent.putExtra("mDeviceAddress", mDeviceAddress);
                             startActivity(intent);
+                            mPresenter.stopSendSpeedRequest();
                         } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
                             Intent intent = new Intent(getActivity(), FirmwareUpdateActivity.class);
 //                            intent.putExtra("firmwareCode", firmwareCode);
 //                            intent.putExtra("firmwareUpdataInfo", firmwareUpdataInfo);
                             intent.putExtra("mDeviceAddress", mDeviceAddress);
                             startActivity(intent);
+                            mPresenter.stopSendSpeedRequest();
                         }
                     } else if ("00".equals(infos[6])) {//应用程序中
                         bleInfoBean.setProgramLocation("00");
@@ -391,16 +402,20 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
                 startActivityForResult(intent1, 0x01);
             }
         } else if (requestCode == 0x02) {//打开蓝牙返回连接设备
-            tvConnection.setText(R.string.connecting);
+            tvConnection.setImageResource(R.drawable.bluetooth_connect);
+            //获取 AnimationDrawable
+            AnimationDrawable animationDrawable = (AnimationDrawable) tvConnection.getDrawable();
+            //开始动画
+            animationDrawable.start();
             BleKitUtils.getBluetoothClient().connect(mDeviceAddress, new BleConnectResponse() {
                 @Override
                 public void onResponse(int code, BleGattProfile data) {
                     if (code == REQUEST_SUCCESS) {
                         displayGattServices(data.getServices());
                     } else if (code == REQUEST_FAILED) {
-                        tvConnection.setText(R.string.connected);
+                        tvConnection.setImageResource(R.mipmap.bt_linking03);
                     } else if (code == REQUEST_CANCELED) {
-                        tvConnection.setText(R.string.connected);
+                        tvConnection.setImageResource(R.mipmap.bt_linking03);
                     }
                 }
             });
@@ -420,16 +435,20 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
             tvTitle.setText(mDeviceName);
             Log.i("TAG", "----address:" + mDeviceAddress + "\n"
                     + "name:" + mDeviceName);
-            tvConnection.setText(R.string.connecting);
+            tvConnection.setImageResource(R.drawable.bluetooth_connect);
+            //获取 AnimationDrawable
+            AnimationDrawable animationDrawable = (AnimationDrawable) tvConnection.getDrawable();
+            //开始动画
+            animationDrawable.start();
             BleKitUtils.getBluetoothClient().connect(mDeviceAddress, new BleConnectResponse() {
                 @Override
                 public void onResponse(int code, BleGattProfile data) {
                     if (code == REQUEST_SUCCESS) {
                         displayGattServices(data.getServices());
                     } else if (code == REQUEST_FAILED) {
-                        tvConnection.setText(R.string.connected);
+                        tvConnection.setImageResource(R.mipmap.bt_linking03);
                     } else if (code == REQUEST_CANCELED) {
-                        tvConnection.setText(R.string.connected);
+                        tvConnection.setImageResource(R.mipmap.bt_linking03);
                     }
                 }
             });
@@ -461,15 +480,17 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
         BleKitUtils.getBluetoothClient().registerConnectStatusListener(mDeviceAddress, mBleConnectStatusListener);
 
         if (BleKitUtils.getBluetoothClient().getConnectStatus(mDeviceAddress) == STATUS_DEVICE_CONNECTED) {
-            tvConnection.setText(R.string.disconnect);
+            tvConnection.setImageResource(R.mipmap.bt_unlink);
             mPresenter.sendSpeedRequest();
-        } else {
-            tvConnection.setText(R.string.connected);
+        } else if(BleKitUtils.getBluetoothClient().getConnectStatus(mDeviceAddress) == STATUS_DEVICE_DISCONNECTED){
+            tvConnection.setImageResource(R.mipmap.bt_linking03);
+            imgRight.setClickable(false);
 //            tvSpeed.setText("0.0");
 //            tvLicheng.setText("0.0");
 //            tvDianliang.setText("0");
 //            tvZonglicheng.setText("0.0");
             mPresenter.stopSendSpeedRequest();
+            mPresenter.setSendSpeed(true);
             BleInfoBean bleInfoBean = BleInfo.getBleInfo();
             bleInfoBean.setProgramLocation("");
             BleInfo.saveBleInfo(bleInfoBean);
@@ -504,7 +525,9 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
     @Override
     public void onPause() {
         super.onPause();
+        Log.i("TAG", "------CarFragment, onPause()");
         mPresenter.stopSendSpeedRequest();
+        mPresenter.setSendSpeed(false);
         getActivity().unregisterReceiver(mMqttUpdateReceiver);
         BleKitUtils.getBluetoothClient().unregisterConnectStatusListener(mDeviceAddress, mBleConnectStatusListener);
         if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
@@ -526,15 +549,17 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
 
         @Override
         public void onConnectStatusChanged(String mac, int status) {
-            if (status == STATUS_CONNECTED) {
-                tvConnection.setText(R.string.disconnect);
-            } else if (status == STATUS_DISCONNECTED) {
-                tvConnection.setText(R.string.connected);
+            if (status == STATUS_CONNECTED) {//蓝牙已连接
+                tvConnection.setImageResource(R.mipmap.bt_unlink);
+            } else if (status == STATUS_DISCONNECTED) {//蓝牙断开连接
+                tvConnection.setImageResource(R.mipmap.bt_linking03);
+                imgRight.setClickable(false);
 //                tvSpeed.setText("0.0");
 //                tvLicheng.setText("0.0");
 //                tvDianliang.setText("0");
 //                tvZonglicheng.setText("0.0");
                 mPresenter.stopSendSpeedRequest();
+                BleInfo.clearBleInfo();
 //                BleKitUtils.getBluetoothClient().
             }
         }
@@ -551,13 +576,17 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
         return intentFilter;
     }
 
-    @OnClick({R.id.connection, R.id.img_search, R.id.tv_right, R.id.btn_lock_car, R.id.btn_close_car})
+    @OnClick({R.id.connection, R.id.img_search, R.id.img_right, R.id.btn_lock_car, R.id.btn_close_car})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.connection:// 连接|断开设备
-                if (getResources().getString(R.string.connected).equals(tvConnection.getText().toString())) {
+                if (BleKitUtils.getBluetoothClient().getConnectStatus(mDeviceAddress) == STATUS_DEVICE_DISCONNECTED) {
                     if (BleKitUtils.getBluetoothClient().isBluetoothOpened()) {
-                        tvConnection.setText(R.string.connecting);
+                        tvConnection.setImageResource(R.drawable.bluetooth_connect);
+                        //获取 AnimationDrawable
+                        AnimationDrawable animationDrawable = (AnimationDrawable) tvConnection.getDrawable();
+                        //开始动画
+                        animationDrawable.start();
                         BleKitUtils.getBluetoothClient().connect(mDeviceAddress, new BleConnectResponse() {
                             @Override
                             public void onResponse(int code, BleGattProfile data) {
@@ -572,9 +601,9 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
                                     }
                                     displayGattServices(data.getServices());
                                 } else if (code == REQUEST_FAILED) {
-                                    tvConnection.setText(R.string.connected);
+                                    tvConnection.setImageResource(R.mipmap.bt_linking03);
                                 } else if (code == REQUEST_CANCELED) {
-                                    tvConnection.setText(R.string.connected);
+                                    tvConnection.setImageResource(R.mipmap.bt_linking03);
                                 }
                             }
                         });
@@ -582,7 +611,7 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
                         Intent intent2 = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                         startActivityForResult(intent2, 0x02);
                     }
-                } else if (getResources().getString(R.string.disconnect).equals(tvConnection.getText().toString())) {
+                } else if (BleKitUtils.getBluetoothClient().getConnectStatus(mDeviceAddress) == STATUS_DEVICE_CONNECTED) {
                     BleKitUtils.getBluetoothClient().disconnect(mDeviceAddress);
                 }
                 break;
@@ -599,7 +628,7 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
                     ToastUtils.showToast(R.string.该设备不支持蓝牙功能);
                 }
                 break;
-            case R.id.tv_right://更多设置
+            case R.id.img_right://更多设置
                 mPresenter.stopSendSpeedRequest();
                 if (BleKitUtils.getBluetoothClient().getConnectStatus(mDeviceAddress) == STATUS_DEVICE_CONNECTED) {
                     Intent intent = new Intent(getActivity(), MoreCarInfoActivity.class);
@@ -694,5 +723,10 @@ public class CarFragment extends BaseFragment<CarPresenter> implements CarView, 
     @Override
     public String getDeviceAddress() {
         return mDeviceAddress;
+    }
+
+    @Override
+    public ImageView getRightImg() {
+        return imgRight;
     }
 }

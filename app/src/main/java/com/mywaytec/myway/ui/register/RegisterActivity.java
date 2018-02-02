@@ -116,12 +116,12 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
                     });
                 }else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE){
                     //当前手机号发送短信的数量超过限额
-                    tvGetAuthCode.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            ToastUtils.showToast(R.string.more_than_limit_the_number_of_the_current_mobile_phone_number_send_text_messages);
-                        }
-                    });
+//                    tvGetAuthCode.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            ToastUtils.showToast(R.string.more_than_limit_the_number_of_the_current_mobile_phone_number_send_text_messages);
+//                        }
+//                    });
                 }
             }
         }

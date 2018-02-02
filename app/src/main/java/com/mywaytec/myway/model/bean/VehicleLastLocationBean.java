@@ -39,7 +39,7 @@ public class VehicleLastLocationBean extends BaseInfo {
         private String id;
         private String deviceId;
         private String deviceType;
-        private int frameTime;
+        private long frameTime;
         private int index;
         private LocBean loc;
 
@@ -67,11 +67,11 @@ public class VehicleLastLocationBean extends BaseInfo {
             this.deviceType = deviceType;
         }
 
-        public int getFrameTime() {
+        public long getFrameTime() {
             return frameTime;
         }
 
-        public void setFrameTime(int frameTime) {
+        public void setFrameTime(long frameTime) {
             this.frameTime = frameTime;
         }
 

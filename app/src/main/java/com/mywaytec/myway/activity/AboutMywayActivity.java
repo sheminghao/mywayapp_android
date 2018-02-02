@@ -1,9 +1,12 @@
 package com.mywaytec.myway.activity;
 
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.BaseActivity;
+import com.mywaytec.myway.utils.AppUtils;
 
 import butterknife.BindView;
 
@@ -13,6 +16,8 @@ public class AboutMywayActivity extends BaseActivity {
     TextView tvTitle;
     @BindView(R.id.tv_about)
     TextView tvAbout;
+    @BindView(R.id.activity_about_myway)
+    LinearLayout activityAboutMyway;
 
     @Override
     protected int attachLayoutRes() {
@@ -26,6 +31,9 @@ public class AboutMywayActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
+        // 透明状态栏
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        activityAboutMyway.setPadding(0, AppUtils.getStatusBar(), 0, 0);
         tvTitle.setText(R.string.about_mw);
         tvAbout.setText("深圳曼威科技有限公司成立于2015年10月，为上海龙创汽车设计股份有限公司下属全资子公司。\n" +
                 "\n" +

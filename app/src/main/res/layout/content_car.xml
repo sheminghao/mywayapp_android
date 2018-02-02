@@ -35,7 +35,7 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/tv_right"
+            android:id="@+id/img_right"
             android:layout_width="wrap_content"
             android:layout_height="45px"
             android:layout_alignParentRight="true"
@@ -43,7 +43,7 @@
             android:layout_marginRight="20px"
             android:paddingLeft="40px"
             android:gravity="center"
-            android:src="@mipmap/icon_gengduo"/>
+            android:src="@mipmap/home_gengduoshezhi" />
 
     </com.zhy.autolayout.AutoRelativeLayout>
 
@@ -228,7 +228,7 @@
             android:layout_marginLeft="65px"
             android:layout_marginTop="16px" />
 
-        <Button
+        <ImageButton
             android:id="@+id/connection"
             android:layout_width="160px"
             android:layout_height="90px"
@@ -237,6 +237,7 @@
             android:gravity="center"
             android:textColor="@color/black"
             android:background="@drawable/btn_conn_press"
+            android:src="@mipmap/bt_linking03"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="0px" />
 

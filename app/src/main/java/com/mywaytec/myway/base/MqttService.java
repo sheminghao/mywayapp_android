@@ -71,7 +71,9 @@ public class MqttService extends Service{
             // 设置超时时间 单位为秒
             connOpts.setConnectionTimeout(10);
             //是否自动重新连接
-            connOpts.setAutomaticReconnect(true);
+            connOpts.setAutomaticReconnect(false);
+
+            connOpts.setKeepAliveInterval(30);
             // 设置会话心跳时间  单位为秒 服务器会每隔1.5*20秒的时间向客户端发送个消息判断客户端是否在线，但这个方法并没有重连的机制
 //            connOpts.setKeepAliveInterval(20);
             //不记忆上一次会话
@@ -98,7 +100,7 @@ public class MqttService extends Service{
                 @Override
                 public void connectionLost(Throwable arg0) {
                     // 失去连接
-                    Log.i("TAG","------connectionLost失去连接,"+arg0.getLocalizedMessage());
+                    Log.i("TAG","------connectionLost失去连接,"+arg0.toString());
                 }
             });
             //链接服务器
@@ -168,8 +170,10 @@ public class MqttService extends Service{
         super.onDestroy();
         if (sampleClient != null){
             try {
+                sampleClient.unsubscribe(topic);
                 sampleClient.disconnect();
                 sampleClient.close();
+                sampleClient = null;
             } catch (MqttException e) {
                 e.printStackTrace();
             }

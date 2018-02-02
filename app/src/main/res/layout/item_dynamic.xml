@@ -54,7 +54,8 @@
                 android:id="@+id/img_toutiao"
                 android:layout_width="126px"
                 android:layout_height="100px"
-                android:src="@mipmap/toutiao_ch"/>
+                android:src="@mipmap/toutiao_ch"
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/img_xiala"

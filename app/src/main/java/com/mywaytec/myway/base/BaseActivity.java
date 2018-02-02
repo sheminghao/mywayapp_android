@@ -319,24 +319,24 @@ public abstract class BaseActivity<T extends IBasePresenter> extends RxAppCompat
 
 
     //点击EditText文本框之外任何地方隐藏键盘
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            View v = getCurrentFocus();
-            if (isShouldHideInput(v, ev)) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (imm != null) {
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                }
-            }
-            return super.dispatchTouchEvent(ev);
-        }
-        // 必不可少，否则所有的组件都不会有TouchEvent了
-        if (getWindow().superDispatchTouchEvent(ev)) {
-            return true;
-        }
-        return onTouchEvent(ev);
-    }
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent ev) {
+//        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+//            View v = getCurrentFocus();
+//            if (isShouldHideInput(v, ev)) {
+//                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                if (imm != null) {
+//                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+//                }
+//            }
+//            return super.dispatchTouchEvent(ev);
+//        }
+//        // 必不可少，否则所有的组件都不会有TouchEvent了
+//        if (getWindow().superDispatchTouchEvent(ev)) {
+//            return true;
+//        }
+//        return onTouchEvent(ev);
+//    }
 
     public  boolean isShouldHideInput(View v, MotionEvent event) {
         if (v != null && (v instanceof EditText)) {

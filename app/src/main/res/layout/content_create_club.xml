@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_create_club"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.mywaytec.myway.ui.im.createClub.CreateClubActivity"
+    tools:showIn="@layout/activity_create_club"
+    android:orientation="vertical"
+    android:background="#F7F7F7" >
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="310px"
+        android:orientation="vertical"
+        android:background="@color/white">
+        
+        <com.mywaytec.myway.view.CircleImageView
+            android:id="@+id/img_club_head"
+            android:layout_width="162px"
+            android:layout_height="162px"
+            android:src="@mipmap/chuangjianjvlebu_paizhao"
+            android:scaleType="centerCrop"
+            android:layout_centerInParent="true"/>
+        
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="30px"
+        android:paddingRight="30px"
+        android:paddingTop="16px"
+        android:paddingBottom="16px"
+        android:layout_marginTop="20px"
+        android:background="@color/white">
+
+        <EditText
+            android:id="@+id/et_club_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/club_name"
+            android:textColorHint="#999999"
+            android:textColor="@color/black"
+            android:textSize="28px"
+            android:background="@color/transparency"/>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:id="@+id/layout_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="30px"
+        android:paddingRight="30px"
+        android:paddingTop="16px"
+        android:paddingBottom="16px"
+        android:layout_marginTop="20px"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/club_location"
+            android:textColor="@color/black"
+            android:textSize="28px" />
+
+        <TextView
+            android:id="@+id/tv_club_address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/click_on_the_select"
+            android:textColor="@color/black"
+            android:textSize="28px"
+            android:gravity="right" />
+        
+        <ImageView
+            android:layout_width="17px"
+            android:layout_height="28px"
+            android:src="@mipmap/icon_right"
+            android:layout_marginLeft="10px"/>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="173px"
+        android:orientation="vertical"
+        android:paddingLeft="30px"
+        android:paddingRight="30px"
+        android:paddingTop="20px"
+        android:paddingBottom="20px"
+        android:layout_marginTop="20px"
+        android:background="@color/white">
+
+        <EditText
+            android:id="@+id/et_jianjie"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:hint="@string/club_profile"
+            android:textColorHint="#999999"
+            android:textColor="@color/black"
+            android:textSize="28px"
+            android:background="@color/transparency"/>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+</com.zhy.autolayout.AutoLinearLayout>

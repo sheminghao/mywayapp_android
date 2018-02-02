@@ -14,7 +14,7 @@
         android:id="@+id/layout_dynamic_top"
         android:layout_width="match_parent"
         android:layout_height="88px"
-        android:background="@color/transparency" >
+        android:background="@color/colorPrimaryDark" >
 
         <com.mywaytec.myway.view.CircleImageView
             android:id="@+id/img_user"
@@ -56,7 +56,7 @@
             android:layout_width="45px"
             android:layout_height="45px"
             android:gravity="center"
-            android:layout_marginRight="10px"
+            android:layout_marginRight="30px"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:src="@mipmap/fabiao"/>

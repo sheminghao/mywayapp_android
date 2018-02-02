@@ -325,7 +325,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="定速巡航"
+                    android:text="@string/cruise_mode"
                     android:textColor="@color/white"
                     android:textSize="36px" />
 
@@ -353,7 +353,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="灯带模式"
+                android:text="@string/mood_light_mode"
                 android:textColor="@color/white"
                 android:textSize="36px" />
 
@@ -381,7 +381,8 @@
             android:orientation="horizontal"
             android:layout_marginTop="28px"
             android:paddingLeft="20px"
-            android:paddingRight="20px">
+            android:paddingRight="20px"
+            android:visibility="gone" >
 
             <TextView
                 android:layout_width="0dp"

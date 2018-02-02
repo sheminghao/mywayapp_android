@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 没有俱乐部时的提示页面 -->
+    <com.zhy.autolayout.AutoLinearLayout
+        android:id="@+id/layout_noclub_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="171px"
+            android:layout_height="171px"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/zanwujulebu" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10px"
+            android:text="@string/you_are_not_a_member_yet"
+            android:textColor="#999999"
+            android:textSize="26px" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10px"
+            android:text="@string/you_are_a_member_already"
+            android:textColor="#999999"
+            android:textSize="26px" />
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F1F1F1"
+            android:paddingBottom="17px"
+            android:paddingLeft="20px"
+            android:paddingRight="20px"
+            android:paddingTop="17px">
+
+            <com.zhy.autolayout.AutoRelativeLayout
+                android:id="@+id/layout_search_club"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="15px">
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="27px"
+                        android:layout_height="27px"
+                        android:src="@mipmap/cebianlan_cheliangrenzheng_sousuo" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10px"
+                        android:text="@string/search"
+                        android:textColor="@color/black"
+                        android:textSize="28px" />
+
+                </com.zhy.autolayout.AutoLinearLayout>
+
+            </com.zhy.autolayout.AutoRelativeLayout>
+
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <com.mywaytec.myway.view.MyScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="3px">
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_create"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#F1F1F1"
+                    android:padding="18px"
+                    android:text="@string/established"
+                    android:textColor="#666666"
+                    android:textSize="34px"
+                    android:visibility="gone" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView_create"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <TextView
+                    android:id="@+id/tv_join"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20px"
+                    android:background="#F1F1F1"
+                    android:padding="18px"
+                    android:text="@string/joined"
+                    android:textColor="#666666"
+                    android:textSize="34px"
+                    android:visibility="gone" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView_join"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                </android.support.v7.widget.RecyclerView>
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+        </com.mywaytec.myway.view.MyScrollView>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+</com.zhy.autolayout.AutoRelativeLayout>

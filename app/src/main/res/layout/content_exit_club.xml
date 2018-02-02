@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_join_club"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.mywaytec.myway.ui.im.JoinClub.JoinClubActivity"
+    tools:showIn="@layout/activity_join_club"
+    android:orientation="vertical">
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/layout_dynamic_top"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/colorPrimaryDark">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@mipmap/icon_finish"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20px"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:text=""
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/img_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10px"
+            android:gravity="center"
+            android:padding="5px"
+            android:src="@mipmap/lijituichujvlebu_bianji" />
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#F1F1F1">
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="30px"
+            android:gravity="center_vertical"
+            android:background="@color/white">
+
+            <com.mywaytec.myway.view.CircleImageView
+                android:id="@+id/img_club_head"
+                android:layout_width="120px"
+                android:layout_height="120px" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="30px">
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/tv_club_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:textColor="#666666"
+                        android:textSize="30px" />
+
+                    <TextView
+                        android:id="@+id/tv_club_official"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/official"
+                        android:textColor="@color/white"
+                        android:textSize="23px"
+                        android:background="@drawable/shape_corner_club"
+                        android:paddingLeft="7px"
+                        android:paddingRight="7px"
+                        android:paddingTop="4px"
+                        android:paddingBottom="4px"
+                        android:layout_marginLeft="15px"
+                        android:visibility="gone" />
+
+                </com.zhy.autolayout.AutoLinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_member"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#999999"
+                    android:textSize="28px"
+                    android:layout_marginTop="20px"/>
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="30px"
+            android:paddingRight="30px"
+            android:paddingTop="20px"
+            android:paddingBottom="20px"
+            android:layout_marginTop="20px"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="地区"
+                android:textColor="#666666"
+                android:textSize="30px"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:textColor="#666666"
+                android:textSize="30px"/>
+
+            <TextView
+                android:id="@+id/tv_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#999999"
+                android:textSize="28px"
+                android:layout_marginLeft="20px" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200px"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:paddingLeft="30px"
+            android:paddingRight="30px"
+            android:paddingTop="20px"
+            android:paddingBottom="20px"
+            android:layout_marginTop="20px">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="简介:"
+                android:textColor="#666666"
+                android:textSize="30px"/>
+
+            <TextView
+                android:id="@+id/tv_jianjie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#999999"
+                android:textSize="28px"
+                android:layout_marginTop="20px" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/layout_club_member"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:layout_marginTop="20px">
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingLeft="30px"
+                android:paddingRight="30px"
+                android:paddingTop="20px"
+                android:paddingBottom="10px">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="成员:"
+                    android:textColor="#666666"
+                    android:textSize="30px" />
+
+                <TextView
+                    android:id="@+id/tv_people_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="#999999"
+                    android:textSize="28px" />
+
+                <ImageView
+                    android:layout_width="16px"
+                    android:layout_height="27px"
+                    android:src="@mipmap/icon_right"
+                    android:layout_marginLeft="10px"/>
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="#F1F1F1" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"
+                android:padding="30px">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@color/white"
+            android:paddingLeft="30px"
+            android:paddingRight="30px"
+            android:paddingTop="18px"
+            android:paddingBottom="18px"
+            android:layout_marginTop="20px">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/message_bother_free"
+                android:textColor="#666666"
+                android:textSize="30px" />
+
+            <ImageView
+                android:id="@+id/img_miandarao"
+                android:layout_width="83px"
+                android:layout_height="51px"
+                android:src="@mipmap/lijituichu_guanbi"/>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@color/white"
+            android:paddingLeft="30px"
+            android:paddingRight="30px"
+            android:paddingTop="18px"
+            android:paddingBottom="18px"
+            android:layout_marginTop="20px">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/stand_out_chat"
+                android:textColor="#666666"
+                android:textSize="30px" />
+
+            <ImageView
+                android:id="@+id/img_zhiding_liantiao"
+                android:layout_width="83px"
+                android:layout_height="51px"
+                android:src="@mipmap/lijituichu_guanbi" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <TextView
+            android:id="@+id/tv_exit_club"
+            android:layout_width="586px"
+            android:layout_height="90px"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/exit"
+            android:textColor="@color/white"
+            android:textSize="36px"
+            android:layout_marginTop="80px"
+            android:background="#E13736"/>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    </ScrollView>
+
+</com.zhy.autolayout.AutoLinearLayout>

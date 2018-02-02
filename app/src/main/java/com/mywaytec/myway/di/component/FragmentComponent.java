@@ -5,6 +5,8 @@ import android.app.Activity;
 import com.mywaytec.myway.di.module.FragmentModule;
 import com.mywaytec.myway.di.scope.FragmentScope;
 import com.mywaytec.myway.fragment.car.CarFragment;
+import com.mywaytec.myway.fragment.chat.ChatFragment;
+import com.mywaytec.myway.fragment.club.ClubFragment;
 import com.mywaytec.myway.fragment.comment.CommentFragment;
 import com.mywaytec.myway.fragment.dynamic.DynamicFragment;
 import com.mywaytec.myway.fragment.praise.PraiseFragment;
@@ -32,17 +34,7 @@ public interface FragmentComponent {
 
     void inject(PraiseFragment praiseFragment);
 
-//    void inject(GirlFragment girlFragment);
+    void inject(ChatFragment chatFragment);
 
-//    void inject(LikeFragment likeFragment);
-
-//    void inject(WechatMainFragment wechatMainFragment);
-
-//    void inject(SettingFragment settingFragment);
-
-//    void inject(GoldMainFragment goldMainFragment);
-
-//    void inject(GoldPagerFragment goldPagerFragment);
-
-//    void inject(VtexPagerFragment vtexPagerFragment);
+    void inject(ClubFragment clubFragment);
 }

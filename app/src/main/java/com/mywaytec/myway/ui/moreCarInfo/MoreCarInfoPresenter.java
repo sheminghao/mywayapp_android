@@ -3,6 +3,7 @@ package com.mywaytec.myway.ui.moreCarInfo;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,7 +21,6 @@ import android.widget.TextView;
 
 import com.inuker.bluetooth.library.connect.response.BleWriteResponse;
 import com.mywaytec.myway.R;
-import com.mywaytec.myway.base.BluetoothLeService;
 import com.mywaytec.myway.base.Constant;
 import com.mywaytec.myway.base.RxPresenter;
 import com.mywaytec.myway.model.bean.BleInfoBean;
@@ -40,6 +40,9 @@ import com.mywaytec.myway.view.CommonSubscriber;
 import javax.inject.Inject;
 
 import rx.Subscriber;
+
+import static com.inuker.bluetooth.library.Constants.REQUEST_FAILED;
+import static com.inuker.bluetooth.library.Constants.REQUEST_SUCCESS;
 
 /**
  * Created by shemh on 2017/4/11.
@@ -64,6 +67,14 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
     public void attachView(MoreCarInfoView view) {
         super.attachView(view);
         this.mContext = mView.getContext();
+    }
+
+    public RetrofitHelper getRetrofitHelper(){
+        return mRetrofitHelper;
+    }
+
+    //初始化灯带
+    public void initSetting(){
         currentMode = BleInfo.getBleInfo().getDengdaimoshi();
         if (currentMode == 1) {//全彩流水
             mView.getDengdaiTV().setText(R.string.flowing);
@@ -78,10 +89,16 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
         } else if (currentMode == 0){//关闭
             mView.getDengdaiTV().setText(R.string.close);
         }
-    }
 
-    public RetrofitHelper getRetrofitHelper(){
-        return mRetrofitHelper;
+        if (BleInfo.getBleInfo().getHighSpeed() != 0) {//车辆最高/低限速值
+            mView.getSpeedSeekBar().setHighSpeed(BleInfo.getBleInfo().getHighSpeed(), BleInfo.getBleInfo().getLowSpeed());
+            mView.getSpeedSeekBar().setLowSpeed(BleInfo.getBleInfo().getHighSpeed(), BleInfo.getBleInfo().getLowSpeed());
+        }
+
+        if (BleInfo.getBleInfo().getSuduxianzhi() != 0) {//速度限制
+            //如果有缓存数据，初始化数据
+            mView.getSpeedSeekBar().setPracticalSpeed(BleInfo.getBleInfo().getSuduxianzhi());
+        }
     }
 
     //修改密码对话框
@@ -464,23 +481,29 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
                 bleInfoBean.setDengdaimoshi(currentMode);
                 BleInfo.saveBleInfo(bleInfoBean);
                 Log.i("TAG", "------灯带当前模式，" + currentMode);
+                if (currentMode == 1) {
+                    mView.getDengdaiTV().setText(R.string.flowing);
+                } else if (currentMode == 2) {
+                    mView.getDengdaiTV().setText(R.string.breathing);
+                } else if (currentMode == 3) {
+                    mView.getDengdaiTV().setText(R.string.neon);
+                } else if (currentMode == 4) {
+                    mView.getDengdaiTV().setText(R.string.lighting);
+                } else if (currentMode == 5) {
+                    mView.getDengdaiTV().setText(R.string.warning);
+                }
                 if (null != imgRight1 && null != imgRight2 && null != imgRight3 &&
                         null != imgRight4 && null != imgRight5) {
                     if (currentMode == 1) {
                         imgRight1.setVisibility(View.VISIBLE);
-                        mView.getDengdaiTV().setText(R.string.flowing);
                     } else if (currentMode == 2) {
                         imgRight2.setVisibility(View.VISIBLE);
-                        mView.getDengdaiTV().setText(R.string.breathing);
                     } else if (currentMode == 3) {
                         imgRight3.setVisibility(View.VISIBLE);
-                        mView.getDengdaiTV().setText(R.string.neon);
                     } else if (currentMode == 4) {
                         imgRight4.setVisibility(View.VISIBLE);
-                        mView.getDengdaiTV().setText(R.string.lighting);
                     } else if (currentMode == 5) {
                         imgRight5.setVisibility(View.VISIBLE);
-                        mView.getDengdaiTV().setText(R.string.warning);
                     }
                 }
             }
@@ -515,59 +538,60 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
                 Log.i("TAG", "-----车辆SN码" + info);
                 if (infos.length == 20) {
                     snCode1 = new StringBuilder();
-                    String code1 = infos[19].substring(1);
+                    String code1 = infos[19];
                     snCode1.append(code1);
-                    String code2 = infos[18].substring(1);
+                    String code2 = infos[18];
                     snCode1.append(code2);
-                    String code3 = infos[17].substring(1);
+                    String code3 = infos[17];
                     snCode1.append(code3);
-                    String code4 = infos[16].substring(1);
+                    String code4 = infos[16];
                     snCode1.append(code4);
-                    String code5 = infos[15].substring(1);
+                    String code5 = infos[15];
                     snCode1.append(code5);
-                    String code6 = infos[14].substring(1);
+                    String code6 = infos[14];
                     snCode1.append(code6);
-                    String code7 = infos[13].substring(1);
+                    String code7 = infos[13];
                     snCode1.append(code7);
-                    String code8 = infos[12].substring(1);
+                    String code8 = infos[12];
                     snCode1.append(code8);
-                    String code9 = infos[11].substring(1);
+                    String code9 = infos[11];
                     snCode1.append(code9);
-                    String code10 = infos[10].substring(1);
+                    String code10 = infos[10];
                     snCode1.append(code10);
-                    String code11 = infos[9].substring(1);
+                    String code11 = infos[9];
                     snCode1.append(code11);
-                    String code12 = infos[8].substring(1);
+                    String code12 = infos[8];
                     snCode1.append(code12);
-                    String code13 = infos[7].substring(1);
+                    String code13 = infos[7];
                     snCode1.append(code13);
-                    String code14 = infos[6].substring(1);
+                    String code14 = infos[6];
                     snCode1.append(code14);
                 }else {
                     snCode2 = new StringBuilder();
-                    String code1 = infos[9].substring(1);
+                    String code1 = infos[9];
                     snCode2.append(code1);
-                    String code2 = infos[8].substring(1);
+                    String code2 = infos[8];
                     snCode2.append(code2);
-                    String code3 = infos[7].substring(1);
+                    String code3 = infos[7];
                     snCode2.append(code3);
-                    String code4 = infos[6].substring(1);
+                    String code4 = infos[6];
                     snCode2.append(code4);
-                    String code5 = infos[5].substring(1);
+                    String code5 = infos[5];
                     snCode2.append(code5);
-                    String code6 = infos[4].substring(1);
+                    String code6 = infos[4];
                     snCode2.append(code6);
-                    String code7 = infos[3].substring(1);
+                    String code7 = infos[3];
                     snCode2.append(code7);
-                    String code8 = infos[2].substring(1);
+                    String code8 = infos[2];
                     snCode2.append(code8);
-                    String code9 = infos[1].substring(1);
+                    String code9 = infos[1];
                     snCode2.append(code9);
-                    String code10 = infos[0].substring(1);
+                    String code10 = infos[0];
                     snCode2.append(code10);
                 }
 
-                String snCodeStr = snCode1.toString() + snCode2.toString();
+                String snCodeStr = snCode2.toString() + snCode1.toString();
+                snCodeStr = ConversionUtil.hexStringToString(snCodeStr);
                 if (snCodeStr.length() == 24) {
                     BleInfoBean bleInfoBean = BleInfo.getBleInfo();
                     bleInfoBean.setSnCode(snCodeStr);

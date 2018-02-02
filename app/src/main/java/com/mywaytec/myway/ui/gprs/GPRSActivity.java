@@ -143,7 +143,8 @@ public class GPRSActivity extends BaseActivity implements View.OnClickListener {
 
             //返回车辆解锁状态topic
             String topic = "device/car_report/status/"+sncode;
-            mMqttService.connect(new String[]{topic}, "", Constant.MQTT.MQTT_BROKER, "Car_"+sncode,
+            String carClientId = "Car_"+sncode;//车辆返回信息
+            mMqttService.connect(new String[]{topic}, "", Constant.MQTT.MQTT_BROKER, carClientId,
                     new int[]{1});
 
             new Thread(new Runnable() {
@@ -158,6 +159,10 @@ public class GPRSActivity extends BaseActivity implements View.OnClickListener {
         @Override
         public void onServiceDisconnected(ComponentName name) {
             // 连接断开
+            if (null != mMqttService) {
+                mMqttService.onDestroy();
+                mMqttService = null;
+            }
         }
     };
 
@@ -295,6 +300,7 @@ public class GPRSActivity extends BaseActivity implements View.OnClickListener {
         Log.i("TAG", "------GPRSActivity, onDestroy()");
         if (mMqttService != null){
             mMqttService.onDestroy();
+            mMqttService = null;
         }
     }
 }

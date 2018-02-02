@@ -2,6 +2,7 @@ package com.mywaytec.myway.ui.huodongXiangqing;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import com.mywaytec.myway.base.BaseActivity;
 import com.mywaytec.myway.base.GlideImageLoader;
 import com.mywaytec.myway.model.bean.NearbyActivityBean;
 import com.mywaytec.myway.ui.huodongChengyuan.HuodongChengyuanActivity;
+import com.mywaytec.myway.utils.TimeUtil;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -21,7 +23,7 @@ import java.text.MessageFormat;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class HuodongXiangqingActivity extends BaseActivity<HuodongXiangqingPresenter> implements HuodongXiangqingView{
+public class HuodongXiangqingActivity extends BaseActivity<HuodongXiangqingPresenter> implements HuodongXiangqingView {
 
     public static final String ACTIVITY_INFO = "activityInfo";
 
@@ -87,32 +89,42 @@ public class HuodongXiangqingActivity extends BaseActivity<HuodongXiangqingPrese
             //TODO
             tvJifen.setText(MessageFormat.format(getResources().getString(R.string.join_and_get_scores),
                     activityInfo.getLevel()));
-            tvCurrentNum.setText(activityInfo.getCurrentNum()+"");
-            tvTotalNum.setText("/"+activityInfo.getNum());
-            tvTime.setText(activityInfo.getStart()+" ~ "+activityInfo.getEnd());
+            tvCurrentNum.setText(activityInfo.getCurrentNum() + "");
+            tvTotalNum.setText("/" + activityInfo.getNum());
+            tvTime.setText(activityInfo.getStart() + " ~ " + activityInfo.getEnd());
             if (null != activityInfo.getLocation())
-            tvAddress.setText(activityInfo.getLocation().getProvince()+activityInfo.getLocation()
-                    .getCity()+activityInfo.getLocation().getStreet());
+                tvAddress.setText(activityInfo.getLocation().getProvince() + activityInfo.getLocation()
+                        .getCity() + activityInfo.getLocation().getStreet());
             tvIntro.setText(activityInfo.getIntro());
             tvContact.setText(activityInfo.getContact());
-            if (activityInfo.isParticipant()){
+            if (activityInfo.isParticipant()) {//是否参与
                 tvSignin.setVisibility(View.VISIBLE);
                 tvCanyu.setText(R.string.quit);
-            }else {
+            } else {
                 tvSignin.setVisibility(View.GONE);
                 tvCanyu.setText(R.string.join_now);
-        }
-            if (activityInfo.isLanucher()){
+            }
+            if (activityInfo.isLanucher()) {
                 tvCanyu.setVisibility(View.GONE);
-            }else {
+            } else {
                 tvCanyu.setVisibility(View.VISIBLE);
             }
-            if (activityInfo.isSign()){
+            if (activityInfo.isSign()) {
                 tvSignin.setText(R.string.signed_up_already_activity);
                 tvSignin.setBackgroundResource(R.mipmap.yueban_btn_yiguoqi);
-            }else {
+            } else {
                 tvSignin.setText(R.string.sign_in_activity);
                 tvSignin.setBackgroundResource(R.mipmap.yueban_btn_qiandao);
+            }
+            if(TimeUtil.YMDHMStoTime(activityInfo.getEnd()) > TimeUtil.getTime()){//活动未结束
+                if (activityInfo.isLanucher()) {
+                    tvCanyu.setVisibility(View.GONE);
+                } else {
+                    tvCanyu.setVisibility(View.VISIBLE);
+                }
+            }else {//活动已结束
+                tvSignin.setVisibility(View.GONE);
+                tvCanyu.setText(R.string.activity_is_over);
             }
         }
 
@@ -140,13 +152,13 @@ public class HuodongXiangqingActivity extends BaseActivity<HuodongXiangqingPrese
     }
 
     @OnClick({R.id.tv_canyu, R.id.layout_people_num, R.id.tv_signin})
-    public void onClick(View v){
-        switch (v.getId()){
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.tv_canyu://立即参与
                 if (null != activityInfo) {
                     if (getResources().getString(R.string.join_now).equals(tvCanyu.getText().toString())) {
                         mPresenter.joinActivity(activityInfo.getId() + "");
-                    }else if (getResources().getString(R.string.quit).equals(tvCanyu.getText().toString())){
+                    } else if (getResources().getString(R.string.quit).equals(tvCanyu.getText().toString())) {
                         mPresenter.exitActivity(activityInfo.getId() + "");
                     }
                 }
@@ -154,13 +166,13 @@ public class HuodongXiangqingActivity extends BaseActivity<HuodongXiangqingPrese
             case R.id.layout_people_num://活动人数
                 if (null != activityInfo) {
                     Intent intent = new Intent(HuodongXiangqingActivity.this, HuodongChengyuanActivity.class);
-                    intent.putExtra("aid", activityInfo.getId()+"");
+                    intent.putExtra("aid", activityInfo.getId() + "");
                     startActivity(intent);
                 }
                 break;
             case R.id.tv_signin://签到
                 if (activityInfo != null) {
-                    mPresenter.signin(activityInfo.getId()+"");
+                    mPresenter.signin(activityInfo.getId() + "");
                 }
                 break;
         }
@@ -193,7 +205,7 @@ public class HuodongXiangqingActivity extends BaseActivity<HuodongXiangqingPrese
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             Intent intent = new Intent();
             intent.putExtra(ACTIVITY_INFO, activityInfo);
             intent.putExtra("position", position);

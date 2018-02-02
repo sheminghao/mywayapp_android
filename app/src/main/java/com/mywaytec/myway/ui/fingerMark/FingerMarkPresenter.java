@@ -174,16 +174,21 @@ public class FingerMarkPresenter extends RxPresenter<FingerMarkView> {
                 }
             }else if (data.length > 6 && "04".equals(infos[2]) && "02".equals(infos[3]) && "10".equals(infos[4])) {//删除成功，返回ID
                 byte fingerId = data[6];
-                Log.i("TAG", "--------删除成功，返回ID,"+fingerId);
-                QueryBuilder qb = fingerWarkInfoDao.queryBuilder();
-                qb.where(FingerWarkInfoDao.Properties.FingerWarkId.eq(fingerId),
-                        FingerWarkInfoDao.Properties.Uid.eq(bleAddress));
-                List<FingerWarkInfo> list = qb.list();
-                Log.i("TAG", "--------删除成功，qb.list(),"+list.size());
-                if (null != list && list.size() > 0){
-                    fingerWarkInfoDao.delete(list.get(0));
+                if (fingerId == 0x00) {
+                    ToastUtils.showToast(R.string.delete_failed);
+                }else {
+                    Log.i("TAG", "--------删除成功，返回ID," + fingerId);
+                    ToastUtils.showToast(R.string.delete_successful);
+                    QueryBuilder qb = fingerWarkInfoDao.queryBuilder();
+                    qb.where(FingerWarkInfoDao.Properties.FingerWarkId.eq(fingerId),
+                            FingerWarkInfoDao.Properties.Uid.eq(bleAddress));
+                    List<FingerWarkInfo> list = qb.list();
+                    Log.i("TAG", "--------删除成功，qb.list()," + list.size());
+                    if (null != list && list.size() > 0) {
+                        fingerWarkInfoDao.delete(list.get(0));
+                    }
+                    fingerMarkAdapter.remove(position);
                 }
-                fingerMarkAdapter.remove(position);
             }
         }
     }
@@ -276,8 +281,11 @@ public class FingerMarkPresenter extends RxPresenter<FingerMarkView> {
     public void deteleAllFinger(){
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         View view = View.inflate(mContext, R.layout.dialog_add_finger_hint, null);
+        TextView tvHintText = (TextView) view.findViewById(R.id.tv_hint_text);
+        tvHintText.setText(R.string.delete_all_fingerprints);
         TextView tvCancel = (TextView) view.findViewById(R.id.tv_cancel);
         TextView tvContinue = (TextView) view.findViewById(R.id.tv_continue);
+        tvContinue.setText(R.string.dialog_confirm);
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

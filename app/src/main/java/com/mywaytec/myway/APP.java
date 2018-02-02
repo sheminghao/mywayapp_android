@@ -1,5 +1,7 @@
 package com.mywaytec.myway;
 
+import android.content.Context;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.antfortune.freeline.FreelineCore;
@@ -21,6 +23,9 @@ import com.zhy.autolayout.config.AutoLayoutConifg;
 import org.xutils.x;
 
 import cn.smssdk.SMSSDK;
+import io.rong.imkit.RongIM;
+import io.rong.push.notification.PushMessageReceiver;
+import io.rong.push.notification.PushNotificationMessage;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
@@ -65,6 +70,9 @@ public class APP extends TinkerApplication {
 
         //初始化GreenDao
         initGreenDao();
+
+        //融云初始化
+        RongIM.init(this);
 
         //设置字体
 //        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
@@ -121,5 +129,4 @@ public class APP extends TinkerApplication {
                 .crossFade(300) // 可设置时长，默认“300ms”
                 .into(iv);
     }
-
 }

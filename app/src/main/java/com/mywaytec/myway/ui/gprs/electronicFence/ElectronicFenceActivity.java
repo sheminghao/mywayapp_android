@@ -36,6 +36,9 @@ import static com.mywaytec.myway.ui.gprs.GPRSActivity.SNCODE;
  */
 public class ElectronicFenceActivity extends BaseActivity<ElectronicFencePresenter> implements ElectronicFenceView {
 
+    /**
+     * 电子围栏请求码
+     */
     public static final int DIANZIWEILAN_REQUESTCODE = 0x160;
 
     @BindView(R.id.tv_title)

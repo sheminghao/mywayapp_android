@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.inuker.bluetooth.library.connect.listener.BleConnectStatusListener;
 import com.inuker.bluetooth.library.connect.response.BleNotifyResponse;
-import com.inuker.bluetooth.library.connect.response.BleWriteResponse;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.BaseActivity;
 import com.mywaytec.myway.base.Constant;

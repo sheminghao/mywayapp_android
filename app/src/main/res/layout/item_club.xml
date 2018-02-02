@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:id="@+id/layout_club"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20px"
+        android:gravity="center_vertical">
+        
+        <com.mywaytec.myway.view.CircleImageView
+            android:id="@+id/img_club_head"
+            android:layout_width="120px"
+            android:layout_height="120px"
+            android:scaleType="centerCrop"/>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginLeft="20px" >
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_club_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:textColor="#666666"
+                    android:textSize="28px" />
+
+                <TextView
+                    android:id="@+id/tv_club_official"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/official"
+                    android:textColor="@color/white"
+                    android:textSize="23px"
+                    android:background="@drawable/shape_corner_club"
+                    android:paddingLeft="7px"
+                    android:paddingRight="7px"
+                    android:paddingTop="4px"
+                    android:paddingBottom="4px"
+                    android:layout_marginLeft="15px"
+                    android:visibility="gone" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView
+                android:id="@+id/tv_club_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="#999999"
+                android:textSize="24px"
+                android:layout_marginTop="10px" />
+
+            <TextView
+                android:id="@+id/tv_club_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="#999999"
+                android:textSize="24px"
+                android:layout_marginTop="10px" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <ImageView
+            android:layout_width="20px"
+            android:layout_height="34px"
+            android:src="@mipmap/icon_right"/>
+        
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#F1F1F1"
+        android:layout_marginLeft="20px"/>
+
+</com.zhy.autolayout.AutoLinearLayout>

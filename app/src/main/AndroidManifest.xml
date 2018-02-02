@@ -78,13 +78,28 @@
         <!-- 适配android7.0拍照问题 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="${applicationId}.provider"
+            android:authorities="com.mywaytec.myway.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
+
+            <!-- <meta-data -->
+            <!-- android:name="android.support.FILE_PROVIDER_PATHS" -->
+            <!-- android:resource="@xml/provider_paths" /> -->
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
+                android:resource="@xml/rc_file_path" />
         </provider>
+
+        <receiver
+            android:name=".base.MywayNotificationReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="io.rong.push.intent.MESSAGE_ARRIVED" />
+                <action android:name="io.rong.push.intent.MI_MESSAGE_ARRIVED" />
+                <action android:name="io.rong.push.intent.MESSAGE_CLICKED" />
+                <action android:name="io.rong.push.intent.MI_MESSAGE_CLICKED" />
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
@@ -150,6 +165,21 @@
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.im.conversation.ConversationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="com.mywaytec.myway"
+                    android:pathPrefix="/conversation/"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ui.bluetooth.BluetoothActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait" />
@@ -178,9 +208,9 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
-        <service
-            android:name=".base.BluetoothLeService"
-            android:enabled="true" />
+        <!-- <service -->
+        <!-- android:name=".base.BluetoothLeService" -->
+        <!-- android:enabled="true" /> -->
 
         <activity
             android:name=".ui.track.TrackRecordActivity"
@@ -363,7 +393,41 @@
         <activity
             android:name=".ui.selectCountry.SelectCountryActivity"
             android:configChanges="locale"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.im.createClub.CreateClubActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.im.searchClub.SearchClubActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".ui.im.JoinClub.JoinClubActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.im.exitClub.ExitClubActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.im.clubVerify.ClubVerifyActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.im.clubMember.ClubMemberActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.personalCenter.PersonalCenterActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.im.modifyClub.ModifyClubActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

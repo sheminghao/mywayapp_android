@@ -1,12 +1,18 @@
 package com.mywaytec.myway.di.module;
 
+import android.text.TextUtils;
+
+import com.mywaytec.myway.APP;
 import com.mywaytec.myway.BuildConfig;
+import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.Constant;
 import com.mywaytec.myway.di.qualifier.LongchuangUrl;
 import com.mywaytec.myway.di.qualifier.MywayUrl;
+import com.mywaytec.myway.model.bean.TestServiceBean;
 import com.mywaytec.myway.model.http.api.LongchuangApis;
 import com.mywaytec.myway.model.http.api.MywayApis;
 import com.mywaytec.myway.utils.SystemUtil;
+import com.mywaytec.myway.utils.data.TestServiceData;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +40,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class HttpModule {
 
+    TestServiceBean testServiceBean;
+
     @Singleton
     @Provides
     Retrofit.Builder provideRetrofitBuilder() {
@@ -51,7 +59,12 @@ public class HttpModule {
     @Provides
     @MywayUrl
     Retrofit provideMywayRetrofit(Retrofit.Builder builder, OkHttpClient client) {
-        return createRetrofit(builder, client, MywayApis.HOST);
+        String host = MywayApis.HOST;
+        testServiceBean = TestServiceData.getTestServiceData();
+        if (null != testServiceBean && !TextUtils.isEmpty(testServiceBean.getCurrentHost())){
+            host = testServiceBean.getCurrentHost();
+        }
+        return createRetrofit(builder, client, host);
     }
 
     @Singleton
@@ -77,7 +90,12 @@ public class HttpModule {
                 Request request = chain.request();
                 if (!SystemUtil.isNetworkConnected()) {
                     request = request.newBuilder()
+                            .addHeader("deviceType", "android")
                             .cacheControl(CacheControl.FORCE_CACHE)
+                            .build();
+                }else {
+                    request = request.newBuilder()
+                            .addHeader("deviceType", "android")
                             .build();
                 }
                 Response response = chain.proceed(request);
@@ -92,7 +110,7 @@ public class HttpModule {
                     // 无网络时，设置超时为4周
                     int maxStale = 60 * 60 * 24 * 28;
                     response.newBuilder()
-                            .header("Connected", "请检查您的网络是否连接")
+                            .header("Connected", APP.getInstance().getString(R.string.请检查您的网络是否连接))
 //                            .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
 //                            .message("请检查您的网络是否连接")
                             .removeHeader("Pragma")

@@ -62,6 +62,18 @@ public class TimeUtil {
 		return str;
 	}
 
+	public static long YMDHMStoTime(String time) {
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		long datelong = getTime();
+		try {
+			Date date = format1.parse(time);
+			datelong = date.getTime();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return datelong;
+	}
+
 	public static String  getHMSTime()
 	{
 		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");

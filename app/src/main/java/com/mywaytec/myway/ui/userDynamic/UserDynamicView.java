@@ -2,6 +2,8 @@ package com.mywaytec.myway.ui.userDynamic;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.mywaytec.myway.base.IBaseView;
@@ -16,6 +18,8 @@ public interface UserDynamicView extends IBaseView {
 
     LRecyclerView getRecyclerView();
 
+    TextView getGuanzhuTV();
 
+    ImageView getGuanzhuImg();
 
 }

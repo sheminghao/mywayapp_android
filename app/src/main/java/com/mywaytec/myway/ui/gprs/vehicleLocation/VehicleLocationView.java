@@ -19,4 +19,6 @@ public interface VehicleLocationView extends IBaseView {
 
     View getCoverView();
 
+    String getVehicleName();
+
 }

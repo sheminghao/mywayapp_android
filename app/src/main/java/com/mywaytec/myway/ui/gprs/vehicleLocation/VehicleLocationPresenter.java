@@ -130,6 +130,7 @@ public class VehicleLocationPresenter extends RxPresenter<VehicleLocationView> {
             }
         });
 
+        //车辆没有定位，显示最后的位置
         retrofitHelper.vehicleLastLocation(snCode)
                 .compose(RxUtil.<VehicleLastLocationBean>rxSchedulerHelper())
                 .subscribe(new CommonSubscriber<VehicleLastLocationBean>() {
@@ -138,9 +139,23 @@ public class VehicleLocationPresenter extends RxPresenter<VehicleLocationView> {
                         if (vehicleLastLocationBean.getCode() == 1){
                             if (!newLoc){
                                 List<Double> coordinates = vehicleLastLocationBean.getObj().getLoc().getCoordinates();
-                                if (null != coordinates && coordinates.size()>2) {
+                                if (null != coordinates && coordinates.size()>1) {
                                     LatLng latLng = new LatLng(coordinates.get(1), coordinates.get(0));
-                                    initInfoWindow(latLng, 0);
+
+                                    MarkerOptions markerOptions = new MarkerOptions().flat(true).anchor(0.5f, 1.0f)
+                                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.cheliangdingwei_mark))
+                                            .position(latLng);
+                                    mLocationMarker = (Marker)mBaiduMap.addOverlay(markerOptions);
+
+                                    MapStatus.Builder builder = new MapStatus.Builder();
+                                    //设置缩放中心点；缩放比例；
+                                    builder.target(latLng).zoom(16.0f);
+                                    //给地图设置状态
+                                    mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+
+                                    mInfoWindow = initInfoWindow(latLng, 0);
+                                    //显示InfoWindow
+                                    mBaiduMap.showInfoWindow(mInfoWindow);
                                 }
                             }
                         }
@@ -157,7 +172,7 @@ public class VehicleLocationPresenter extends RxPresenter<VehicleLocationView> {
         View view = View.inflate(mContext, R.layout.window_gps_location, null);
         TextView tvClose = (TextView) view.findViewById(R.id.tv_close);
         TextView tvVahicleName = (TextView) view.findViewById(R.id.tv_vahicle_name);
-        tvVahicleName.setText(vehicleName);
+        tvVahicleName.setText(mView.getVehicleName());
         TextView tvTime = (TextView) view.findViewById(R.id.tv_time);
         TextView tvLocation = (TextView) view.findViewById(R.id.tv_location);
         TextView tvSpeed = (TextView) view.findViewById(R.id.tv_speed);

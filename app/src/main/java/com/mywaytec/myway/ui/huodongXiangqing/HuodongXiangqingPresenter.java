@@ -91,6 +91,8 @@ public class HuodongXiangqingPresenter extends RxPresenter<HuodongXiangqingView>
                     public void onNext(BaseInfo baseInfo) {
                         if (baseInfo.getCode() == 1){
                             mView.getCanyuTV().setText(R.string.join_now);
+                            mView.getSigninTV().setText(R.string.sign_in_activity);
+                            mView.getSigninTV().setBackgroundResource(R.mipmap.yueban_btn_qiandao);
                             mView.getSigninTV().setVisibility(View.GONE);
                             mView.getActivityInfo().setParticipant(false);
                             mView.getActivityInfo().setCurrentNum(mView.getActivityInfo().getCurrentNum()-1);

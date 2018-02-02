@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_club_member"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.mywaytec.myway.ui.im.clubMember.ClubMemberActivity"
+    tools:showIn="@layout/activity_club_member"
+    android:orientation="vertical">
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/layout_dynamic_top"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/colorPrimaryDark">
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20px">
+
+            <ImageView
+                android:id="@+id/img_back"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/icon_finish"/>
+
+            <TextView
+                android:id="@+id/tv_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dialog_cancel"
+                android:textColor="@color/white"
+                android:textSize="34px"
+                android:visibility="gone" />
+
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:text=""
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20px"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/delete"
+            android:textColor="@color/white"
+            android:textSize="34px"
+            android:visibility="gone" />
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <com.mywaytec.myway.view.MyScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_manager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F1F1F1"
+                android:padding="18px"
+                android:text="@string/administrator"
+                android:textColor="#666666"
+                android:textSize="34px"
+                android:visibility="gone" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView_manager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/tv_member"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20px"
+                android:background="#F1F1F1"
+                android:padding="18px"
+                android:text="@string/member"
+                android:textColor="#666666"
+                android:textSize="34px"
+                android:visibility="gone" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView_member"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </com.mywaytec.myway.view.MyScrollView>
+
+</com.zhy.autolayout.AutoLinearLayout>
