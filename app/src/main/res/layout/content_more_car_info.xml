@@ -128,7 +128,8 @@
                         android:layout_height="140px"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        android:layout_centerInParent="true">
+                        android:layout_centerInParent="true"
+                        android:paddingLeft="20px">
 
                         <ImageView
                             android:layout_width="68px"
@@ -139,7 +140,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10px"
-                            android:text="油门校准"
+                            android:text="@string/accelerator_calibration"
                             android:textColor="@color/white"
                             android:textSize="36px" />
 
@@ -153,7 +154,8 @@
                     android:layout_width="370px"
                     android:layout_height="140px"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingLeft="20px">
 
                     <ImageView
                         android:layout_width="68px"
@@ -164,7 +166,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10px"
-                        android:text="指纹录制"
+                        android:text="@string/fingerprint_register"
                         android:textColor="@color/white"
                         android:textSize="36px" />
 

@@ -39,6 +39,9 @@ public class Constant {
         /** 速度+电量+本次里程+总里程 */
         public static byte[] SPEED_AND_POWER = new byte[] {0x4d, 0x57, 0x01, 0x01, 0x09};
 
+        /** 整车数据 */
+        public static byte[] ALL_CAR_DATA = new byte[] {0x4d, 0x57, 0x01, 0x0A, 0x11, (byte)0xAC, (byte)0Xe6};
+
         /** 车辆状态 */
         public static byte[] CAR_STATE = new byte[] {0x4d, 0x57, 0x01, 0x02, 0x04, (byte)0xa3, 0x20};
 

@@ -43,10 +43,10 @@ public class RegisterPresenter extends RxPresenter<RegisterView> {
             ToastUtils.showToast(R.string.please_enter_the_phone_number);
             return;
         }
-        if (mView.getPhoneNumber().length() != 11){
-            ToastUtils.showToast(R.string.please_enter_a_correct_phone_number);
-            return;
-        }
+//        if (mView.getPhoneNumber().length() != 11){
+//            ToastUtils.showToast(R.string.please_enter_a_correct_phone_number);
+//            return;
+//        }
         mRetrofitHelper.userRepeatabilityVerify(mView.getPhoneNumber())
                 .compose(RxUtil.<ObjBooleanBean>rxSchedulerHelper())
                 .subscribe(new CommonSubscriber<ObjBooleanBean>() {

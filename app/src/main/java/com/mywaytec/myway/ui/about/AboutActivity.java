@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.support.design.widget.CoordinatorLayout;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -53,6 +55,20 @@ public class AboutActivity extends BaseActivity<AboutPresenter> implements About
         }
         String appVersionName = packageInfo.versionName; // 版本名
         tvVersion.setText("v"+appVersionName);
+
+        tvTitle.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
+
+        tvTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("TAG","------setOnClickListener");
+            }
+        });
     }
 
     @Override
@@ -77,6 +93,21 @@ public class AboutActivity extends BaseActivity<AboutPresenter> implements About
                 startActivity(new Intent(AboutActivity.this, AboutMywayActivity.class));
                 break;
         }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                Log.i("TAG","------dispatchTouchEvent_ACTION_DOWN");
+                break;
+            case MotionEvent.ACTION_MOVE:
+                Log.i("TAG","------dispatchTouchEvent_ACTION_MOVE");
+                break;
+            case MotionEvent.ACTION_UP:
+                Log.i("TAG","------dispatchTouchEvent_ACTION_UP");
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     @Override

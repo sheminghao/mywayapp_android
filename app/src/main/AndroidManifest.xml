@@ -261,11 +261,15 @@
             android:configChanges="locale"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.firmwareUpdate.FirmwareUpdateActivity"
+            android:name=".ui.firmwareUpdate.raFirmwareUpdate.RAFirmwareUpdateActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.scFirmwareUpdate.ScFirmwareUpdateActivity"
+            android:name=".ui.firmwareUpdate.scFirmwareUpdate.ScFirmwareUpdateActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.firmwareUpdate.sc03FirmwareUpdate.Sc03FirmwareUpdateActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait" />
         <activity

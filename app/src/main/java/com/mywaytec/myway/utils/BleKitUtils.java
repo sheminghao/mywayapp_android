@@ -1,9 +1,9 @@
 package com.mywaytec.myway.utils;
 
-import com.inuker.bluetooth.library.BluetoothClient;
-import com.inuker.bluetooth.library.connect.response.BleNotifyResponse;
-import com.inuker.bluetooth.library.connect.response.BleUnnotifyResponse;
-import com.inuker.bluetooth.library.connect.response.BleWriteResponse;
+import com.luck.bluetooth.library.BluetoothClient;
+import com.luck.bluetooth.library.connect.response.BleNotifyResponse;
+import com.luck.bluetooth.library.connect.response.BleUnnotifyResponse;
+import com.luck.bluetooth.library.connect.response.BleWriteResponse;
 import com.mywaytec.myway.APP;
 import com.mywaytec.myway.base.Constant;
 

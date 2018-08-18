@@ -6,6 +6,8 @@ import java.util.TimerTask;
 import android.app.Activity;
 import android.widget.TextView;
 
+import com.mywaytec.myway.R;
+
 public class CodeUtil {
 	private TextView codeTV;
 	private int offIcon;
@@ -50,7 +52,7 @@ public class CodeUtil {
 
 	private void stopSendCode() {
 		stopTimer();
-		codeTV.setText("获取验证码");
+		codeTV.setText(activity.getString(R.string.get_auth_code));
 		if (offIcon!=0)
 		codeTV.setBackgroundResource(offIcon);
 		codeTV.setClickable(true);
@@ -96,7 +98,7 @@ public class CodeUtil {
 			activity.runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					codeTV.setText(second + "秒后重发");
+					codeTV.setText(second + "s");
 					second--;
 				}
 			});

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.mywaytec.myway.ui.firmwareUpdate.FirmwareUpdateActivity"
+    tools:context=".ui.firmwareUpdate.raFirmwareUpdate.RAFirmwareUpdateActivity"
     tools:showIn="@layout/activity_firmware_update"
     android:orientation="vertical">
     

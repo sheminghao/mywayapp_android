@@ -29,7 +29,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="时间："
+                android:text="@string/l_time"
                 android:textColor="@color/black"
                 android:textSize="24px" />
 
@@ -52,14 +52,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="状态："
+                android:text="@string/l_state"
                 android:textColor="@color/black"
                 android:textSize="24px" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="卫星定位"
+                android:text="@string/satellite_positioning"
                 android:textColor="@color/black"
                 android:textSize="24px" />
 
@@ -74,7 +74,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="经纬度："
+                android:text="@string/latitude_and_longitude"
                 android:textColor="@color/black"
                 android:textSize="24px" />
 
@@ -97,7 +97,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="速度："
+                android:text="@string/l_speed"
                 android:textColor="@color/black"
                 android:textSize="24px" />
 

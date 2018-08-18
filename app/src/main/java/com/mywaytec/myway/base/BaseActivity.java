@@ -98,9 +98,9 @@ public abstract class BaseActivity<T extends IBasePresenter> extends RxAppCompat
         setContentView(attachLayoutRes());
 //        setStatusBarState(R.color.themdColor);
         //隐藏pad底部虚拟键
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_IMMERSIVE;
-        getWindow().setAttributes(params);
+//        WindowManager.LayoutParams params = getWindow().getAttributes();
+//        params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_IMMERSIVE;
+//        getWindow().setAttributes(params);
 
         setStatusBarIconDark(true);
         ButterKnife.bind(this);

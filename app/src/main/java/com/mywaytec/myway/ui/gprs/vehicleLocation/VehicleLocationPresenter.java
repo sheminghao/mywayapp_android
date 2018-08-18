@@ -61,7 +61,6 @@ public class VehicleLocationPresenter extends RxPresenter<VehicleLocationView> {
     public BDAbstractLocationListener myListener = new MyLocationListener();// 定位客户端
     public LocationClient mLocationClient;
     private BitmapDescriptor bitmap;
-    //车辆位置marker
     Marker mLocationMarker;
     private DecimalFormat df = new DecimalFormat("######0.000000");
 

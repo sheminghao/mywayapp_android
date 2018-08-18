@@ -1,6 +1,7 @@
 package com.mywaytec.myway.fragment.car;
 
 import android.content.Context;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,9 +19,15 @@ public interface CarView extends IBaseView {
 
     boolean isOther();
 
+    boolean isLock();
+
     void setOther(boolean isOther);
+
+    void setLock(boolean isLock);
 
     String getDeviceAddress();
 
     ImageView getRightImg();
+
+    Button getLockCarBtn();
 }

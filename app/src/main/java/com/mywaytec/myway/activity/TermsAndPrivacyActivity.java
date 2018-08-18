@@ -63,6 +63,5 @@ public class TermsAndPrivacyActivity extends BaseActivity {
 
     @Override
     protected void updateViews() {
-
     }
 }

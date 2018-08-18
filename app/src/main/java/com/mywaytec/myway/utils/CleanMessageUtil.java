@@ -57,12 +57,10 @@ public class CleanMessageUtil {
                     }
                 }
             }
-
         }
         if (dir == null) {
             return true;
         } else {
-
             return dir.delete();
         }
     }
@@ -131,6 +129,20 @@ public class CleanMessageUtil {
         BigDecimal result4 = new BigDecimal(teraBytes);
         return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString()
                 + "TB";
+    }
+
+    //flie：要删除的文件夹的所在位置
+    public static void deleteFile(File file) {
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            for (int i = 0; i < files.length; i++) {
+                File f = files[i];
+                deleteFile(f);
+            }
+//            file.delete();//如要保留文件夹，只删除文件，请注释这行
+        } else if (file.exists()) {
+//            file.delete();
+        }
     }
 
 }

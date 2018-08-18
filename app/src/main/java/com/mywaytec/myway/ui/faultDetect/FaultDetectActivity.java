@@ -8,9 +8,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.ybq.android.spinkit.SpinKitView;
-import com.inuker.bluetooth.library.connect.listener.BleConnectStatusListener;
-import com.inuker.bluetooth.library.connect.response.BleNotifyResponse;
-import com.inuker.bluetooth.library.connect.response.BleWriteResponse;
+import com.luck.bluetooth.library.connect.listener.BleConnectStatusListener;
+import com.luck.bluetooth.library.connect.response.BleNotifyResponse;
+import com.luck.bluetooth.library.connect.response.BleWriteResponse;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.BaseActivity;
 import com.mywaytec.myway.base.Constant;
@@ -26,8 +26,8 @@ import java.util.UUID;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.inuker.bluetooth.library.Constants.STATUS_CONNECTED;
-import static com.inuker.bluetooth.library.Constants.STATUS_DISCONNECTED;
+import static com.luck.bluetooth.library.Constants.STATUS_CONNECTED;
+import static com.luck.bluetooth.library.Constants.STATUS_DISCONNECTED;
 
 /**
  * 故障检测

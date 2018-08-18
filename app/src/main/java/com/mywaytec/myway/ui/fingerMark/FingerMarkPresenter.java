@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.inuker.bluetooth.library.Constants;
-import com.inuker.bluetooth.library.connect.response.BleWriteResponse;
+import com.luck.bluetooth.library.Constants;
+import com.luck.bluetooth.library.connect.response.BleWriteResponse;
 import com.mywaytec.myway.APP;
 import com.mywaytec.myway.DaoSession;
 import com.mywaytec.myway.FingerWarkInfoDao;

@@ -31,7 +31,6 @@ import com.mywaytec.myway.ui.huodongyueban.HuodongYuebanActivity;
 import com.mywaytec.myway.ui.im.createClub.CreateClubActivity;
 import com.mywaytec.myway.ui.message.MessageActivity;
 import com.mywaytec.myway.ui.mydynamic.MyDynamicActivity;
-import com.mywaytec.myway.ui.myprofile.MyProfileActivity;
 import com.mywaytec.myway.ui.mytrack.MyTrackActivity;
 import com.mywaytec.myway.ui.peopleNearby.PeopleNearbyActivity;
 import com.mywaytec.myway.ui.personalCenter.PersonalCenterActivity;
@@ -51,7 +50,6 @@ import butterknife.OnClick;
 import cn.jzvd.JZVideoPlayerStandard;
 
 import static com.mywaytec.myway.fragment.dynamic.DynamicFragment.PUBLISH;
-import static com.mywaytec.myway.ui.myprofile.MyProfileActivity.MYPROFILE_CODE;
 import static com.mywaytec.myway.ui.personalCenter.PersonalCenterActivity.PERSONAL_CENTER;
 
 /**

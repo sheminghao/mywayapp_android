@@ -15,9 +15,9 @@ import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.ybq.android.spinkit.SpinKitView;
-import com.inuker.bluetooth.library.search.SearchRequest;
-import com.inuker.bluetooth.library.search.SearchResult;
-import com.inuker.bluetooth.library.search.response.SearchResponse;
+import com.luck.bluetooth.library.search.SearchRequest;
+import com.luck.bluetooth.library.search.SearchResult;
+import com.luck.bluetooth.library.search.response.SearchResponse;
 import com.mywaytec.myway.APP;
 import com.mywaytec.myway.ConnectedBleInfoDao;
 import com.mywaytec.myway.DaoSession;
@@ -77,9 +77,6 @@ public class BluetoothActivity extends BaseActivity<BluetoothPresenter> implemen
 
     @Override
     protected void initViews() {
-        // 透明状态栏
-//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//        layoutBluetooth.setPadding(0, AppUtils.getStatusBar(), 0, 0);
         tvTitle.setText(R.string.vehicle_management);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -124,9 +121,12 @@ public class BluetoothActivity extends BaseActivity<BluetoothPresenter> implemen
         @Override
         public void onDeviceFounded(SearchResult device) {
             if (null != device && !bluetoothDevices.contains(device)) {
-                //不重复添加
                 bluetoothDevices.add(device);
-                if(null != device.getName() && device.getName().contains("SC-") || device.getName().contains("RA-")) {
+                if(null != device.getName() && device.getName().contains("SC-")
+                        || device.getName().contains("SC1-")
+                        || device.getName().contains("SC2-")
+                        || device.getName().contains("SC3-")
+                        || device.getName().contains("RA-")) {
                     bluetoothInfoModels.add(device);
                     bluetoothListAdapter.setDataList(bluetoothInfoModels);
                 }

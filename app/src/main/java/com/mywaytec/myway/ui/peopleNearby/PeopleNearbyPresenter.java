@@ -16,7 +16,6 @@ import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
-import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
@@ -83,7 +82,6 @@ public class PeopleNearbyPresenter extends RxPresenter<PeopleNearbyView> {
         mView.getRecyclerView().setAdapter(peopleNearbyAdapter);
 
         initAMap();
-
     }
 
     //停止定位
@@ -201,6 +199,7 @@ public class PeopleNearbyPresenter extends RxPresenter<PeopleNearbyView> {
                                     .into(mView.getHeadPortraitImg());
                         }
                     }else {
+
                     }
                 }
                 return true;

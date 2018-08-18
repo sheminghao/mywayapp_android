@@ -45,9 +45,7 @@ public class VehicleLocationActivity extends BaseActivity<VehicleLocationPresent
     String clientId;
     MqttService mMqttService;
 
-    //车辆定位topic
     String dingweiTopic;
-    //警报topic
     String jingbaoTopic;
 
     @Override
@@ -65,11 +63,9 @@ public class VehicleLocationActivity extends BaseActivity<VehicleLocationPresent
         tvTitle.setText(R.string.vehicle_position);
         snCode = getIntent().getStringExtra(SNCODE);
         clientId = "CarLoc_" + snCode;
-//        dingweiTopic = "device/data/v1/"+snCode;
         dingweiTopic = "device/car_report/gps/"+snCode;
         jingbaoTopic = "device/car_report/status/"+snCode;
         vehicleName = getIntent().getStringExtra(VEHICLE_NAME);
-        Log.i("TAG", "------vehicleName,"+vehicleName);
         mPresenter.init(snCode);
 
         Intent mqttServiceIntent = new Intent(this, MqttService.class);
@@ -87,9 +83,7 @@ public class VehicleLocationActivity extends BaseActivity<VehicleLocationPresent
     ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service){
-            Log.i("TAG", "------定位，onServiceConnected");
             // 建立连接
-            // 获取服务的操作对象
             mMqttService = ((MqttService.MqttBinder)service).getService();
 
             mMqttService.connect(new String[]{dingweiTopic, jingbaoTopic}, "", Constant.MQTT.MQTT_BROKER, clientId,
@@ -97,7 +91,6 @@ public class VehicleLocationActivity extends BaseActivity<VehicleLocationPresent
         }
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            Log.i("TAG", "------定位，onServiceDisconnected");
                 // 连接断开
                 if (mMqttService != null){
                     mMqttService.onDestroy();
@@ -117,12 +110,10 @@ public class VehicleLocationActivity extends BaseActivity<VehicleLocationPresent
                     try {
                         mPresenter.updateVehicleInfo(data, vehicleName);
                     } catch (Exception e) {
-                        Log.i("TAG", "------车辆定位数据错误");
                     }
                 }else if (jingbaoTopic.equals(topic)){
                     if (data.length > 3){
                         if(data[3] == 1 && data[0] == 2){
-                            Log.i("TAG", "------车辆驶出围栏外");
                             imgTongzhi.setImageResource(R.mipmap.cheliangdingwei_tongzhi_xin);
                         }
                     }
@@ -169,29 +160,23 @@ public class VehicleLocationActivity extends BaseActivity<VehicleLocationPresent
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.i("TAG", "------VehicleLocationActivity, onDestroy()");
-        //在activity执行onDestroy时执行mMapView.onDestroy()，销毁地图
         mPresenter.destroy();
         mMapView.onDestroy();
         mMapView = null;
         unbindService(mServiceConnection);
         if (mMqttService != null){
-//            mMqttService.onDestroy();
-//            mMqttService = null;
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //在activity执行onResume时执行mMapView.onResume ()，重新绘制加载地图
         mMapView.onResume();
         registerReceiver(mMqttUpdateReceiver, makeMqttUpdateIntentFilter());
     }
     @Override
     public void onPause() {
         super.onPause();
-        //在activity执行onPause时执行mMapView.onPause ()，暂停地图的绘制
         mMapView.onPause();
         unregisterReceiver(mMqttUpdateReceiver);
     }
@@ -199,7 +184,6 @@ public class VehicleLocationActivity extends BaseActivity<VehicleLocationPresent
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
         mMapView.onSaveInstanceState(outState);
     }
 }

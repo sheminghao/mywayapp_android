@@ -89,7 +89,6 @@ public class BindingCarPresenter extends RxPresenter<BindingCarView> {
                 .subscribe(new CommonSubscriber<BaseInfo>() {
                 @Override
                 public void onNext(BaseInfo baseInfo) {
-                    //TODO 中英文
                     if (baseInfo.getCode() == 1){
                         ToastUtils.showToast(R.string.binding_success);
                         //绑定新的车辆后，清空车辆绑定信息

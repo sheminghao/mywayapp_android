@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.inuker.bluetooth.library.search.SearchResult;
+import com.luck.bluetooth.library.search.SearchResult;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.ListBaseAdapter;
 import com.mywaytec.myway.base.SuperViewHolder;

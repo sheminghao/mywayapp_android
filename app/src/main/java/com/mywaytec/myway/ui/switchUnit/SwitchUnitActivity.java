@@ -10,6 +10,9 @@ import com.mywaytec.myway.base.BaseActivity;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 尺寸单位
+ */
 public class SwitchUnitActivity extends BaseActivity<SwitchUnitPresenter> {
 
     public static final int SWITCH_UNIT = 0x132;

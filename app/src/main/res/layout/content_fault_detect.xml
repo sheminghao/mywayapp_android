@@ -399,7 +399,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20px"
                         android:layout_weight="1"
-                        android:text="指纹模块通信故障"
+                        android:text="@string/fault_of_fingerprint_module"
                         android:textColor="@color/white"
                         android:textSize="36px" />
 
@@ -445,7 +445,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20px"
                         android:layout_weight="1"
-                        android:text="GPS通信故障"
+                        android:text="@string/fault_of_GPS"
                         android:textColor="@color/white"
                         android:textSize="36px" />
 
@@ -492,7 +492,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20px"
                         android:layout_weight="1"
-                        android:text="GPRS通信故障"
+                        android:text="@string/fault_of_GPRS"
                         android:textColor="@color/white"
                         android:textSize="36px" />
 

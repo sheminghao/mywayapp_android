@@ -342,6 +342,7 @@ public class DynamicAdapter extends ListBaseAdapter<DynamicListBean.ObjBean> imp
 
     @Override
     public void onClick(View v) {
+        String contentText = new String(Base64_2.decode(mDataList.get(clickPosition).getContent()));
         switch (v.getId()){
             case R.id.layout_share_wechat://分享到微信
                 Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
@@ -350,7 +351,7 @@ public class DynamicAdapter extends ListBaseAdapter<DynamicListBean.ObjBean> imp
 //                wechatParams.setImageUrl(Constant.DYNAMIC_SHARE_URL+mDataList.get(clickPosition).getId());
                 wechatParams.setUrl(Constant.DYNAMIC_SHARE_URL+mDataList.get(clickPosition).getId());
                 Log.i("TAG", "------分享路径"+Constant.DYNAMIC_SHARE_URL+mDataList.get(clickPosition).getId());
-                wechatParams.setText(mDataList.get(clickPosition).getContent());
+                wechatParams.setText(contentText);
                 wechatParams.setImageUrl(mDataList.get(clickPosition).getUser().getImgeUrl());
                 wechatParams.setShareType(Platform.SHARE_WEBPAGE);
                 wechat.setPlatformActionListener(platformActionListener);
@@ -362,7 +363,7 @@ public class DynamicAdapter extends ListBaseAdapter<DynamicListBean.ObjBean> imp
 //                sp.setImageUrl(Constant.DYNAMIC_SHARE_URL+mDataList.get(clickPosition).getId());
                 sp.setUrl(Constant.DYNAMIC_SHARE_URL+mDataList.get(clickPosition).getId());
                 Log.i("TAG", "------分享路径"+Constant.DYNAMIC_SHARE_URL+mDataList.get(clickPosition).getId());
-                sp.setText(mDataList.get(clickPosition).getContent());
+                sp.setText(contentText);
                 sp.setImageUrl(mDataList.get(clickPosition).getUser().getImgeUrl());
                 sp.setShareType(Platform.SHARE_WEBPAGE);
 
@@ -379,7 +380,7 @@ public class DynamicAdapter extends ListBaseAdapter<DynamicListBean.ObjBean> imp
                 qqParams.setTitleUrl(Constant.DYNAMIC_SHARE_URL+mDataList.get(clickPosition).getId());
                 qqParams.setUrl(Constant.DYNAMIC_SHARE_URL+mDataList.get(clickPosition).getId());
                 Log.i("TAG", "------分享路径"+Constant.DYNAMIC_SHARE_URL+mDataList.get(clickPosition).getId());
-                qqParams.setText(mDataList.get(clickPosition).getContent());
+                qqParams.setText(contentText);
                 qqParams.setImageUrl(mDataList.get(clickPosition).getUser().getImgeUrl());
                 qq.setPlatformActionListener(platformActionListener);
                 qq.share(qqParams);
@@ -388,7 +389,7 @@ public class DynamicAdapter extends ListBaseAdapter<DynamicListBean.ObjBean> imp
                 QZone.ShareParams qZoneParams = new QZone.ShareParams();
                 qZoneParams.setTitle("MYWAY APP");
                 qZoneParams.setTitleUrl(Constant.DYNAMIC_SHARE_URL+mDataList.get(clickPosition).getId()); // 标题的超链接
-                qZoneParams.setText(mDataList.get(clickPosition).getContent());
+                qZoneParams.setText(contentText);
                 qZoneParams.setImageUrl(mDataList.get(clickPosition).getUser().getImgeUrl());
 //                qZoneParams.setSite("深圳曼威科技有限公司");
                 qZoneParams.setSiteUrl(Constant.DYNAMIC_SHARE_URL+mDataList.get(clickPosition).getId());

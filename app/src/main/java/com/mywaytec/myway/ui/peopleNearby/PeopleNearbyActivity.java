@@ -57,9 +57,8 @@ public class PeopleNearbyActivity extends BaseActivity<PeopleNearbyPresenter> im
 
     @Override
     protected void initViews() {
-        tvTitle.setText("附近的人");
+        tvTitle.setText(R.string.nearby);
         mPresenter.initRecyclerView();
-
     }
 
     @Override

@@ -19,7 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.inuker.bluetooth.library.connect.response.BleWriteResponse;
+import com.luck.bluetooth.library.connect.response.BleWriteResponse;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.Constant;
 import com.mywaytec.myway.base.RxPresenter;
@@ -41,8 +41,8 @@ import javax.inject.Inject;
 
 import rx.Subscriber;
 
-import static com.inuker.bluetooth.library.Constants.REQUEST_FAILED;
-import static com.inuker.bluetooth.library.Constants.REQUEST_SUCCESS;
+import static com.luck.bluetooth.library.Constants.REQUEST_FAILED;
+import static com.luck.bluetooth.library.Constants.REQUEST_SUCCESS;
 
 /**
  * Created by shemh on 2017/4/11.
@@ -69,12 +69,12 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
         this.mContext = mView.getContext();
     }
 
-    public RetrofitHelper getRetrofitHelper(){
+    public RetrofitHelper getRetrofitHelper() {
         return mRetrofitHelper;
     }
 
     //初始化灯带
-    public void initSetting(){
+    public void initSetting() {
         currentMode = BleInfo.getBleInfo().getDengdaimoshi();
         if (currentMode == 1) {//全彩流水
             mView.getDengdaiTV().setText(R.string.flowing);
@@ -86,7 +86,7 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
             mView.getDengdaiTV().setText(R.string.lighting);
         } else if (currentMode == 5) {//
             mView.getDengdaiTV().setText(R.string.warning);
-        } else if (currentMode == 0){//关闭
+        } else if (currentMode == 0) {//关闭
             mView.getDengdaiTV().setText(R.string.close);
         }
 
@@ -102,7 +102,7 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
     }
 
     //修改密码对话框
-    public void changeBlePasswordDialog(Context context, final String mDeviceAddress){
+    public void changeBlePasswordDialog(Context context, final String mDeviceAddress) {
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context);
         // 创建对话框
         final AlertDialog alertDialog = builder.create();
@@ -117,25 +117,25 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
             public void onClick(View v) {
                 String newPassword = etNewPassword.getText().toString().trim();
                 String confirmPassword = etConfirmPassword.getText().toString().trim();
-                if (TextUtils.isEmpty(newPassword)){
+                if (TextUtils.isEmpty(newPassword)) {
                     ToastUtils.showToast(R.string.please_enter_the_password);
                     return;
                 }
-                if (TextUtils.isEmpty(confirmPassword)){
+                if (TextUtils.isEmpty(confirmPassword)) {
                     ToastUtils.showToast(R.string.please_make_sure_the_password);
                     return;
                 }
-                if (newPassword.length() < 6){
+                if (newPassword.length() < 6) {
                     ToastUtils.showToast(R.string.the_long_of_the_password_is_not_correct);
                     return;
                 }
-                if(!newPassword.equals(confirmPassword)){
+                if (!newPassword.equals(confirmPassword)) {
                     ToastUtils.showToast(R.string.the_password_does_not_match_for_the_two_times);
                     return;
                 }
 
                 int password = Integer.parseInt(confirmPassword);
-                BleKitUtils.writeP(mDeviceAddress, BleUtil.setVehiclePassword(password+""), new BleWriteResponse() {
+                BleKitUtils.writeP(mDeviceAddress, BleUtil.setVehiclePassword(password + ""), new BleWriteResponse() {
                     @Override
                     public void onResponse(int code) {
 
@@ -156,6 +156,7 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
 
     //灯带模式
     PopupWindow dengdaiPopupWindow;
+
     public void openDengdaiPopupWindow(View v, String mDeviceAddress) {
         //防止重复按按钮
         if (dengdaiPopupWindow != null && dengdaiPopupWindow.isShowing()) {
@@ -184,19 +185,21 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
 
     //设置屏幕背景透明效果
     public void setBackgroundAlpha(float alpha) {
-        WindowManager.LayoutParams lp = ((Activity)mContext).getWindow().getAttributes();
+        WindowManager.LayoutParams lp = ((Activity) mContext).getWindow().getAttributes();
         lp.alpha = alpha;
-        ((Activity)mContext).getWindow().setAttributes(lp);
+        ((Activity) mContext).getWindow().setAttributes(lp);
     }
 
+    TextView tvClose;
     ImageView imgRight1;
     ImageView imgRight2;
     ImageView imgRight3;
     ImageView imgRight4;
     ImageView imgRight5;
     int currentMode = 0;
+
     private void setOnPopupViewClick(View view, final String mDeviceAddress) {
-        TextView tvClose = (TextView) view.findViewById(R.id.tv_close);
+        tvClose = (TextView) view.findViewById(R.id.tv_close);
         LinearLayout layoutDengdai1 = (LinearLayout) view.findViewById(R.id.layout_dengdai_1);
         LinearLayout layoutDengdai2 = (LinearLayout) view.findViewById(R.id.layout_dengdai_2);
         LinearLayout layoutDengdai3 = (LinearLayout) view.findViewById(R.id.layout_dengdai_3);
@@ -207,16 +210,21 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
         imgRight3 = (ImageView) view.findViewById(R.id.img_right_3);
         imgRight4 = (ImageView) view.findViewById(R.id.img_right_4);
         imgRight5 = (ImageView) view.findViewById(R.id.img_right_5);
-        if (currentMode == 1){
+        if (currentMode == 1) {
             imgRight1.setVisibility(View.VISIBLE);
-        }else if (currentMode == 2){
+            tvClose.setBackgroundResource(R.mipmap.dianziweilan_chexiao_weixuanzhong);
+        } else if (currentMode == 2) {
             imgRight2.setVisibility(View.VISIBLE);
-        }else if (currentMode == 3){
+            tvClose.setBackgroundResource(R.mipmap.dianziweilan_chexiao_weixuanzhong);
+        } else if (currentMode == 3) {
             imgRight3.setVisibility(View.VISIBLE);
-        }else if (currentMode == 4){
+            tvClose.setBackgroundResource(R.mipmap.dianziweilan_chexiao_weixuanzhong);
+        } else if (currentMode == 4) {
             imgRight4.setVisibility(View.VISIBLE);
-        }else if (currentMode == 5){
+            tvClose.setBackgroundResource(R.mipmap.dianziweilan_chexiao_weixuanzhong);
+        } else if (currentMode == 5) {
             imgRight5.setVisibility(View.VISIBLE);
+            tvClose.setBackgroundResource(R.mipmap.dianziweilan_chexiao_weixuanzhong);
         }
         //关闭
         tvClose.setOnClickListener(new View.OnClickListener() {
@@ -299,6 +307,7 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
 
     StringBuilder snCode1;
     StringBuilder snCode2;
+
     /**
      * 蓝牙应答信息
      */
@@ -310,6 +319,7 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
         if (infos.length > 5) {
             //油门霍尔校准
             if ("04".equals(infos[2]) && "03".equals(infos[3]) && "02".equals(infos[4])) {
+                Log.i("TAG", "-----油门霍尔校准，" + info);
                 if (null != layoutIsContinue && null != layoutStartAdjust)
                     if ("01".equals(infos[6])) {//成功
                         layoutIsContinue.setVisibility(View.GONE);
@@ -321,6 +331,7 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
             }
             //油门霍尔校准确认
             else if ("04".equals(infos[2]) && "03".equals(infos[3]) && "06".equals(infos[4])) {
+                Log.i("TAG", "-----油门霍尔校准确认，" + info);
                 if ("01".equals(infos[6])) {//成功
                     if (null != layoutStartAdjust && null != layoutProgress && null != progressBar &&
                             null != layoutAdjustConfirm && null != tvYoumenTishi && null != tvStartAdjust
@@ -328,10 +339,12 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
                         layoutStartAdjust.setVisibility(View.GONE);
                         layoutProgress.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.VISIBLE);
+
                         RxCountDown.countdown(5).subscribe(new Subscriber<Integer>() {
                             @Override
                             public void onCompleted() {
                                 if (youmenCount == 2) {
+                                    Log.i("TAG", "-----第二次油门霍尔校准确认，");
                                     layoutProgress.setVisibility(View.GONE);
                                     progressBar.setVisibility(View.GONE);
                                     layoutAdjustConfirm.setVisibility(View.VISIBLE);
@@ -344,7 +357,7 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
                                         }
                                     }, 2000);
                                 } else if (youmenCount == 1) {
-                                    youmenCount = 2;
+                                    Log.i("TAG", "-----第一次油门霍尔校准确认，");
                                     layoutStartAdjust.setVisibility(View.VISIBLE);
                                     layoutProgress.setVisibility(View.GONE);
                                     progressBar.setVisibility(View.GONE);
@@ -368,40 +381,46 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
                 }
             }
             //设置灯带模式
-            else if ("04".equals(infos[2]) && "02".equals(infos[3]) && "11".equals(infos[4])){
+            else if ("04".equals(infos[2]) && "02".equals(infos[3]) && "11".equals(infos[4])) {
                 if ("01".equals(infos[6])) {//全彩流水
                     currentMode = 1;
                     mView.getDengdaiTV().setText(R.string.flowing);
+                    tvClose.setBackgroundResource(R.mipmap.dianziweilan_chexiao_weixuanzhong);
                     bleInfoBean = BleInfo.getBleInfo();
                     bleInfoBean.setDengdaimoshi(currentMode);
                     BleInfo.saveBleInfo(bleInfoBean);
                 } else if ("02".equals(infos[6])) {//全彩呼吸
                     currentMode = 2;
                     mView.getDengdaiTV().setText(R.string.breathing);
+                    tvClose.setBackgroundResource(R.mipmap.dianziweilan_chexiao_weixuanzhong);
                     bleInfoBean = BleInfo.getBleInfo();
                     bleInfoBean.setDengdaimoshi(currentMode);
                     BleInfo.saveBleInfo(bleInfoBean);
                 } else if ("03".equals(infos[6])) {//炫彩霓虹
                     currentMode = 3;
                     mView.getDengdaiTV().setText(R.string.neon);
+                    tvClose.setBackgroundResource(R.mipmap.dianziweilan_chexiao_weixuanzhong);
                     bleInfoBean = BleInfo.getBleInfo();
                     bleInfoBean.setDengdaimoshi(currentMode);
                     BleInfo.saveBleInfo(bleInfoBean);
                 } else if ("04".equals(infos[6])) {//照明模式
                     currentMode = 4;
                     mView.getDengdaiTV().setText(R.string.lighting);
+                    tvClose.setBackgroundResource(R.mipmap.dianziweilan_chexiao_weixuanzhong);
                     bleInfoBean = BleInfo.getBleInfo();
                     bleInfoBean.setDengdaimoshi(currentMode);
                     BleInfo.saveBleInfo(bleInfoBean);
                 } else if ("05".equals(infos[6])) {//
                     currentMode = 5;
                     mView.getDengdaiTV().setText(R.string.warning);
+                    tvClose.setBackgroundResource(R.mipmap.dianziweilan_chexiao_weixuanzhong);
                     bleInfoBean = BleInfo.getBleInfo();
                     bleInfoBean.setDengdaimoshi(currentMode);
                     BleInfo.saveBleInfo(bleInfoBean);
-                } else if ("FF".equals(infos[6])){//关闭
+                } else if ("FF".equals(infos[6])) {//关闭
                     currentMode = 0;
                     mView.getDengdaiTV().setText(R.string.close);
+                    tvClose.setBackgroundResource(R.mipmap.dianziweilan_chexiao_xuanzhong);
                     bleInfoBean = BleInfo.getBleInfo();
                     bleInfoBean.setDengdaimoshi(currentMode);
                     BleInfo.saveBleInfo(bleInfoBean);
@@ -416,6 +435,7 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
                             imgRight3.setVisibility(View.GONE);
                             imgRight4.setVisibility(View.GONE);
                             imgRight5.setVisibility(View.GONE);
+                            tvClose.setBackgroundResource(R.mipmap.dianziweilan_chexiao_weixuanzhong);
                             bleInfoBean = BleInfo.getBleInfo();
                             bleInfoBean.setDengdaimoshi(currentMode);
                             BleInfo.saveBleInfo(bleInfoBean);
@@ -426,6 +446,7 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
                             imgRight3.setVisibility(View.GONE);
                             imgRight4.setVisibility(View.GONE);
                             imgRight5.setVisibility(View.GONE);
+                            tvClose.setBackgroundResource(R.mipmap.dianziweilan_chexiao_weixuanzhong);
                             bleInfoBean = BleInfo.getBleInfo();
                             bleInfoBean.setDengdaimoshi(currentMode);
                             BleInfo.saveBleInfo(bleInfoBean);
@@ -436,6 +457,7 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
                             imgRight3.setVisibility(View.VISIBLE);
                             imgRight4.setVisibility(View.GONE);
                             imgRight5.setVisibility(View.GONE);
+                            tvClose.setBackgroundResource(R.mipmap.dianziweilan_chexiao_weixuanzhong);
                             bleInfoBean = BleInfo.getBleInfo();
                             bleInfoBean.setDengdaimoshi(currentMode);
                             BleInfo.saveBleInfo(bleInfoBean);
@@ -446,6 +468,7 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
                             imgRight3.setVisibility(View.GONE);
                             imgRight4.setVisibility(View.VISIBLE);
                             imgRight5.setVisibility(View.GONE);
+                            tvClose.setBackgroundResource(R.mipmap.dianziweilan_chexiao_weixuanzhong);
                             bleInfoBean = BleInfo.getBleInfo();
                             bleInfoBean.setDengdaimoshi(currentMode);
                             BleInfo.saveBleInfo(bleInfoBean);
@@ -456,31 +479,32 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
                             imgRight3.setVisibility(View.GONE);
                             imgRight4.setVisibility(View.GONE);
                             imgRight5.setVisibility(View.VISIBLE);
+                            tvClose.setBackgroundResource(R.mipmap.dianziweilan_chexiao_weixuanzhong);
                             bleInfoBean = BleInfo.getBleInfo();
                             bleInfoBean.setDengdaimoshi(currentMode);
                             BleInfo.saveBleInfo(bleInfoBean);
-                        } else if ("FF".equals(infos[6])){//关闭
+                        } else if ("FF".equals(infos[6])) {//关闭
                             currentMode = 0;
                             imgRight1.setVisibility(View.GONE);
                             imgRight2.setVisibility(View.GONE);
                             imgRight3.setVisibility(View.GONE);
                             imgRight4.setVisibility(View.GONE);
                             imgRight5.setVisibility(View.GONE);
+                            tvClose.setBackgroundResource(R.mipmap.dianziweilan_chexiao_xuanzhong);
                             bleInfoBean = BleInfo.getBleInfo();
                             bleInfoBean.setDengdaimoshi(currentMode);
                             BleInfo.saveBleInfo(bleInfoBean);
-                        }else {//失败
+                        } else {//失败
                         }
                     }
                 }
             }
             //氛围灯模式
-            else if ("04".equals(infos[2]) && "01".equals(infos[3]) && "09".equals(infos[4])){
+            else if ("04".equals(infos[2]) && "01".equals(infos[3]) && "09".equals(infos[4])) {
                 currentMode = data[6];
                 bleInfoBean = BleInfo.getBleInfo();
                 bleInfoBean.setDengdaimoshi(currentMode);
                 BleInfo.saveBleInfo(bleInfoBean);
-                Log.i("TAG", "------灯带当前模式，" + currentMode);
                 if (currentMode == 1) {
                     mView.getDengdaiTV().setText(R.string.flowing);
                 } else if (currentMode == 2) {
@@ -527,7 +551,6 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
                 char code8 = (char) Integer.parseInt(infos[6], 16);
                 code.append(code8);
                 String hardwareCode = code.toString();
-                Log.i("TAG", "------硬件版本号," + hardwareCode);
                 BleInfoBean bleInfoBean = BleInfo.getBleInfo();
                 bleInfoBean.setYingjianCode(hardwareCode);
                 BleInfo.saveBleInfo(bleInfoBean);
@@ -536,63 +559,35 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
             else if ("04".equals(infos[2]) && "01".equals(infos[3]) && "03".equals(infos[4])
                     || !("4D".equals(infos[0]) && "57".equals(infos[1]))) {
                 Log.i("TAG", "-----车辆SN码" + info);
-                if (infos.length == 20) {
                     snCode1 = new StringBuilder();
-                    String code1 = infos[19];
+                    String code1 = infos[17];
                     snCode1.append(code1);
-                    String code2 = infos[18];
+                    String code2 = infos[16];
                     snCode1.append(code2);
-                    String code3 = infos[17];
+                    String code3 = infos[15];
                     snCode1.append(code3);
-                    String code4 = infos[16];
+                    String code4 = infos[14];
                     snCode1.append(code4);
-                    String code5 = infos[15];
+                    String code5 = infos[13];
                     snCode1.append(code5);
-                    String code6 = infos[14];
+                    String code6 = infos[12];
                     snCode1.append(code6);
-                    String code7 = infos[13];
+                    String code7 = infos[11];
                     snCode1.append(code7);
-                    String code8 = infos[12];
+                    String code8 = infos[10];
                     snCode1.append(code8);
-                    String code9 = infos[11];
+                    String code9 = infos[9];
                     snCode1.append(code9);
-                    String code10 = infos[10];
+                    String code10 = infos[8];
                     snCode1.append(code10);
-                    String code11 = infos[9];
+                    String code11 = infos[7];
                     snCode1.append(code11);
-                    String code12 = infos[8];
+                    String code12 = infos[6];
                     snCode1.append(code12);
-                    String code13 = infos[7];
-                    snCode1.append(code13);
-                    String code14 = infos[6];
-                    snCode1.append(code14);
-                }else {
-                    snCode2 = new StringBuilder();
-                    String code1 = infos[9];
-                    snCode2.append(code1);
-                    String code2 = infos[8];
-                    snCode2.append(code2);
-                    String code3 = infos[7];
-                    snCode2.append(code3);
-                    String code4 = infos[6];
-                    snCode2.append(code4);
-                    String code5 = infos[5];
-                    snCode2.append(code5);
-                    String code6 = infos[4];
-                    snCode2.append(code6);
-                    String code7 = infos[3];
-                    snCode2.append(code7);
-                    String code8 = infos[2];
-                    snCode2.append(code8);
-                    String code9 = infos[1];
-                    snCode2.append(code9);
-                    String code10 = infos[0];
-                    snCode2.append(code10);
-                }
 
-                String snCodeStr = snCode2.toString() + snCode1.toString();
+                String snCodeStr = snCode1.toString();
                 snCodeStr = ConversionUtil.hexStringToString(snCodeStr);
-                if (snCodeStr.length() == 24) {
+                if (snCodeStr.length() == 12) {
                     BleInfoBean bleInfoBean = BleInfo.getBleInfo();
                     bleInfoBean.setSnCode(snCodeStr);
                     BleInfo.saveBleInfo(bleInfoBean);
@@ -661,16 +656,16 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
             @Override
             public void onClick(View v) {
                 String uuid = PreferencesUtils.getString(mContext, "uuid");
-                    if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-                        BleKitUtils.writeP(mDeviceAddress, Constant.BLE.YOUMEN_ALIGNMENT, new BleWriteResponse() {
-                            @Override
-                            public void onResponse(int code) {
+                if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
+                    BleKitUtils.writeP(mDeviceAddress, Constant.BLE.YOUMEN_ALIGNMENT, new BleWriteResponse() {
+                        @Override
+                        public void onResponse(int code) {
 
-                            }
-                        });
-                    } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
+                        }
+                    });
+                } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
 
-                    }
+                }
             }
         });
         //取消
@@ -687,16 +682,23 @@ public class MoreCarInfoPresenter extends RxPresenter<MoreCarInfoView> implement
             @Override
             public void onClick(View v) {
                 String uuid = PreferencesUtils.getString(mContext, "uuid");
-                    if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-                        BleKitUtils.writeP(mDeviceAddress, Constant.BLE.YOUMEN_ALIGNMENT_CONFIRM, new BleWriteResponse() {
-                            @Override
-                            public void onResponse(int code) {
-
-                            }
-                        });
-                    } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
-
+                if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
+                    if(mContext.getResources().getString(R.string.start_second_calibration).equals(tvStartAdjust.getText().toString())){
+                        youmenCount = 2;
+                        Log.i("TAG", "------youmenCount = 2");
+                    }else {
+                        youmenCount = 1;
+                        Log.i("TAG", "------youmenCount = 1");
                     }
+                    BleKitUtils.writeP(mDeviceAddress, Constant.BLE.YOUMEN_ALIGNMENT_CONFIRM, new BleWriteResponse() {
+                        @Override
+                        public void onResponse(int code) {
+
+                        }
+                    });
+                } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
+
+                }
             }
         });
         youmenPopupWindow = new PopupWindow(view, RelativeLayout.LayoutParams.MATCH_PARENT,

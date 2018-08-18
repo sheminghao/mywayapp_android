@@ -11,8 +11,8 @@ android {
         applicationId "com.mywaytec.myway"
         minSdkVersion 18
         targetSdkVersion 21
-        versionCode 25
-        versionName "1.3.6"
+        versionCode 31
+        versionName "1.4.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         // dex突破65535的限制
         multiDexEnabled true
@@ -86,8 +86,6 @@ greendao {
     daoPackage  'com.mywaytec.myway'
     //  设置DaoMaster 、DaoSession、Dao目录
     targetGenDir 'src/main/java-gen'
-    //  设置生成单元测试目录
-//    targetGenDirTest
     //  设置自动生成单元测试用例
     generateTests
 }
@@ -107,26 +105,12 @@ repositories{
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    // compile project(':lazylibrary')
-
-    //地图
-
-    //短信验证码
+    compile name: 'bluetooth_lib', ext: 'aar'
     compile name: 'SMSSDK-2.1.3', ext: 'aar'
     compile name: 'SMSSDKGUI-2.1.3', ext: 'aar'
-    //网络请求框架
-
-    //应用程序的生命周期处理API
     compile('com.trello:rxlifecycle-components:1.0') {
         exclude module: 'appcompat-v7'
     }
-    // dagger
-
-    //ui
-
-    //图片选择
-
-    //canary
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:design:25.2.0'
     compile 'com.android.support:percent:25.2.0'
@@ -152,9 +136,7 @@ dependencies {
     compile 'com.github.ybq:Android-SpinKit:1.1.0'
     compile 'com.github.jdsjlzx:LRecyclerView:1.4.0'
     compile 'cn.jzvd:jiaozivideoplayer:6.0.0'
-    //视频控件
     compile 'org.greenrobot:greendao:3.2.0'
-    //数据库框架
     compile 'com.github.yuweiguocn:GreenDaoUpgradeHelper:v1.4.0'
     testCompile 'junit:junit:4.12'
     compile 'com.google.dagger:dagger:2.6'
@@ -178,20 +160,14 @@ dependencies {
     compile 'com.contrarywind:Android-PickerView:3.2.3'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'com.zhy:autolayout:1.4.5'
-    //ui适配
     compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
-    //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.0
     compile 'com.tencent.bugly:nativecrashreport:latest.release'
-    //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
     compile project(':picture_library')
     compile files('libs/nineoldandroids-library-2.4.0.jar')
-    //蓝牙快速开发框架
-
-    //    compile 'com.inuker.bluetooth:library:1.4.0'
     compile 'com.github.promeg:tinypinyin:1.0.0'
     compile 'com.youth.banner:banner:1.4.9'
     compile files('libs/BaiduLBS_Android.jar')
     compile 'cn.yipianfengye.android:zxing-library:2.2'
     compile project(':IMKit')
-    compile project(':bluetooth_library')
+    compile 'com.tencent.tinker:tinker-android-lib:1.7.11'
 }

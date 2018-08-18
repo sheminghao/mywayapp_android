@@ -17,10 +17,10 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.inuker.bluetooth.library.connect.listener.BleConnectStatusListener;
-import com.inuker.bluetooth.library.connect.response.BleNotifyResponse;
-import com.inuker.bluetooth.library.connect.response.BleUnnotifyResponse;
-import com.inuker.bluetooth.library.connect.response.BleWriteResponse;
+import com.luck.bluetooth.library.connect.listener.BleConnectStatusListener;
+import com.luck.bluetooth.library.connect.response.BleNotifyResponse;
+import com.luck.bluetooth.library.connect.response.BleUnnotifyResponse;
+import com.luck.bluetooth.library.connect.response.BleWriteResponse;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.BaseActivity;
 import com.mywaytec.myway.base.Constant;
@@ -28,10 +28,12 @@ import com.mywaytec.myway.model.bean.BleInfoBean;
 import com.mywaytec.myway.model.bean.FirmwareInfo;
 import com.mywaytec.myway.ui.faultDetect.FaultDetectActivity;
 import com.mywaytec.myway.ui.fingerMark.FingerMarkActivity;
-import com.mywaytec.myway.ui.firmwareUpdate.FirmwareUpdateActivity;
-import com.mywaytec.myway.ui.scFirmwareUpdate.ScFirmwareUpdateActivity;
+import com.mywaytec.myway.ui.firmwareUpdate.raFirmwareUpdate.RAFirmwareUpdateActivity;
+import com.mywaytec.myway.ui.firmwareUpdate.sc03FirmwareUpdate.Sc03FirmwareUpdateActivity;
+import com.mywaytec.myway.ui.firmwareUpdate.scFirmwareUpdate.ScFirmwareUpdateActivity;
 import com.mywaytec.myway.utils.BleKitUtils;
 import com.mywaytec.myway.utils.BleUtil;
+import com.mywaytec.myway.utils.CleanMessageUtil;
 import com.mywaytec.myway.utils.ConversionUtil;
 import com.mywaytec.myway.utils.DownloadFileUtil;
 import com.mywaytec.myway.utils.PreferencesUtils;
@@ -40,7 +42,6 @@ import com.mywaytec.myway.utils.RxUtil;
 import com.mywaytec.myway.utils.ToastUtils;
 import com.mywaytec.myway.utils.data.BleInfo;
 import com.mywaytec.myway.view.CommonSubscriber;
-import com.mywaytec.myway.view.LoadingDialog;
 import com.mywaytec.myway.view.SpeedSeekBar;
 
 import java.io.File;
@@ -50,17 +51,15 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import rx.Subscriber;
 
-import static com.inuker.bluetooth.library.Constants.REQUEST_FAILED;
-import static com.inuker.bluetooth.library.Constants.REQUEST_SUCCESS;
-import static com.inuker.bluetooth.library.Constants.STATUS_CONNECTED;
-import static com.inuker.bluetooth.library.Constants.STATUS_DEVICE_CONNECTED;
-import static com.inuker.bluetooth.library.Constants.STATUS_DEVICE_DISCONNECTED;
-import static com.inuker.bluetooth.library.Constants.STATUS_DISCONNECTED;
+import static com.luck.bluetooth.library.Constants.REQUEST_FAILED;
+import static com.luck.bluetooth.library.Constants.REQUEST_SUCCESS;
+import static com.luck.bluetooth.library.Constants.STATUS_CONNECTED;
+import static com.luck.bluetooth.library.Constants.STATUS_DEVICE_CONNECTED;
+import static com.luck.bluetooth.library.Constants.STATUS_DEVICE_DISCONNECTED;
+import static com.luck.bluetooth.library.Constants.STATUS_DISCONNECTED;
 
 /**
  * 蓝牙更多设置界面
- * 蓝牙初始化数据在首页已获取，如果在首页获取失败，在进入该页面时重新获取
- *
  */
 public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> implements MoreCarInfoView {
 
@@ -126,7 +125,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
         tvTitle.setText(R.string.more_setting);
         mDeviceAddress = getIntent().getStringExtra("mDeviceAddress");
         uuid = PreferencesUtils.getString(MoreCarInfoActivity.this, "uuid");
-        if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {//滑板车
+        if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
             layoutYoumenjiaozhun.setVisibility(View.VISIBLE);
             layoutCheshenjiaozhun.setVisibility(View.GONE);
             layoutScSet.setVisibility(View.VISIBLE);
@@ -134,7 +133,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
             layoutFingerMark.setVisibility(View.VISIBLE);
             layoutChangeBlePassword.setVisibility(View.VISIBLE);
             layoutDengdaimoshi.setVisibility(View.VISIBLE);
-        } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {//平衡车
+        } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
             layoutYoumenjiaozhun.setVisibility(View.GONE);
             layoutCheshenjiaozhun.setVisibility(View.VISIBLE);
             layoutScSet.setVisibility(View.GONE);
@@ -192,9 +191,6 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
 
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-//        loadingDialog = new LoadingDialog(this);
-//        loadingDialog.show();
-
         if (BleUtil.isChezhu(mPresenter.getRetrofitHelper())) {
             layoutChangeBlePassword.setVisibility(View.VISIBLE);
         }else {
@@ -239,6 +235,12 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                 isDingsuxunhang = false;
                 imgDingsuxunhang.setImageResource(R.mipmap.gengduo_btn_qixuao);
             }
+
+        }
+
+        if (BleInfo.getBleInfo().getSuduxianzhi() > 0) {
+            //如果有缓存数据，初始化数据
+            speedSeekBar.setPracticalSpeed(BleInfo.getBleInfo().getSuduxianzhi());
         }
 
         new Thread(new Runnable() {
@@ -258,8 +260,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
     //发送指令超时时间
     private int sendTime;
     private void fasongZhiling() {
-
-        if (TextUtils.isEmpty(BleInfo.getBleInfo().getRuanjianCode())) {
+            Log.i("TAG", "------查询软件版本号");
             //查询软件版本号
             if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
                 BleKitUtils.writeP(mDeviceAddress, Constant.BLE.SOFTWARE_VERSION_CODE, new BleWriteResponse() {
@@ -267,10 +268,9 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                     public void onResponse(int code) {
                         if (code == REQUEST_SUCCESS) {
                             sendTime = 0;
-                            speedLimitValues();
+                            allCarData();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -287,7 +287,6 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             speedLimitValues();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -296,10 +295,28 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                     }
                 });
             }
-        }else {
-            firmwareCode = BleInfo.getBleInfo().getRuanjianCode();
-            tvFirmwareCode.setText(getResources().getString(R.string.current_firmware_version) + "：" + firmwareCode);
-            speedLimitValues();
+    }
+
+    private void allCarData() {
+
+        SystemClock.sleep(200);
+        Log.i("TAG", "------查询整车数据");
+        if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
+            BleKitUtils.writeP(mDeviceAddress, Constant.BLE.ALL_CAR_DATA, new BleWriteResponse() {
+                @Override
+                public void onResponse(int code) {
+                    if (code == REQUEST_SUCCESS) {
+                        sendTime = 0;
+                        snCode();
+                    } else if (code == REQUEST_FAILED) {
+                        if (sendTime > 10) {
+                            return;
+                        }
+                        sendTime++;
+                        allCarData();
+                    }
+                }
+            });
         }
     }
 
@@ -318,7 +335,6 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             carState();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -335,7 +351,6 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             carState();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -364,7 +379,6 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                         firmwareVersionCode();
                     }else if (code == REQUEST_FAILED){
                         if (sendTime > 10){
-//                            loadingDialog.dismiss();
                             return;
                         }
                         sendTime++;
@@ -381,7 +395,6 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                         firmwareVersionCode();
                     }else if (code == REQUEST_FAILED){
                         if (sendTime > 10){
-//                            loadingDialog.dismiss();
                             return;
                         }
                         sendTime++;
@@ -405,7 +418,6 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             practicalLimitValues();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -422,7 +434,6 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             practicalLimitValues();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -449,7 +460,6 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             programLocation();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -466,7 +476,6 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             programLocation();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -495,7 +504,6 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             snCode();
                         }else if (code == REQUEST_FAILED){
                             if (sendTime > 10){
-//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -512,7 +520,6 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             snCode();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -539,7 +546,6 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             currentDengdaiMode();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -553,10 +559,8 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                     public void onResponse(int code) {
                         if (code == REQUEST_SUCCESS) {
                             sendTime = 0;
-//                            loadingDialog.dismiss();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-//                                loadingDialog.dismiss();
                                 return;
                             }
                             sendTime++;
@@ -580,11 +584,9 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                     public void onResponse(int code) {
                         if (code == REQUEST_SUCCESS) {
                             sendTime = 0;
-//                            loadingDialog.dismiss();
                         } else if (code == REQUEST_FAILED) {
                             if (sendTime > 10) {
-//                                loadingDialog.dismiss();
-                                return;
+                              return;
                             }
                             sendTime++;
                             currentDengdaiMode();
@@ -593,7 +595,6 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                 });
             }
         }else {
-//            loadingDialog.dismiss();
         }
     }
 
@@ -798,13 +799,23 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                     Log.i("TAG", "------固件更新反馈," + infos[6]);
                     if ("01".equals(infos[6])) {//操作成功
                         if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-                            Intent intent = new Intent(MoreCarInfoActivity.this, ScFirmwareUpdateActivity.class);
+                            Intent intent = new Intent();
+                            String bleName = BleUtil.getBleName();
+                            if (!TextUtils.isEmpty(bleName)) {
+                                Log.i("TAG", "------bleName.substring(0, 3)," + bleName.substring(0, 3));
+                                if ("SC3".equals(bleName.substring(0, 3))) {
+                                    Log.i("TAG", "------SC03跳转");
+                                    intent.setClass(MoreCarInfoActivity.this, Sc03FirmwareUpdateActivity.class);
+                                }else {
+                                    intent.setClass(MoreCarInfoActivity.this, ScFirmwareUpdateActivity.class);
+                                }
+                            }
                             intent.putExtra("firmwareCode", firmwareCode);
                             intent.putExtra("firmwareUpdataInfo", firmwareUpdataInfo);
                             intent.putExtra("mDeviceAddress", mDeviceAddress);
                             startActivity(intent);
                         } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
-                            Intent intent = new Intent(MoreCarInfoActivity.this, FirmwareUpdateActivity.class);
+                            Intent intent = new Intent(MoreCarInfoActivity.this, RAFirmwareUpdateActivity.class);
                             intent.putExtra("firmwareCode", firmwareCode);
                             intent.putExtra("firmwareUpdataInfo", firmwareUpdataInfo);
                             intent.putExtra("mDeviceAddress", mDeviceAddress);
@@ -814,22 +825,32 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                             firmwareUpdatePopupWindow.dismiss();
                         }
                     } else if ("00".equals(infos[6])){//车辆非静止，禁止操作
-
+                        //TODO 中英文
+                        ToastUtils.showToast("车辆非静止，禁止操作");
                     } else if ("02".equals(infos[6])){//正在充电，禁止操作
-
+                        ToastUtils.showToast("正在充电，禁止操作");
                     }
                 } else if ("04".equals(infos[2]) && "01".equals(infos[3]) && "07".equals(infos[4])) {
                     BleInfoBean bleInfoBean = BleInfo.getBleInfo();
                     if ("01".equals(infos[6])) {//引导程序中
                         bleInfoBean.setProgramLocation("01");
                         if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
-                            Intent intent = new Intent(MoreCarInfoActivity.this, ScFirmwareUpdateActivity.class);
+                            Intent intent = new Intent();
+                            String bleName = BleUtil.getBleName();
+                            if (!TextUtils.isEmpty(bleName)) {
+                                if ("SC3".equals(bleName.substring(0, 3))) {
+                                    intent.setClass(MoreCarInfoActivity.this, Sc03FirmwareUpdateActivity.class);
+
+                                }else {
+                                    intent.setClass(MoreCarInfoActivity.this, ScFirmwareUpdateActivity.class);
+                                }
+                            }
                             intent.putExtra("firmwareCode", firmwareCode);
                             intent.putExtra("firmwareUpdataInfo", firmwareUpdataInfo);
                             intent.putExtra("mDeviceAddress", mDeviceAddress);
                             startActivity(intent);
                         } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
-                            Intent intent = new Intent(MoreCarInfoActivity.this, FirmwareUpdateActivity.class);
+                            Intent intent = new Intent(MoreCarInfoActivity.this, RAFirmwareUpdateActivity.class);
                             intent.putExtra("firmwareCode", firmwareCode);
                             intent.putExtra("firmwareUpdataInfo", firmwareUpdataInfo);
                             intent.putExtra("mDeviceAddress", mDeviceAddress);
@@ -856,9 +877,133 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                         Log.i("TAG", "------车辆密码复位失败");
                     }
                 }
+                //整车数据
+                else if ("04".equals(infos[2]) && "01".equals(infos[3]) && "0A".equals(infos[4])
+                        || !("4D".equals(infos[0]) && "57".equals(infos[1]))){
+                    if (infos.length == 20) {
+                        allCar = new StringBuffer();
+                        allCar.append(info);
+                        Log.i("TAG", "-----整车数据1, " + allCar.toString());
+
+                        Log.i("TAG", "-----车辆状态,前灯"+((data[9] >> 0) & 0x1)+",尾灯,"+((data[9] >> 6) & 0x1)
+                                +",滑行启动,"+((data[9] >> 3) & 0x1) +",定速巡航,"+((data[9] >> 5) & 0x1));
+                        if (((data[9] >> 0) & 0x1) == 1) {//前灯状态
+                            isQiandeng = true;
+                            imgQiandeng.setImageResource(R.mipmap.gengduo_btn_queding);
+                        } else {
+                            isQiandeng = false;
+                            imgQiandeng.setImageResource(R.mipmap.gengduo_btn_qixuao);
+                        }
+                        if (((data[9] >> 6) & 0x1) == 0) {//尾灯状态
+                            isHoudeng = true;
+                            imgWeideng.setImageResource(R.mipmap.gengduo_btn_queding);
+                        } else {
+                            isHoudeng = false;
+                            imgWeideng.setImageResource(R.mipmap.gengduo_btn_qixuao);
+                        }
+                        if (((data[9] >> 4) & 0x1) == 0) {//车辆模式
+                            tvMode.setText(R.string.econ);
+                        } else {
+                            tvMode.setText(R.string.sport);
+                        }
+                        if (((data[9] >> 3) & 0x1) == 1){//滑行启动状态
+                            isHuaxing = true;
+                            imgHuaxing.setImageResource(R.mipmap.gengduo_btn_queding);
+                        }else {
+                            isHuaxing = false;
+                            imgHuaxing.setImageResource(R.mipmap.gengduo_btn_qixuao);
+                        }
+                        if (((data[9] >> 5) & 0x1) == 1){//定速巡航状态
+                            isDingsuxunhang = true;
+                            imgDingsuxunhang.setImageResource(R.mipmap.gengduo_btn_queding);
+                        }else {
+                            isDingsuxunhang = false;
+                            imgDingsuxunhang.setImageResource(R.mipmap.gengduo_btn_qixuao);
+                        }
+                        BleInfoBean bleInfoBean = BleInfo.getBleInfo();
+                        bleInfoBean.setCarState(data);
+                        BleInfo.saveBleInfo(bleInfoBean);
+                    }else if (infos.length == 5){
+                        allCar.append(" "+info);
+                    }
+                }
+            }else {
+                if (!("4D".equals(infos[0]) && "57".equals(infos[1]))){
+                    if (infos.length == 5) {
+                        allCar.append(" " + info);
+                        String[] allCarData = allCar.toString().split(" ");
+                        BleInfoBean bleInfoBean = BleInfo.getBleInfo();
+                        //车辆实际限速值
+                        int practicalSpeed = Integer.parseInt(allCarData[10], 16);
+                        Log.i("TAG", "------车辆实际限速值,"+practicalSpeed);
+                        speedSeekBar.setPracticalSpeed(practicalSpeed);
+                        bleInfoBean.setSuduxianzhi(practicalSpeed);
+
+                        StringBuilder code = new StringBuilder();
+                        char code1 = (char) Integer.parseInt(allCarData[18], 16);
+                        code.append(code1);
+                        char code2 = (char) Integer.parseInt(allCarData[17], 16);
+                        code.append(code2);
+                        char code3 = (char) Integer.parseInt(allCarData[16], 16);
+                        code.append(code3);
+                        char code4 = (char) Integer.parseInt(allCarData[15], 16);
+                        code.append(code4);
+                        char code5 = (char) Integer.parseInt(allCarData[14], 16);
+                        code.append(code5);
+                        char code6 = (char) Integer.parseInt(allCarData[13], 16);
+                        code.append(code6);
+                        char code7 = (char) Integer.parseInt(allCarData[12], 16);
+                        code.append(code7);
+                        char code8 = (char) Integer.parseInt(allCarData[11], 16);
+                        code.append(code8);
+                        String yingJianCode = code.toString();
+                        Log.i("TAG", "------硬件版本号， " + yingJianCode);
+                        tvFirmwareCode.setText(yingJianCode);
+
+
+                        if ("01".equals(allCarData[19])) {//引导程序中
+                            bleInfoBean.setProgramLocation("01");
+                            if (Constant.BLE.WRITE_SERVICE_UUID.equals(uuid)) {
+                                Intent intent = new Intent();
+                                String bleName = BleUtil.getBleName();
+                                if (!TextUtils.isEmpty(bleName)) {
+                                    if ("SC3".equals(bleName.substring(0, 3))) {
+                                        intent.setClass(MoreCarInfoActivity.this, Sc03FirmwareUpdateActivity.class);
+
+                                    }else {
+                                        intent.setClass(MoreCarInfoActivity.this, ScFirmwareUpdateActivity.class);
+                                    }
+                                }
+                                intent.putExtra("firmwareCode", firmwareCode);
+                                intent.putExtra("firmwareUpdataInfo", firmwareUpdataInfo);
+                                intent.putExtra("mDeviceAddress", mDeviceAddress);
+                                startActivity(intent);
+                            } else if (Constant.BLE.TAIDOU_WRITE_SERVICE_UUID.equals(uuid)) {
+                                Intent intent = new Intent(MoreCarInfoActivity.this, RAFirmwareUpdateActivity.class);
+                                intent.putExtra("firmwareCode", firmwareCode);
+                                intent.putExtra("firmwareUpdataInfo", firmwareUpdataInfo);
+                                intent.putExtra("mDeviceAddress", mDeviceAddress);
+                                startActivity(intent);
+                            }
+                        } else if ("00".equals(allCarData[19])) {//应用程序中
+                            bleInfoBean.setProgramLocation("00");
+                        }
+
+                        //最高限速、最低限速
+                        int highSpeed = Integer.parseInt(allCarData[20], 16);
+                        int lowSpeed = Integer.parseInt(allCarData[21], 16);
+                        speedSeekBar.setHighSpeed(highSpeed, lowSpeed);
+                        speedSeekBar.setLowSpeed(highSpeed, lowSpeed);
+                        bleInfoBean.setHighSpeed(highSpeed);
+                        bleInfoBean.setLowSpeed(lowSpeed);
+                        BleInfo.saveBleInfo(bleInfoBean);
+                    }
+                }
             }
         }
     }
+
+    StringBuffer allCar = new StringBuffer();
 
     @OnClick({R.id.layout_fault_detect, R.id.layout_firmware_update, R.id.layout_change_ble_password,
             R.id.layout_finger_mark, R.id.layout_cheshenjiaozhun, R.id.layout_moshiqiehuan,
@@ -867,13 +1012,20 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.layout_finger_mark://指纹管理
-                if (BleUtil.isChezhu(mPresenter.getRetrofitHelper())) {
-                    Intent intent = new Intent(MoreCarInfoActivity.this, FingerMarkActivity.class);
-                    intent.putExtra("mDeviceAddress", mDeviceAddress);
-                    startActivity(intent);
-                }else {
-                    //TODO 非车主操作提示
-                    ToastUtils.showToast("非车主不可操作");
+                if (null != BleUtil.getBleName() && BleUtil.getBleName().length()>3) {
+                    if (!"SC1".equals(BleUtil.getBleName().substring(0, 3))) {
+                        if (BleUtil.isChezhu(mPresenter.getRetrofitHelper())) {
+                            Intent intent = new Intent(MoreCarInfoActivity.this, FingerMarkActivity.class);
+                            intent.putExtra("mDeviceAddress", mDeviceAddress);
+                            startActivity(intent);
+                        } else {
+                            //TODO 非车主操作提示（中英文）
+                            ToastUtils.showToast("非车主不可操作");
+                        }
+                    }else {
+                        //TODO 经济版无指纹提示（中英文）
+                        ToastUtils.showToast("经济版无此功能");
+                    }
                 }
                 break;
             case R.id.layout_fault_detect://故障检测
@@ -883,10 +1035,11 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                 break;
             case R.id.layout_firmware_update://固件升级
                 if (BleKitUtils.getBluetoothClient().getConnectStatus(mDeviceAddress) == STATUS_DEVICE_CONNECTED) {
+                    //TODO 固件升级测试
                     if (BleUtil.isChezhu(mPresenter.getRetrofitHelper())) {
                         checkVersion();
                     }else {
-                        //TODO 固件升级非车主操作提示
+                        //TODO 固件升级非车主操作提示（中英文）
                         ToastUtils.showToast("非车主不可操作");
                     }
                 } else {
@@ -897,7 +1050,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                 if (BleUtil.isChezhu(mPresenter.getRetrofitHelper())) {
                     mPresenter.changeBlePasswordDialog(this, mDeviceAddress);
                 }else {
-                    //TODO 非车主操作提示
+                    //TODO 非车主操作提示（中英文）
                     ToastUtils.showToast("非车主不可操作");
                 }
                 break;
@@ -905,7 +1058,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                 if (BleUtil.isChezhu(mPresenter.getRetrofitHelper())) {
                     showHorizontalAlignmentPop(findViewById(R.id.layout_cheshenjiaozhun));
                 }else {
-                    //TODO 非车主操作提示
+                    //TODO 非车主操作提示（中英文）
                     ToastUtils.showToast("非车主不可操作");
                 }
                 break;
@@ -1055,13 +1208,20 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                 }
                 break;
             case R.id.layout_dengdaimoshi://灯带模式
-                mPresenter.openDengdaiPopupWindow(findViewById(R.id.layout_dengdaimoshi), mDeviceAddress);
+                if (null != BleUtil.getBleName() && BleUtil.getBleName().length()>3) {
+                    if (!"SC1".equals(BleUtil.getBleName().substring(0, 3))) {
+                        mPresenter.openDengdaiPopupWindow(findViewById(R.id.layout_dengdaimoshi), mDeviceAddress);
+                    }else {
+                        //TODO 经济版无指纹提示（中英文）
+                        ToastUtils.showToast("经济版无此功能");
+                    }
+                }
                 break;
             case R.id.layout_youmenjiaozhun://油门校准
                 if (BleUtil.isChezhu(mPresenter.getRetrofitHelper())) {
                     mPresenter.showYoumenAlignmentPop(layoutYoumenjiaozhun, mDeviceAddress);
                 }else {
-                    //TODO 非车主操作提示
+                    //TODO 非车主操作提示（中英文）
                     ToastUtils.showToast("非车主不可操作");
                 }
                 break;
@@ -1071,7 +1231,6 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("TAG", "-------MoreCarInfo OnResume");
         BleKitUtils.getBluetoothClient().registerConnectStatusListener(mDeviceAddress, mBleConnectStatusListener);
         if (BleKitUtils.getBluetoothClient().getConnectStatus(mDeviceAddress) == STATUS_DEVICE_DISCONNECTED){
             finish();
@@ -1346,7 +1505,7 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                                 char[] c = firmwareCode.toCharArray();
                                 int carCode = Integer.parseInt(c[5] + "" + 0 + "" + c[7]);
                                 Log.i("TAG", "------固件信息，设备版本：" + carCode + ", 后台版本：" + firmwareInfo.getObj().getFirmwareVersion());
-                                if (carCode <= firmwareInfo.getObj().getFirmwareVersion() ||
+                                if (carCode < firmwareInfo.getObj().getFirmwareVersion() ||
                                         "01".equals(PreferencesUtils.getString(
                                                 MoreCarInfoActivity.this, "programLocation"))) {//不是最新版本，提示升级或是在引导程序中
                                     Log.i("TAG", "------固件信息，不是最新版本，提示升级");
@@ -1358,16 +1517,20 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                                     } else if ("SC".equals(firmwareCode.substring(0, 2)) && firmwareInfo.getObj().getFiles() != null
                                             && firmwareInfo.getObj().getFiles().size() > 1) {
                                         firmwareUpdataInfo = firmwareInfo.getObj().getDescription();
+                                        Log.i("TAG", "------固件更新信息firmwareUpdataInfo, " + firmwareUpdataInfo);
                                         String masterUrl = "";
                                         String slave01Url = "";
+                                        String slave02Url = "";
                                         for (int i = 0; i < firmwareInfo.getObj().getFiles().size(); i++) {
                                             if ("master".equals(firmwareInfo.getObj().getFiles().get(i).getFVersion())) {
                                                 masterUrl = firmwareInfo.getObj().getFiles().get(i).getUrl();
                                             } else if ("slave01".equals(firmwareInfo.getObj().getFiles().get(i).getFVersion())) {
                                                 slave01Url = firmwareInfo.getObj().getFiles().get(i).getUrl();
+                                            }else if ("slave02".equals(firmwareInfo.getObj().getFiles().get(i).getFVersion())){
+                                                slave02Url = firmwareInfo.getObj().getFiles().get(i).getUrl();
                                             }
                                         }
-                                        downloadSCNew(masterUrl, slave01Url);
+                                        downloadSCNew(masterUrl, slave01Url, slave02Url);
                                     }
                                 } else {
                                     Log.i("TAG", "------固件信息，是最新版本，不升级");
@@ -1395,11 +1558,18 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
     }
 
     //下载SC固件
-    private void downloadSCNew(final String masterUrl, final String slave01Url) {
+    private void downloadSCNew(final String masterUrl, final String slave01Url, final String slave02Url) {
         Log.i("TAG", "------下载固件，" + masterUrl + "," + masterUrl);
         if (TextUtils.isEmpty(masterUrl) || TextUtils.isEmpty(slave01Url)) {
             return;
         }
+        //清除残留固件，避免固件混淆
+        String filePath = Constant.DEFAULT_PATH+"/download/";
+        File file = new File(filePath);
+        if (file.exists()){
+            CleanMessageUtil.deleteFile(file);
+        }
+        //下载固件
         DownloadFileUtil.init(this).start(masterUrl, "master.bin").isInstall(false)
                 .setOnDownloadComplete(new DownloadFileUtil.OnDownloadComplete() {
                     @Override
@@ -1410,7 +1580,18 @@ public class MoreCarInfoActivity extends BaseActivity<MoreCarInfoPresenter> impl
                                     @Override
                                     public void downloadComplete(String path, File result) {
                                         Log.i("TAG", "------下载固件完成，" + path);
-                                        showFirmwareUpdatePop(tvFirmwareCode);
+                                        if (TextUtils.isEmpty(slave02Url)){
+                                            showFirmwareUpdatePop(tvFirmwareCode);
+                                        }else {
+                                            DownloadFileUtil.init(MoreCarInfoActivity.this).start(slave02Url, "slave02.bin").isInstall(false)
+                                                    .setOnDownloadComplete(new DownloadFileUtil.OnDownloadComplete() {
+                                                        @Override
+                                                        public void downloadComplete(String path, File result) {
+                                                            Log.i("TAG", "------下载固件SC03完成，" + path);
+                                                            showFirmwareUpdatePop(tvFirmwareCode);
+                                                        }
+                                                    });
+                                        }
                                     }
                                 });
                     }

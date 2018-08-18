@@ -73,12 +73,12 @@ public class ImageUtils {
 
 
     /**
-     *  服务器返回url，通过url去获取视频的第一帧
-     *  Android 原生给我们提供了一个MediaMetadataRetriever类
-     *  提供了获取url视频第一帧的方法,返回Bitmap对象
+     * 服务器返回url，通过url去获取视频的第一帧
+     * Android 原生给我们提供了一个MediaMetadataRetriever类
+     * 提供了获取url视频第一帧的方法,返回Bitmap对象
      *
-     *  @param videoUrl
-     *  @return
+     * @param videoUrl
+     * @return
      */
     public static Bitmap getNetVideoBitmap(String videoUrl) {
         if (SystemUtil.isNetworkConnected()) {
@@ -93,14 +93,14 @@ public class ImageUtils {
                 retriever.setDataSource(videoUrl, new HashMap());
                 //获得第一帧图片
                 bitmap = retriever.getFrameAtTime();
-            } catch (IllegalArgumentException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 retriever.release();
             }
             return bitmap;
-            }
-            return null;
         }
+        return null;
+    }
 
 }

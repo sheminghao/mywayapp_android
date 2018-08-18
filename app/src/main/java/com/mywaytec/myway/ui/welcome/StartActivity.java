@@ -10,14 +10,12 @@ import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.ui.login.LoginActivity;
 import com.mywaytec.myway.ui.main.MainActivity;
-import com.mywaytec.myway.ui.switchLanguage.SwitchLanguageActivity;
 import com.mywaytec.myway.utils.PreferencesUtils;
 import com.mywaytec.myway.utils.RxCountDown;
 import com.mywaytec.myway.utils.data.IsLogin;
@@ -41,7 +39,7 @@ public class StartActivity extends AppCompatActivity {
     public static final String FIRST_OPEN = "FIRST_OPEN";
 
     private static final int[] Imgs={
-            R.mipmap.qidongye_2, R.mipmap.qidongye_3, R.mipmap.qidongye_4};
+            R.mipmap.sc01_guanggaotu};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +61,12 @@ public class StartActivity extends AppCompatActivity {
         }else if("en".equals(language)){
             conf.setLocale(Locale.ENGLISH);
         }else {
-            conf.setLocale(Locale.getDefault());
+            if("zh_CN".equals(Locale.getDefault().toString()) || "zh_TW".equals(Locale.getDefault().toString())
+                 || "zh_HK".equals(Locale.getDefault().toString())) {
+                conf.setLocale(Locale.CHINESE);
+            }else {
+                conf.setLocale(Locale.ENGLISH);
+            }
         }
         res.updateConfiguration(conf, dm);
 
@@ -82,8 +85,9 @@ public class StartActivity extends AppCompatActivity {
             tvSkip.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    tvSkip.setVisibility(View.VISIBLE);
-                    startMainActivity();
+//                    tvSkip.setVisibility(View.VISIBLE);
+//                    startMainActivity();
+                    startAnim();
                 }
             }, 2000);
         }
@@ -128,7 +132,7 @@ public class StartActivity extends AppCompatActivity {
             startActivity(new Intent(StartActivity.this, MainActivity.class));
         }
          StartActivity.this.finish();
-         overridePendingTransition(R.anim.hold, R.anim.zoom_in_exit);
+//         overridePendingTransition(R.anim.hold, R.anim.zoom_in_exit);
     }
 
     /**

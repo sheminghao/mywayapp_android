@@ -14,7 +14,7 @@ import com.mywaytec.myway.ui.fabuhuodong.FabuHuodongActivity;
 import com.mywaytec.myway.ui.faultDetect.FaultDetectActivity;
 import com.mywaytec.myway.ui.feedback.FeedbackActivity;
 import com.mywaytec.myway.ui.fingerMark.FingerMarkActivity;
-import com.mywaytec.myway.ui.firmwareUpdate.FirmwareUpdateActivity;
+import com.mywaytec.myway.ui.firmwareUpdate.raFirmwareUpdate.RAFirmwareUpdateActivity;
 import com.mywaytec.myway.ui.forgetPassword.ForgetPasswordActivity;
 import com.mywaytec.myway.ui.gprs.editFence.EditFenceActivity;
 import com.mywaytec.myway.ui.gprs.electronicFence.ElectronicFenceActivity;
@@ -26,7 +26,6 @@ import com.mywaytec.myway.ui.huodongXiangqing.HuodongXiangqingActivity;
 import com.mywaytec.myway.ui.huodongyueban.HuodongYuebanActivity;
 import com.mywaytec.myway.ui.im.JoinClub.JoinClubActivity;
 import com.mywaytec.myway.ui.im.clubMember.ClubMemberActivity;
-import com.mywaytec.myway.ui.im.clubMember.ClubMemberView;
 import com.mywaytec.myway.ui.im.clubVerify.ClubVerifyActivity;
 import com.mywaytec.myway.ui.im.conversation.ConversationActivity;
 import com.mywaytec.myway.ui.im.createClub.CreateClubActivity;
@@ -48,7 +47,8 @@ import com.mywaytec.myway.ui.personalCenter.PersonalCenterActivity;
 import com.mywaytec.myway.ui.publish.PublishActivity;
 import com.mywaytec.myway.ui.rankingList.RankingListActivity;
 import com.mywaytec.myway.ui.register.RegisterActivity;
-import com.mywaytec.myway.ui.scFirmwareUpdate.ScFirmwareUpdateActivity;
+import com.mywaytec.myway.ui.firmwareUpdate.sc03FirmwareUpdate.Sc03FirmwareUpdateActivity;
+import com.mywaytec.myway.ui.firmwareUpdate.scFirmwareUpdate.ScFirmwareUpdateActivity;
 import com.mywaytec.myway.ui.selectCountry.SelectCountryActivity;
 import com.mywaytec.myway.ui.selectVenue.SelectVenueActivity;
 import com.mywaytec.myway.ui.setting.SettingActivity;
@@ -115,9 +115,11 @@ public interface ActivityComponent {
 
     void inject(FeedbackActivity feedbackActivity);
 
-    void inject(FirmwareUpdateActivity firmwareUpdateActivity);
+    void inject(RAFirmwareUpdateActivity firmwareUpdateActivity);
 
     void inject(ScFirmwareUpdateActivity scFirmwareUpdateActivity);
+
+    void inject(Sc03FirmwareUpdateActivity sc03FirmwareUpdateActivity);
 
     void inject(SwitchLanguageActivity switchLanguageActivity);
 

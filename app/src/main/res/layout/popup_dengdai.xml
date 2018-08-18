@@ -14,20 +14,22 @@
         android:background="#292d5d">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/mood_light_mode"
             android:textColor="@color/white"
             android:textSize="32px" />
 
         <TextView
             android:id="@+id/tv_close"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="100px"
+            android:layout_height="50px"
             android:text="@string/close"
             android:textColor="@color/white"
             android:textSize="24px"
-            android:gravity="right" />
+            android:gravity="center"
+            android:background="@mipmap/dianziweilan_chexiao_xuanzhong" />
 
     </com.zhy.autolayout.AutoLinearLayout>
 
