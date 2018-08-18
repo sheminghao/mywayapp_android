@@ -41,7 +41,7 @@ import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
- * Created by long on 2016/8/19.
+ * Created by  on 2016/8/19.
  * 基类Activity
  */
 public abstract class BaseActivity<T extends IBasePresenter> extends RxAppCompatActivity implements IBaseView {
