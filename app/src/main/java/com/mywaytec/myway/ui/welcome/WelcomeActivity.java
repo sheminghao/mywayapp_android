@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import com.mywaytec.myway.utils.PreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,9 +33,17 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     private WelcomePagerAdapter adapter;
     private List<ImageView> views;
 
+    // 引导页中文图片资源
+    private int[] pics_ch = {R.mipmap.yindaoye01_ch,
+            R.mipmap.yindaoye02_ch, R.mipmap.yindaoye03_ch};
+
+    // 引导页中文图片资源
+    private int[] pics_en = {R.mipmap.yindaoye01_en,
+            R.mipmap.yindaoye02_en, R.mipmap.yindaoye03_en};
+
     // 引导页图片资源
-    private static final int[] pics = { R.mipmap.start_1,
-            R.mipmap.start_2, R.mipmap.start_3};
+    private int[] pics = {R.mipmap.yindaoye01_en,
+            R.mipmap.yindaoye02_en, R.mipmap.yindaoye03_en};
 
     // 底部小点图片
     private ImageView[] dots;
@@ -58,6 +68,13 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
     public void init() {
         views = new ArrayList<ImageView>();
+
+        Locale locale = getResources().getConfiguration().locale;
+        if("zh".equals(locale.getLanguage())) {
+            pics = pics_ch;
+        }else {
+            pics = pics_en;
+        }
 
         // 初始化引导页视图列表
         for (int i = 0; i < pics.length; i++) {

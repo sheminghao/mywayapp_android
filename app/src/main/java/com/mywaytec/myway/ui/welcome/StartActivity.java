@@ -51,6 +51,7 @@ public class StartActivity extends AppCompatActivity {
         //透明导航栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
+        Locale locale = getResources().getConfiguration().locale;
         //初始化语言
         String language = PreferencesUtils.getString(StartActivity.this, "language", "aotu");
         Resources res = getResources();
@@ -61,8 +62,7 @@ public class StartActivity extends AppCompatActivity {
         }else if("en".equals(language)){
             conf.setLocale(Locale.ENGLISH);
         }else {
-            if("zh_CN".equals(Locale.getDefault().toString()) || "zh_TW".equals(Locale.getDefault().toString())
-                 || "zh_HK".equals(Locale.getDefault().toString())) {
+            if("zh".equals(locale.getLanguage())) {
                 conf.setLocale(Locale.CHINESE);
             }else {
                 conf.setLocale(Locale.ENGLISH);

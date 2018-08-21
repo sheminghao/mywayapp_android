@@ -58,9 +58,11 @@
 
     <Button
         android:id="@+id/btn_enter"
-        android:layout_width="180px"
+        android:layout_width="wrap_content"
         android:layout_height="60px"
-        android:layout_marginBottom="160px"
+        android:layout_marginBottom="140px"
+        android:paddingLeft="10px"
+        android:paddingRight="10px"
         android:text="@string/start_to_experience"
         android:textColor="#aec954"
         android:textSize="36px"
