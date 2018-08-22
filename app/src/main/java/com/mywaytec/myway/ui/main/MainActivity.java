@@ -20,7 +20,6 @@ import com.bumptech.glide.Glide;
 import com.mywaytec.myway.AppManager;
 import com.mywaytec.myway.R;
 import com.mywaytec.myway.base.BaseActivity;
-import com.mywaytec.myway.base.Constant;
 import com.mywaytec.myway.fragment.car.CarFragment;
 import com.mywaytec.myway.fragment.chat.ChatFragment;
 import com.mywaytec.myway.fragment.dynamic.DynamicFragment;
@@ -43,7 +42,6 @@ import com.mywaytec.myway.utils.ToastUtils;
 import com.mywaytec.myway.view.CircleImageView;
 import com.mywaytec.myway.view.DragLayout;
 import com.mywaytec.myway.view.MyRelativeLayout;
-import com.tencent.tinker.lib.tinker.TinkerInstaller;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -173,9 +171,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         fragmentManager = getSupportFragmentManager();
         layoutCar.performClick();
 
-        //热修复
-        TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(),
-                Constant.DEFAULT_PATH + "/patch_signed_7zip.apk");
     }
 
     @Override

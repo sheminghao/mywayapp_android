@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 apply plugin: 'org.greenrobot.greendao'
-apply from: 'tinker-support.gradle'
 apply plugin: 'com.antfortune.freeline'
 
 android {
@@ -169,5 +168,4 @@ dependencies {
     compile files('libs/BaiduLBS_Android.jar')
     compile 'cn.yipianfengye.android:zxing-library:2.2'
     compile project(':IMKit')
-    compile 'com.tencent.tinker:tinker-android-lib:1.7.11'
 }

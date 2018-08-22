@@ -1,6 +1,8 @@
 package com.mywaytec.myway;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -16,8 +18,6 @@ import com.mywaytec.myway.di.module.AppModule;
 import com.mywaytec.myway.di.module.HttpModule;
 import com.mywaytec.myway.di.module.PageModule;
 import com.squareup.leakcanary.LeakCanary;
-import com.tencent.tinker.loader.app.TinkerApplication;
-import com.tencent.tinker.loader.shareutil.ShareConstants;
 import com.zhy.autolayout.config.AutoLayoutConifg;
 
 import org.xutils.x;
@@ -32,18 +32,13 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
  * Created by shemh on 2017/2/17.
  */
 
-public class APP extends TinkerApplication {
+public class APP extends MultiDexApplication {
 
     public static APP instance;
     public static AppComponent appComponent;
 
     public static final boolean ENCRYPTED = true;
     private DaoSession daoSession;
-
-    public APP() {
-        super(ShareConstants.TINKER_ENABLE_ALL, "com.mywaytec.myway.base.SampleApplicationLike",
-                "com.tencent.tinker.loader.TinkerLoader", false);
-    }
 
     @Override
     public void onCreate() {
@@ -96,11 +91,11 @@ public class APP extends TinkerApplication {
         return instance;
     }
 
-//    @Override
-//    protected void attachBaseContext(Context base) {
-//        super.attachBaseContext(base);
-//        MultiDex.install(base);
-//    }
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(base);
+    }
 
     public static AppComponent getAppComponent(){
         if (appComponent == null) {
